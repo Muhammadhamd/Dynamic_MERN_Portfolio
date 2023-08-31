@@ -1,0 +1,10 @@
+.service-div{
+  background-image: url('./img/servicebg.png');
+  background-repeat: no-repeat;
+  background-position: 100px;
+  background-repeat: no-repeat;
+  background-position-x: -183px;
+  background-size: 700px;
+  
+  background-position-y: bottom;
+}
