@@ -3,9 +3,9 @@ import style from './App.css'
 import app from './firebaseConfig.mjs'
 import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
 import Adminlogin from './component/adminlogin'; // Make sure the path is correct
+import Project from './component/Projects';
 
-
-import axios from 'axios';
+import axios, { toFormData } from 'axios';
 import db from './img/image 1.jpg'
 import whatsNewImg from './img/image-removebg 1.png'
 import mernstackImg from './img/mern-stack.png'
@@ -14,15 +14,16 @@ import Myservices from './component/myServices';
 import ContactComponent from './component/contact';
 function App() {
 
-  const [token , setToken] = useState(null)
+  const [token , setToken] = useState("r")
 
-  useEffect(()=>{
-    axios.get("http://localhost:5000/tokenCheck")
-    .then((res)=>{console.log("token",res)})
-    .catch((e)=>{console.log("token",e)})
-  },[])
+  // useEffect(()=>{
+  //   axios.get("http://localhost:5000/tokenCheck")
+  //   .then((res)=>{console.log("token",res)})
+  //   .catch((e)=>{console.log("token",e)})
+  // },[])
   const  [imgDp , setImgDp] = useState(db)
   const [imgDpTODB , setImgDpTODB] = useState(null)
+  const [imgURL , setImgURL] = useState(null)
   const [name , setname] = useState("")
   const [paragraph , setParagraph]=useState("")
   const [subline , setSubLine] = useState("")
@@ -46,8 +47,8 @@ function App() {
     e.preventDefault()
     setShowForm(false)
 
-
-    const imgname = +new Date() + "-" + imgDpTODB.name;
+if(imgDpTODB){
+  const imgname = +new Date() + "-" + imgDpTODB.name;
     const metadata = {
      contentType: imgDpTODB.type
     };
@@ -59,9 +60,8 @@ function App() {
     const snapshot = await task
     
     const imgUrl =await getDownloadURL(snapshot.ref)
-          
 
-    axios.put("http://localhost:5000/userinfo",{
+      axios.put("http://localhost:5000/userinfo",{
       namey:name,
       subliney:subline,
       headingy:heading,
@@ -70,7 +70,28 @@ function App() {
     })
     .then((res)=>{console.log(res)})
     .catch((e)=>{console.log(e)})
+    return
+  }else{
+axios.put("http://localhost:5000/userinfo",{
+    namey:name,
+    subliney:subline,
+    headingy:heading,
+    paragraphy:paragraph,
+    dpImg:imgDp
+  })
+  .then((res)=>{console.log(res)})
+  .catch((e)=>{console.log(e)})
+
   }
+  
+}
+  
+
+  
+          
+
+     
+  
 
   useEffect(()=>{
     axios.get("http://localhost:5000/mydata")
@@ -87,7 +108,9 @@ function App() {
   },[])
 
   useEffect(() => {
+    console.log(imgDpTODB)
   }, [imgDpTODB]);
+
   return (
   <div className='flex flex-col pb-[100px] gap-[140px]'>
     <div className='flex justify-center mt-[30px]'>
@@ -218,6 +241,7 @@ function App() {
 
 <Myservices />
     <LatestPost />
+    <Project />
     <div>
     <h1 className='font-bold text-[32px] text-center text-[#BC7AFF]'>What's New</h1>
     {token &&

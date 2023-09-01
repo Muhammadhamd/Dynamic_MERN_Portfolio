@@ -14,7 +14,6 @@ const col = db.collection("admins")
 
 
 
-
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
   
@@ -41,17 +40,22 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({
           _id: data._id,
           email: data.email,
-          iat: Date.now() / 1000 - 30,
-          exp: Date.now() / 1000 + (60 * 60 * 24),
-        }, SECRET);
-        console.log('token', token);
-  
-        res.cookie('token', token, {
+          iat: Math.floor(Date.now() / 1000) - 30,
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      }, SECRET);
+
+      console.log("token: ", token);
+
+      res.cookie('Token', token, {
           maxAge: 86_400_000,
           httpOnly: true,
-        });
-  
-        // res.redirect("/")
+          // sameSite: true,
+          // secure: true
+      });
+      // Cookies.set("username", "john", { expires: 7, path: "/" });
+        console.log(req.cookies.Token)
+        res.send("Login successful");
+        return
       } else {
         console.log("Password did not match");
         return res.status(401).send("Incorrect password" );
@@ -63,8 +67,8 @@ router.post("/login", async (req, res) => {
   });
   
 
-  router.get("/tokenCheck",(req,res)=>{
+  // router.use((req,res)=>{
 
-    console.log("req.cookies: ", req.cookies.token);
-  })
+  //    console.log("req.cookies: ", req.cookies);
+  // })
   export default router

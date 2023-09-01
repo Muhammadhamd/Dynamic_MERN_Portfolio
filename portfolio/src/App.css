@@ -8,3 +8,13 @@
   
   background-position-y: bottom;
 }
+
+
+.projectbg{
+  background-image: url('./img/Rectangle\ 94.jpg');
+ 
+  background-position-x: 743px;
+  background-repeat: no-repeat;
+  /* border: 6px solid #BC7AFF; */
+  
+}

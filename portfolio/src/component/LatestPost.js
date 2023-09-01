@@ -167,23 +167,23 @@ const imgUrl =await getDownloadURL(snapshot.ref)
 
 }
         
-        <div className='flex flex-wrap gap-[55px] items-center justify-center md:mx-[2%] my-[3%]'>
+        <div className='flex flex-wrap gap-[25px] items-center justify-center md:mx-[2%] my-[3%]'>
         {
           arrayPostData.map((eachPost)=>[
-            <div key={eachPost._id} className='w-full w-[300px] h-[600px] rounded-[7px] flex flex-col justify-between overflow-hidden ' >
+            <div key={eachPost._id} className='w-full max-w-[400px] h-[600px] rounded-[7px] flex flex-col justify-between overflow-hidden ' >
             <div>
-            <div className='w-full h-[300px] overflow-hidden'> 
+            <div className='w-full h-[430px] overflow-hidden'> 
             <img className='w-full' src={eachPost.image} alt="" />
             </div>
-            <div className='p-[5px]'>
+            <div className='p-[5px] mt-5'>
               <h1 className='text-[22px] font-bold leading-[30px] mb-2'>
               {eachPost.heading}
               </h1>
-              <p className='font-regular text-[16px] leading-[20px] h-[70px] overflow-hidden'>{eachPost.description}</p>
+              <p className='font-regular text-[16px] leading-[20px] h-[40px] overflow-hidden'>{eachPost.description}</p>
               <div>
-               <div className='flex flex-wrap gap-[10px] my-3'>
+               <div className='flex flex-wrap gap-[10px] my-1'>
                {eachPost.tags.map((eachtag, index) => (
-              <h1 key={index} className='text-white text-sm font-semibold bg-[#BC7AFF] py-1 px-2 rounded-full'>
+              <h1 key={index} className='text-white text-sm font-semibold bg-[#BC7AFF] py-2 px-4 rounded-full'>
                 {eachtag.tag}
               </h1>
             ))}

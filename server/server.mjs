@@ -1,19 +1,17 @@
 import express from "express"
 const app = express()
-import path from "path"
 import mongoose from "mongoose"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import v1router from "./v1/index.mjs"
-const __dirname = path.resolve()
 const mongodbURI =  process.env.mongodbURI || "mongodb+srv://muhammadhamdali572:hamdali99332@cluster0.g7j5dka.mongodb.net/Portfolio?retryWrites=true&w=majority";
 app.use(express.json())
 app.use(cookieParser());
-app.use(cors({
-    origin: ['http://localhost:5000', "*"],
-    credentials: true
-}));
-
+app.use(cors());
+// app.use((req,res,next)=>{
+//     console.log("token founded",req.cookies.Token)
+//     next(); 
+// })
 // app.use(reactDOm)
 app.use(v1router)
 
