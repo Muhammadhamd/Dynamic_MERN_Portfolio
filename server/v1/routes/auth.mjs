@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
       }, SECRET);
 
-      console.log("token: ", token);
+      // res.send(token);
 
       res.cookie('Token', token, {
           maxAge: 86_400_000,
@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
           // secure: true
       });
       // Cookies.set("username", "john", { expires: 7, path: "/" });
-        console.log(req.cookies.Token)
+        // console.log(req.cookies.Token)
         res.send("Login successful");
         return
       } else {
@@ -66,9 +66,25 @@ router.post("/login", async (req, res) => {
     }
   });
   
+  router.get("/logout",(req, res) => {
 
-  // router.use((req,res)=>{
+    res.cookie('Token', '', {
+         maxAge: 1,
+         httpOnly: true
+     });
+ 
+     res.send("Logout successful" );
+     console.log(req.cookies)
+ })
+  router.get("/token",(req,res)=>{
 
-  //    console.log("req.cookies: ", req.cookies);
-  // })
+  if(req?.cookies?.Token){
+   
+    res.send({Tokenis:true}) 
+    return
+  }
+     
+     res.send({Tokenis:false})
+  })
+
   export default router

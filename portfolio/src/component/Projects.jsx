@@ -1,11 +1,14 @@
 import '../App.css'
 import React, { useState, useRef, useEffect } from 'react';
+import "../css/project.css"
 import app from '../firebaseConfig.mjs'
 import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
-
+import UseToken from './token.jsx'
 import axios from 'axios';
 function Project(){
-    const [token , setToken] = useState("token")
+    // const [token , setToken] = useState(false)
+    const token = UseToken();
+
     const [showForm , setShowForm] = useState(false)
     const [addImg , setAddImg] = useState("")
     const [addImgDB , setAddImgDB] = useState(null)
@@ -15,22 +18,15 @@ function Project(){
     const [addVideo , setAddVideo] = useState("")
     const [addRepo , setAddRepo] = useState("")
     const [addlive , setAddlive] = useState("")
-    const [arrayPostData , setArrayPostData] = useState([])
+    const [arrayProjectData , setArrayProjectData] = useState([])
     const [allTags , setAllTags] = useState([])
+    const [submitValue , setSubmitValue] = useState("Post")
+    const [isPosting , setisPosting] = useState(false)
 
     const formdataget = async(e)=>{
         e.preventDefault()
-        const newPost ={
-          Heading:addHeading,
-          description:addDescription,
-          tags:allTags,
-          imgURL:addImg
-        }
-        setArrayPostData((arrayPostData)=>[
-          ...arrayPostData,
-          newPost])
-  
-          
+       
+          setisPosting(true)
     const name = +new Date() + "-" + addImgDB.name;
   const metadata = {
    contentType: addImgDB.type
@@ -43,8 +39,19 @@ function Project(){
   const snapshot = await task
   
   const imgUrl =await getDownloadURL(snapshot.ref)
-        
-        
+  const newPost ={
+    Heading:addHeading,
+    description:addDescription,
+    tags:allTags,
+    imgURL:imgUrl,
+    repolink:addRepo,
+    hostlink:addlive,
+    videolink:addVideo,
+}
+setArrayProjectData((arrayProjectData)=>[
+  ...arrayProjectData,
+  newPost])
+
           axios.post('http://localhost:5000/project',{
             Heading:addHeading,
             description:addDescription,
@@ -56,9 +63,13 @@ function Project(){
           })
           .then((res)=>{
             console.log(res)
+            setisPosting(false)
+
           })
           .catch((e)=>{
             console.log(e)
+          setisPosting(false)
+
           })
         // console.log("post aded",newPost)
         setAddHeading('');
@@ -69,25 +80,33 @@ function Project(){
       setAddImgDB('')
       
       }
-      // useEffect(() => {
-      //   console.log(arrayPostData);
-      // }, [arrayPostData]);
+      useEffect(() => {
+        console.log(arrayProjectData);
+      }, [arrayProjectData]);
   
       useEffect(()=>{
         axios.get("http://localhost:5000/projects")
         .then((res)=>{
-          setArrayPostData(res.data)
-        },[])
-      })
+          setArrayProjectData(res.data)
+          console.log(res.data)
+        })
+      },[])
       useEffect(() => {
         console.log(allTags);
       }, [allTags]);
       useEffect(() => {
         console.log(addImgDB);
       }, [addImgDB]);
+    //   useEffect(()=>{
+    //     axios.get("http://localhost:5000/token")
+    //     .then((res)=>{console.log(res.data.Tokenis)})
+    //     setToken(res.data.Tokenis)
+    //     .catch((e)=>{console.log(e)})
+    //    },[])
+     
     return(
        <div>
-         <div className="projectbg">
+         {/* <div className="projectbg">
             <div className="flex flex-col items-center p-[100px]">
                 <h1 className="text-[#BC7AFF] font-bold text-[400%] flex items-center justify-center relative left-[30px]">Lets Build  &nbsp;<div className="text-white"> Your Project</div></h1>
                 <p className="font-semibold text-black text-center max-w-[800px] my-6 w-[95%] ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, qui fuga. Incidunt, commodi. Tempora velit in amet perspiciatis doloremque ipsum magni nostrum molestiae, eveniet odio et voluptatum hic aliquam unde esse consequuntur minima ducimus ratione nemo mollitia a enim delectus eaque reprehenderit? Repellendus, dolorum sint magni asperiores sapiente autem. Fugit!</p>
@@ -134,7 +153,7 @@ function Project(){
                         </div>
                     </div>
            </div>
-        </div>
+        </div>  */}
 
         <div>
               {token &&
@@ -232,17 +251,46 @@ hover:file:bg-violet-100'
         setAddVideo(e.target.value)
       }
     } />
+
+    
  { 
           addHeading.length == 0 | addDescription.length == 0 | addImg.length == 0  ?
          ( <input type="submit" value="Add Post" disabled className='px-4 py-2 rounded shadowe my-3  bg-violet-300 text-white font-bold' />)
-          :
+          :(
+            isPosting ?(<input type="submit" value="Posting" disabled className='px-4 py-2 rounded shadowe my-3  bg-violet-300 text-white font-bold' />)
+            :
          (<input type="submit" value="Add Post" className='px-4 py-2 rounded shadowe my-3  bg-violet-500 text-white font-bold' />)
+
+          )
     }
   </form>
 </div>
 
 }
         </div>
+      <div className='my-10 md:px-[124px]'>
+        <h1 className='font-bold text-[32px] mb-5 border-b-[6px] max-w-[180px] border-violet-700 text-[#BC7AFF]'>Projects</h1>
+      <div className='flex flex-wrap justify-center gap-[25px]'>
+      
+      {
+        arrayProjectData.map((eachPost)=>[
+        <a href={eachPost._id}>
+        <div key={eachPost._id} className='relative w-full max-w-[600px] overflow-hidden h-[300px] projectbox'>
+        <div  className='w-full flex flex-col justify-between items-center overflow-hidden ' >
+       <img className='w-full' src={eachPost.image} alt="" />
+       </div>
+       <div className=' absolute w-full bg-[#00000075] p-[20px] text-white bottom-[0px] hoverbox'>
+         <h1 className='font-semibold text-[22px]'>{eachPost.heading}</h1>
+         <p>{eachPost.description}</p>
+         <h1 className='flex items-center font-semibold text-violet-100 gap-[3px]'><a href={eachPost.hostlink}>Let's check it out <i className='fa fa-arrow-right'></i></a></h1>
+       </div>
+      </div>
+      </a>
+        ])
+          
+      }
+      </div>
+      </div>
        </div>
     )
 }

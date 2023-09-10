@@ -1,0 +1,35 @@
+.projectbox:hover{
+    transform: scale(.99);
+    transition: all .2s;
+}
+.projectbox .hoverbox{
+    /* display: none; */
+    animation: boxdown .6s ease  forwards;
+    }
+.projectbox:hover .hoverbox{
+    display: block;
+    animation: boxup .6s ease  forwards;
+
+    }
+    @keyframes boxdown {
+        
+        0%{
+            bottom: 0%;
+            /* display: none; */
+        }
+        100%{
+            bottom:-100%
+
+        }
+    }
+    @keyframes boxup {
+        
+        0%{
+            bottom:-100%
+
+        }
+        100%{
+            bottom:0%
+
+        }
+    }

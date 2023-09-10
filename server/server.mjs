@@ -7,7 +7,12 @@ import v1router from "./v1/index.mjs"
 const mongodbURI =  process.env.mongodbURI || "mongodb+srv://muhammadhamdali572:hamdali99332@cluster0.g7j5dka.mongodb.net/Portfolio?retryWrites=true&w=majority";
 app.use(express.json())
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(
+    {
+        origin: ['http://localhost:3000', "*"],
+    credentials: true
+}
+));
 // app.use((req,res,next)=>{
 //     console.log("token founded",req.cookies.Token)
 //     next(); 

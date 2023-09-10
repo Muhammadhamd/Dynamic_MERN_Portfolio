@@ -1,8 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import UseToken from './token';
 
 function Myservices() {
-  const [token , setToken] = useState("token")
-
+  const token = UseToken()
+  // useEffect(()=>{
+  //   axios.get("http://localhost:5000/token")
+  //   .then((res)=>{console.log(res.data.Tokenis)})
+  //   setToken(res.data.Tokenis)
+  //   .catch((e)=>{console.log(e)})
+  //  },[])
+ 
     return (
         <div className='service-div'>
         <h1 className='font-bold text-[32px] text-center text-[#BC7AFF]'>My Services</h1>

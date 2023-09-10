@@ -41,7 +41,8 @@ router.put('/userinfo', async(req,res,next)=>{
 //    console.log('Received data:', headingy , namey , subliney , paragraphy);
 
 const data = await col.findOneAndUpdate(
-    { _id: new ObjectId('64f04b2244f71fda1dc121f5') }, // ObjectId as a string
+    { 
+        _id: new ObjectId('64f04b2244f71fda1dc121f5') }, // ObjectId as a string
     {
       $set: {
         timeStamp: new Date(),

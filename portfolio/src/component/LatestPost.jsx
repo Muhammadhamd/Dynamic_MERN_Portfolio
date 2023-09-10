@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import app from '../firebaseConfig.mjs'
 import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
+import UseToken from './token.jsx'
 
 import axios from 'axios';
+import SubmitBtn from './submitbtn.js';
 
 function LatestPost() {
  
 
-  const [token , setToken] = useState("token")
+  const token = UseToken()
   const [showForm , setShowForm] = useState(false)
   const [addImg , setAddImg] = useState("")
   const [addImgDB , setAddImgDB] = useState(null)
@@ -16,7 +19,11 @@ function LatestPost() {
   const [addTags , setAddTags] = useState("")
   const [arrayPostData , setArrayPostData] = useState([])
   const [allTags , setAllTags] = useState([])
+  const [isPosting , setisPosting] = useState(false)
+
     const formdataget = async(e)=>{
+      setisPosting(true)
+
       e.preventDefault()
       const newPost ={
         Heading:addHeading,
@@ -51,17 +58,21 @@ const imgUrl =await getDownloadURL(snapshot.ref)
         })
         .then((res)=>{
           console.log(res)
+      setisPosting(false)
+      setisPosting(false)
         })
         .catch((e)=>{
           console.log(e)
+      setisPosting(false)
+
         })
       // console.log("post aded",newPost)
-      setAddHeading('');
-    setAddDescription('');
-    setAddTags('');
-    setAddImg('');
-    setAllTags([])
-    setAddImgDB('')
+    //   setAddHeading('');
+    // setAddDescription('');
+    // setAddTags('');
+    // setAddImg('');
+    // setAllTags([])
+    // setAddImgDB('')
     
     }
     // useEffect(() => {
@@ -80,9 +91,10 @@ const imgUrl =await getDownloadURL(snapshot.ref)
     useEffect(() => {
       console.log(addImgDB);
     }, [addImgDB]);
+
     return (
         <div>
-        <h1 className='font-bold text-[32px] text-center text-[#BC7AFF]'>My Latest blogs</h1>
+        <h1 className='font-bold text-[32px] '>My Recent blogs</h1>
         {token &&
 
         <div className='w-full flex justify-center '>
@@ -156,30 +168,42 @@ const imgUrl =await getDownloadURL(snapshot.ref)
     </div>
   ))}
          </div>
-         { 
+         
+        <SubmitBtn  value='Add Post' valueOnUpload="Posting" Requirments={[addHeading, addDescription, addImg ]} isProcessing={isPosting} />
+         
+                  {/* { 
                   addHeading.length == 0 | addDescription.length == 0 | addImg.length == 0  ?
-                 ( <input type="submit" value="Add Post" disabled className='px-4 py-2 rounded shadowe my-3  bg-violet-300 text-white font-bold' />)
-                  :
-                 (<input type="submit" value="Add Post" className='px-4 py-2 rounded shadowe my-3  bg-violet-500 text-white font-bold' />)
-            }
+                  ( <input type="submit" value="Add Post" disabled className='px-4 py-2 rounded shadowe my-3  bg-violet-300 text-white font-bold' />)
+          :(
+            isPosting ?(<input type="submit" value="Posting" disabled className='px-4 py-2 rounded shadowe my-3  bg-violet-300 text-white font-bold' />)
+            :
+         (<input type="submit" value="Add Post" className='px-4 py-2 rounded shadowe my-3  bg-violet-500 text-white font-bold' />)
+
+          )
+           } */}
           </form>
         </div>
 
 }
         
-        <div className='flex flex-wrap gap-[25px] items-center justify-center md:mx-[2%] my-[3%]'>
+        <div className='flex flex-wrap gap-[40px] items-center justify-center md:mx-[2%] my-[3%]'>
         {
           arrayPostData.map((eachPost)=>[
-            <div key={eachPost._id} className='w-full max-w-[400px] h-[600px] rounded-[7px] flex flex-col justify-between overflow-hidden ' >
-            <div>
-            <div className='w-full h-[430px] overflow-hidden'> 
-            <img className='w-full' src={eachPost.image} alt="" />
+            <div key={eachPost._id} className='w-full max-w-[400px]  flex flex-col justify-between overflow-hidden ' >
+           <Link to={`/post/${eachPost._id}`}>
+           <div>
+            <div className='w-full h-[320px] overflow-hidden' style={{backgroundImage: `url(${eachPost.image})`,backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }}> 
+            {/* <img className='w-full' src={eachPost.image} alt="" /> */}
             </div>
+            <h3 className='text-slate-500 text-[19px] mt-[15px]'>
+            {new Date(eachPost.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+            { new Date(eachPost.timeStamp).getDay()} , {new Date(eachPost.timeStamp).getFullYear()}</h3>
+
             <div className='p-[5px] mt-5'>
-              <h1 className='text-[22px] font-bold leading-[30px] mb-2'>
+              <h1 className='text-[32px] font-bold leading-[1.25] mb-2 h-[180px] overflow-hidden'>
               {eachPost.heading}
               </h1>
-              <p className='font-regular text-[16px] leading-[20px] h-[40px] overflow-hidden'>{eachPost.description}</p>
+              <p className='font-regular text-[20px] leading-[] h-[270px] overflow-hidden'> {eachPost.description}</p>
               <div>
                <div className='flex flex-wrap gap-[10px] my-1'>
                {eachPost.tags.map((eachtag, index) => (
@@ -191,7 +215,7 @@ const imgUrl =await getDownloadURL(snapshot.ref)
               </div>
             </div>
             </div>
-            <h3 className=' text-[#BC7AFF] font-semibold text-[16px]'>Read full article</h3>
+           </Link>
 
           </div>
           ])

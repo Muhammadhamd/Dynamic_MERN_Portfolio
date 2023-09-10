@@ -4,7 +4,7 @@ const router = express.Router()
 import {client} from "../../mongodb.mjs"
 import { ObjectId } from "mongodb"
 const db = client.db("Portfolio");
-const col = db.collection("posts")
+const col = db.collection("contacts")
 
 const postSchema =  new mongoose.Schema({
 
@@ -13,32 +13,32 @@ const postSchema =  new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    description:{
+    name:{
         type:String,
         required:true
     },
-    heading:{
+    phno:{
         type:String,
         required:true
     },
-    tags:{
+    email:{
         type:Array,
         required:true
     },
    
   
-    image:{
+    messege:{
         type:String,
         required:true
     } ,
         
 })
-const postModel = mongoose.model("post", postSchema)
-router.post('/post', async(req,res,next)=>{
+const postModel = mongoose.model("contact", postSchema)
+router.post('/contact', async(req,res,next)=>{
 
-   const  { Heading , description , tags , imgURL} = req.body
+   const  { name , email , phno , messege} = req.body
 
-   console.log('Received data:', Heading, description, tags, imgURL);
+   console.log('Received data:',name , email , phno , messege);
 //    console.log(`
 //    datais:{
 //     ${Heading}
@@ -46,35 +46,20 @@ router.post('/post', async(req,res,next)=>{
 //     ${imgURL}
 //    }`)
     const post = await postModel.create({
-        timeStamp: new Date(),
-        heading: Heading,
-        description: description,
-        image: imgURL,
-        tags:tags
+        timeStamp:new Date(),
+        name:name ,
+         email: email,
+         phno: phno,
+         messege:messege
       });
     res.status(200).send("post suecssfully")
 })
 
-router.get("/posts",async(req ,res)=>{
+router.get("/contacts",async(req ,res)=>{
 
     const postsData = await col.find({}).toArray()
 
     res.send(postsData)
-})
-
-router.get('/post/:postId', async (req, res) => {
-
-    const postID = req.params.postId
-    const data = await col.findOne(
-        { 
-            _id: new ObjectId(postID) } // ObjectId as a string
-       
-      );
-      if(data){
-        res.send(data)
-        return
-      }
-      res.send('post not found')
 })
 
 export default router
