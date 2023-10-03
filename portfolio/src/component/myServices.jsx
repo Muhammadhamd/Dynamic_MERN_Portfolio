@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import UseToken from './token';
-
+import PopUpMessage from "./heading.jsx"
+import "../App.css"
 function Myservices() {
   const token = UseToken()
   // useEffect(()=>{
@@ -11,42 +12,37 @@ function Myservices() {
   //  },[])
  
     return (
-        <div className='service-div'>
-        <h1 className='font-bold text-[32px] text-center text-[#BC7AFF]'>My Services</h1>
-        {token &&
-            <button className='absolute left-[50px] bg-[#BC7AFF] text-white text-[20px] flex justify-center items-center p-[10px] rounded-full w-[40px] h-[40px] shadow-xl'><i className='fa fa-edit'></i></button>
-          }
-          <div className='flex-wrap flex justify-center gap-[100px] md:mx-[2%] my-[5%]'>
-            <div className=' rounded shadow-xl p-[12px] text-white bg-[#BC7AFF] max-w-[450px]'>
-            <div className='flex items-center justify-center'>
-            <i className='fa fa-code font-semibold text-xl text-[#ffffffe3] mr-1'></i>
-              <h1 className='font-semibold text-2xl'> Full stack Web Developer</h1>
-            </div>
-              <p className='text-center text-base font-regular text-[#ffffffe3] tracking-tight'>I can Develope Your full stack web-site for your Business checkout my projects</p>
-            </div>
-            <div className=' rounded shadow-xl p-[12px] text-white bg-[#BC7AFF] max-w-[450px]'>
-            <div className='flex items-center justify-center'>
-            <i className='fa fa-code font-semibold text-xl text-[#ffffffe3] mr-1'></i>
-              <h1 className='font-semibold text-2xl'> Full stack Web Developer</h1>
-            </div>
-              <p className='text-center text-base font-regular text-[#ffffffe3] tracking-tight'>I can Develope Your full stack web-site for your Business checkout my projects</p>
-            </div>
-            <div className=' rounded shadow-xl p-[12px] text-white bg-[#BC7AFF] max-w-[450px]'>
-            <div className='flex items-center justify-center'>
-            <i className='fa fa-code font-semibold text-xl text-[#ffffffe3] mr-1'></i>
-              <h1 className='font-semibold text-2xl'> Full stack Web Developer</h1>
-            </div>
-              <p className='text-center text-base font-regular text-[#ffffffe3] tracking-tight'>I can Develope Your full stack web-site for your Business checkout my projects</p>
-            </div>
-            <div className=' rounded shadow-xl p-[12px] text-white bg-[#BC7AFF] max-w-[450px]'>
-            <div className='flex items-center justify-center'>
-            <i className='fa fa-code font-semibold text-xl text-[#ffffffe3] mr-1'></i>
-              <h1 className='font-semibold text-2xl'> Full stack Web Developer</h1>
-            </div>
-              <p className='text-center text-base font-regular text-[#ffffffe3] tracking-tight'>I can Develope Your full stack web-site for your Business checkout my projects</p>
-            </div>
-            
-          </div>
+        <div className='service-div  pb-[200px]'>
+      <div className='flex flex-col items-center w-full mt-[170px]'>
+        <PopUpMessage message="~ What Our IT Services Company Offers ~" />
+      <h1 className='text-5xl font-bold text-[#2E2D2D] mt-[10px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]'>
+     I am <span className='text-[#5333F2]'>Dedicated</span> To Serve You All Time.
+      </h1>
+      </div>
+      <div className='flex flex-wrap justify-center gap-[50px] mt-[90px] '>
+      <div className='bg-white shadow-[0px_0px_10px_#00000029] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box'>
+          <h1 className='font-bold text-2xl mt-[50px]'>Softwate Developer</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+          as a Software Developer. With a passion for coding and problem-solving, I specialize in creating efficient, robust, and user-friendly software solutions.
+          </p>
+        </div>
+        <div className='bg-white shadow-[0px_0px_10px_#00000029] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box' >
+          <h1 className='font-bold text-2xl mt-[50px]'>Website Developer</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+          As a Web Developer, I craft cutting-edge websites, harnessing the latest technologies to create seamless and visually captivating online experiences
+          </p>
+        </div>
+        <div className='bg-white shadow-[0px_0px_10px_#00000029] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box'>
+          <h1 className='font-bold text-2xl mt-[50px]'>wordPress Developer</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+          ensuring they are not only visually appealing but also user-friendly and functional. With a passion for innovation and a commitment to excellence
+          </p>
+        </div>
+        
+      </div>
         </div>
     )
 }

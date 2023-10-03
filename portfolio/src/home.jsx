@@ -3,9 +3,8 @@ import style from './App.css'
 import UseToken from './component/token.jsx'
 import app from './firebaseConfig.mjs'
 import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
-import Adminlogin from './component/adminlogin'; // Make sure the path is correct
 import Project from './component/Projects';
-
+import reacticon from "./img/logo192.png"
 import axios, { toFormData } from 'axios';
 import db from './img/image 1.jpg'
 
@@ -15,10 +14,13 @@ import LatestPost from './component/LatestPost';
 import Myservices from './component/myServices';
 import ContactComponent from './component/contact';
 import InstafeedComponent from './component/Instagramposts';
+import ChatBot from './component/chatbot';
+import Experience from './component/exprence';
+import PopUpMessage from './component/heading';
 function Home() {
 
   const token = UseToken()
-
+const baseURL = process.env.PORT || 'http://localhost:5000'
   // useEffect(()=>{
   //   axios.get("http://localhost:5000/tokenCheck")
   //   .then((res)=>{console.log("token",res)})
@@ -75,7 +77,7 @@ if(imgDpTODB){
     .catch((e)=>{console.log(e)})
     return
   }else{
-axios.put("http://localhost:5000/userinfo",{
+axios.put(`${baseURL}/userinfo`,{
     namey:name,
     subliney:subline,
     headingy:heading,
@@ -97,7 +99,7 @@ axios.put("http://localhost:5000/userinfo",{
   
 
   useEffect(()=>{
-    axios.get("http://localhost:5000/mydata")
+    axios.get(`${baseURL}/mydata`)
     .then((res)=>{
       setHeading(res.data.heading)
       setParagraph(res.data.paragraph)
@@ -116,9 +118,10 @@ axios.put("http://localhost:5000/userinfo",{
 
   return (
   <div className='flex flex-col pb-[100px] gap-[140px]'>
+    <ChatBot />
     <div className='flex justify-center mt-[30px]'>
-    <div className='flex flex-wrap min-w-[1049px] max-w-[70%] w-full justify-between mt-[40px]'>
-      <div className='relative max-w-[600px] mr-[10px] m-2 mt-[3%]'>
+    <div className='flex flex-wrap max-[1000px]:justify-center max-[900px]:gap-[40px] max-[1460px]:max-w-[80%] max-[1260px]:max-w-[90%] max-w-[70%] w-full justify-between mt-[40px]'>
+      <div className='relative max-[1200px]:max-w-[550px] max-w-[600px] mr-[10px] m-2 mt-[3%] text-[#2E2D2D]'>
        {token &&
         <button className='absolute left-[-50px] bg-[#BC7AFF] text-white text-[20px] flex justify-center items-center p-[10px] rounded-full w-[40px] h-[40px] shadow-xl'
         onClick={
@@ -133,7 +136,7 @@ axios.put("http://localhost:5000/userinfo",{
       }
       {
         showForm && 
-        <div className='absolute h-[100vh] w-full flex justify-center items-center bg-white'>
+        <div className='absolute h-[100vh] w-full flex justify-center items-center bg-white text-[#2E2D2D] '>
           <form 
            className='max-w-[600px] bg-white flex flex-wrap shadow rounded w-full gap-[15px] justify-center p-[20px]'
            onSubmit={editUserData}
@@ -177,30 +180,30 @@ axios.put("http://localhost:5000/userinfo",{
         </div>
         
       }
-        <h1 className='text-[60px] font-extrabold tracking-[-0.16rem] leading-[90%]'
+        <h1 className='text-[45px] md:text-[65px] text-[#2E2D2D] font-extrabold tracking-[-0.16rem] leading-[90%]'
         
         >{name ||<div className='my-[10px] animate-pulse flex space-x-4'>
         <div class="rounded-full bg-slate-200 py-4  w-[400px]"></div>
         </div>}</h1>
-        <h2 className='text-[35px] font-bold text-[#BC7AFF] tracking-[-4%] '
+        <h2 className='text-[30px] leading-[90%] md:text-[35px] my-[10px] font-bold text-[#5333F2] tracking-[-4%] '
        
          >{subline ||<div className='my-[10px] animate-pulse flex space-x-4'>
          <div class="rounded-full bg-slate-200 py-3  w-[300px]"></div>
          </div>}</h2>
-        <h3 className='font-bold text-[20px] tracking-[-0.05rem] leading-[24px]'
+        <h3 className='font-semibold text-[20px] tracking-[-0.05rem] leading-[24px]'
        
         >{heading || <div className='my-[10px] animate-pulse flex space-x-4'>
         <div class="rounded-full bg-slate-200 py-3  w-[300px]"></div>
         </div>}</h3>
-        <div>
+        {/* <div>
           <ul className='flex gap-[10px] my-3'>
             <li className='text-white text-[16px] rounded-full bg-[#BC7AFF] flex justify-center items-center w-[35px] h-[35px]'><a href=""><i className='fa fa-facebook'></i></a></li>
             <li className='text-white text-[16px] rounded-full bg-[#BC7AFF] flex justify-center items-center w-[35px] h-[35px]'><a href=""><i className='fa fa-github'></i></a></li>
             <li className='text-white text-[16px] rounded-full bg-[#BC7AFF] flex justify-center items-center w-[35px] h-[35px]'><a href=""><i className='fa fa-linkedin'></i></a></li>
             <li className='text-white text-[16px] rounded-full bg-[#BC7AFF] flex justify-center items-center w-[35px] h-[35px]'><a href=""><i className='fa fa-instagram'></i></a></li>
           </ul>
-        </div>
-        <p className='font-regular text-slate-700 text-[16px] max-w-[450px] w-full'
+        </div> */}
+        <p className='mt-[10px] text-[#67687A] text-[17px] max-w-[450px] w-full leading-[29px] border-[#5333F2] border-l-[3px] pl-[20px]'
         // contentEditable={token ? true : false} 
       
         >{paragraph ||<div className=' animate-pulse'>
@@ -214,7 +217,7 @@ axios.put("http://localhost:5000/userinfo",{
       </div>
       <div>
         {imgDp ?
-        <div className=' md:w-[400px]  relative h-[400px] w-full rounded-full border-[4px] border-[#BC7AFF] overflow-hidden'>
+        <div className=' md:w-[400px] max-[1160px]:max-w-[360px] max-[1160px]:h-[360px] relative md:h-[400px] h-[350x] w-[350px] max-[350px]:w-[300px] max-[350px]:h-[300px] max-[300px]:w-[250px] max-[300px]:h-[250px] mx-[auto] rounded-full border-[4px] border-[#BC7AFF] overflow-hidden'>
        {
         token && <>
         <div 
@@ -222,7 +225,7 @@ axios.put("http://localhost:5000/userinfo",{
           document.getElementById("dp-upload").click()
 
         }
-        } className='flex absolute max-w-[400px] w-full h-[400px] bg-[#00000052]  items-center justify-center text-4xl text-[#ffffff73]'>
+        } className='flex absolute md:max-w-[400px] w-full h-auto md:h-[400px] max-[1160px]:max-w-[360px] max-[1160px]:h-[360px] bg-[#00000052]  items-center justify-center text-4xl text-[#ffffff73]'>
 <i className='fa fa-image'></i>
 </div>
  <input type="file" name="" onChange={imageChange} id="dp-upload" hidden />
@@ -239,7 +242,7 @@ axios.put("http://localhost:5000/userinfo",{
     </div>
 <Myservices />
     <InstafeedComponent />
-
+    <Experience />
     <LatestPost />
     
     <Project />
@@ -263,21 +266,58 @@ axios.put("http://localhost:5000/userinfo",{
     </div>
   
     </div> */}
-    <div className='flex flex-wrap justify-center'>
-    {token &&
-        <button className='absolute left-[50px] bg-[#BC7AFF] text-white text-[20px] flex justify-center items-center p-[10px] rounded-full w-[40px] h-[40px] shadow-xl'><i className='fa fa-edit'></i></button>
-      }
-      <div className='w-full max-w-[700px] flex flex-col justify-center'>
-        <h1 contentEditable  className='font-extrabold text-[32px]' >I am a <div className='flex'><b className='text-[#BC7AFF]'>MERN</b>&nbsp;Developer</div></h1>
-        <p  contentEditable className='font-regular leading-[30px]  text-[16px] max-w-[570px]'>Unlock the power of the MERN stack with my expertise. As a skilled developer, I craft seamless MongoDB, Express.js, React, and Node.js solutions. Elevate your web applications with my clean coding and collaborative approach. Let's build a future-focused digital experience together.</p>
-        <div  className='w-full font-medium text-[12px] text-slate-500 flex justify-start mt-3'>
-      <h1 id='lastup-data'>Last updated 23/23/2023</h1>
+     <div>
+      <div className='flex justify-center'>
+        <PopUpMessage message="~ More About Me ~s" />
+      </div>
+      <div className='flex flex-col items-center'>
+      <h1 className='text-5xl font-bold text-[#2E2D2D] mt-[10px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]'>
+     I am a <span className='text-[#5333F2]'>MERN</span> Developer.
+      </h1>
+      <p className='text-[#67687A] text-[17px] leading-[29px] max-w-[380px] text-center'>Developing Websites with the Latest <span className='text-[#5333F2]'>MERN Stack</span>  Technology</p>
+      
+      <div className='flex flex-wrap justify-center gap-[50px] mt-[90px] '>
+      <div className='bg-white shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box'>
+      <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-html5"></i>
+
+          <h1 className='font-bold text-2xl mt-[20px]'>HTML5</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+          HTML5 is the backbone, structuring web content efficiently for seamless integration with the MERN stack and user-friendly experiences.
+
+
+
+
+
+          </p>
+        </div>
+        <div className='bg-white shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box'>
+      <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-css3"></i>
+
+          <h1 className='font-bold text-2xl mt-[20px]'>CSS3</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+           
+CSS serves as the style wizard, creating visually appealing designs while maintaining responsiveness and user-friendliness in your web application.
+          </p>
+        </div>
+        <div className='bg-white shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box'>
+      <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-js"></i>
+      <div className='flex justify-center h-[60px]'>
+      <img src={reacticon} alt="" className='w-[60px] spin' />
+      </div>
+          <h1 className='font-bold text-2xl mt-[20px]'>React.js</h1>
+          <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
+          <p>
+           
+React, the dynamic engine, powers your web app with interactivity and responsiveness, ensuring a seamless user experience within the MERN stack.
+          </p>
+        </div>
+        
+      </div>
+     
+      </div>
      </div>
-      </div>
-      <div className='w-full max-w-[500px]'>
-        <img className='w-full' src={mernstackImg} alt="" />
-      </div>
-    </div>
     <ContactComponent />
 
     {/* <Adminlogin /> */}

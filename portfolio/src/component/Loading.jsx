@@ -4,11 +4,11 @@ import axios from 'axios';
 
 function LoadingComponent({isLoading}) {
 
-    
+  const baseURL = process.env.PORT || 'http://localhost:5000'
     const [imgDp, setImgDp ] = useState()
     const [name, setname ] = useState()
     useEffect(()=>{
-        axios.get("http://localhost:5000/mydata")
+        axios.get(`${baseURL}/mydata`)
         .then((res)=>{
           
       

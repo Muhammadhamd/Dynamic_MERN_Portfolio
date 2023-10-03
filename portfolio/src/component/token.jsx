@@ -4,11 +4,12 @@ import axios from 'axios';
 
 function UseToken(){
   const [token, setToken] = useState(null);
-
+  const baseURL = process.env.PORT || 'http://localhost:5000'
   useEffect(() => {
+    
     // Fetch the token when the component mounts
       axios
-      .get("http://localhost:5000/token",{
+      .get(`${baseURL}/token`,{
         withCredentials: true,
       })
       .then((res) => {

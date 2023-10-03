@@ -77,4 +77,10 @@ router.get("/projects",async(req ,res)=>{
     res.send(postsData)
 })
 
+router.delete("/project/:postid",async(req,res)=>{
+    const postid = req.params.postid
+    const update =  await col.findOneAndDelete({_id:new ObjectId(postid)})
+    update ? res.send("post deleted") : res.send('error deleting post')
+})
+
 export default router

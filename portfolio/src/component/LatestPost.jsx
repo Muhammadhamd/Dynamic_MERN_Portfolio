@@ -6,6 +6,7 @@ import UseToken from './token.jsx'
 
 import axios from 'axios';
 import SubmitBtn from './submitbtn.js';
+import PopUpMessage from './heading.jsx';
 
 function LatestPost() {
  
@@ -22,6 +23,9 @@ function LatestPost() {
   const [isPosting , setisPosting] = useState(false)
 
     const formdataget = async(e)=>{
+      const baseURL = process.env.PORT || 'http://localhost:5000'
+
+
       setisPosting(true)
 
       e.preventDefault()
@@ -50,7 +54,7 @@ const snapshot = await task
 const imgUrl =await getDownloadURL(snapshot.ref)
       
       
-        axios.post('http://localhost:5000/post',{
+        axios.post(`${baseURL}/post`,{
           Heading:addHeading,
           description:addDescription,
           tags:allTags,
@@ -80,7 +84,9 @@ const imgUrl =await getDownloadURL(snapshot.ref)
     // }, [arrayPostData]);
 
     useEffect(()=>{
-      axios.get("http://localhost:5000/posts")
+      const baseURL = process.env.PORT || 'http://localhost:5000'
+
+      axios.get(`${baseURL}/posts`)
       .then((res)=>{
         setArrayPostData(res.data)
       },[])
@@ -94,7 +100,9 @@ const imgUrl =await getDownloadURL(snapshot.ref)
 
     return (
         <div>
-        <h1 className='font-bold text-[32px] '>My Recent blogs</h1>
+        <div className='flex ml-[25px] md:ml-[50px]'>
+         <PopUpMessage message="MY LATEST BLOGS" /> 
+         </div>
         {token &&
 
         <div className='w-full flex justify-center '>
@@ -189,40 +197,52 @@ const imgUrl =await getDownloadURL(snapshot.ref)
         <div className='flex flex-wrap gap-[40px] items-center justify-center md:mx-[2%] my-[3%]'>
         {
           arrayPostData.map((eachPost)=>[
-            <div key={eachPost._id} className='w-full max-w-[400px]  flex flex-col justify-between overflow-hidden ' >
-           <Link to={`/post/${eachPost._id}`}>
+            <div key={eachPost._id} className='w-full max-w-[400px]  flex flex-col justify-between overflow-hidden shadow-4xl' >
            <div>
-            <div className='w-full h-[320px] overflow-hidden' style={{backgroundImage: `url(${eachPost.image})`,backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }}> 
+           <Link to={`/post/${eachPost._id}`}>
+
+            <div className='w-full h-[400px] overflow-hidden' style={{backgroundImage: `url(${eachPost.image})`,backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }}> 
             {/* <img className='w-full' src={eachPost.image} alt="" /> */}
             </div>
-            <h3 className='text-slate-500 text-[19px] mt-[15px]'>
+           </Link>
+
+            <div className='flex gap-[10px] items-start mt-[10px] px-[5px]' >
+            <h3 className='text-slate-500 text-[17px] w-[150px]'>
             {new Date(eachPost.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
             { new Date(eachPost.timeStamp).getDay()} , {new Date(eachPost.timeStamp).getFullYear()}</h3>
-
-            <div className='p-[5px] mt-5'>
-              <h1 className='text-[32px] font-bold leading-[1.25] mb-2 h-[180px] overflow-hidden'>
-              {eachPost.heading}
-              </h1>
-              <p className='font-regular text-[20px] leading-[] h-[270px] overflow-hidden'> {eachPost.description}</p>
-              <div>
-               <div className='flex flex-wrap gap-[10px] my-1'>
+            <div className='flex flex-wrap gap-[5px] '>
                {eachPost.tags.map((eachtag, index) => (
-              <h1 key={index} className='text-white text-sm font-semibold bg-[#BC7AFF] py-2 px-4 rounded-full'>
-                {eachtag.tag}
+             <div className='flex items-center gap-[4px]'> 
+              <i className='text-[#5333F2] fa fa-tag ' >
+              </i>
+
+               <h1 key={index} className=' text-base font-semibold text-[#5333F2] flex items-center'>
+               { eachtag.tag}
+              
               </h1>
+             </div>
             ))}
                </div>
+            </div>
+            <div className='p-[5px] mt-5'>
+              <h1 className='font-bold text-2xl text-center'>
+              {eachPost.heading}
+              </h1>
+              <div class="flex justify-center my-[14px]"> <div class="border-[#5333F2] border-[3px] w-full max-w-[150px]"></div></div>
+              <div className='w-full flex justify-center'>
+              <p className='text-center w-[95%] text-[17px] h-[200px] overflow-hidden leading-[29px]'> {eachPost.description}</p>
+              </div>
+              <div>
+             
               </div>
             </div>
             </div>
-           </Link>
 
           </div>
           ])
             
         }
         </div>
-        <h1 className='font-bold text-[23px] text-center text-[#BC7AFF]'>See More</h1>
       </div>
     )
 }

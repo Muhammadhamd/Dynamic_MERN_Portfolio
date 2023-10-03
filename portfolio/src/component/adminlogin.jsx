@@ -4,8 +4,10 @@ import UseToken from './token.jsx'
 import SubmitBtn from "./submitbtn.js";
 
 
-function Adminlogin (){
 
+
+function Adminlogin (){
+  const baseURL = process.env.PORT || 'http://localhost:5000'
     const [ email , setEmail] = useState("")
     const  token   = UseToken()
     const [ password , setpassword] = useState("")
@@ -17,7 +19,7 @@ function Adminlogin (){
       e.preventDefault()
       setisPosting(true)
 
-     await axios.post("http://localhost:5000/login",{
+     await axios.post(`${baseURL}/login`,{
         email:email,
         password:password
       },{
@@ -38,7 +40,7 @@ function Adminlogin (){
     }
    const logoutFunction =async(e)=>{
     e.preventDefault()
-      await axios.get("http://localhost:5000/logout",{
+      await axios.get(`${baseURL}/logout`,{
         withCredentials: true,
      })
     .then((res)=>{console.log(res.data)

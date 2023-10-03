@@ -5,7 +5,10 @@ import app from '../firebaseConfig.mjs'
 import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
 import UseToken from './token.jsx'
 import axios from 'axios';
+import PopUpMessage from './heading';
+
 function Project(){
+  const baseURL = process.env.PORT || 'http://localhost:5000'
     // const [token , setToken] = useState(false)
     const token = UseToken();
 
@@ -52,7 +55,7 @@ setArrayProjectData((arrayProjectData)=>[
   ...arrayProjectData,
   newPost])
 
-          axios.post('http://localhost:5000/project',{
+          axios.post(`${baseURL}/project`,{
             Heading:addHeading,
             description:addDescription,
             tags:allTags,
@@ -85,7 +88,7 @@ setArrayProjectData((arrayProjectData)=>[
       }, [arrayProjectData]);
   
       useEffect(()=>{
-        axios.get("http://localhost:5000/projects")
+        axios.get(`${baseURL}/projects`)
         .then((res)=>{
           setArrayProjectData(res.data)
           console.log(res.data)
@@ -269,14 +272,16 @@ hover:file:bg-violet-100'
 }
         </div>
       <div className='my-10 md:px-[124px]'>
-        <h1 className='font-bold text-[32px] mb-5 border-b-[6px] max-w-[180px] border-violet-700 text-[#BC7AFF]'>Projects</h1>
+       <div className='flex justify-center'>
+       <PopUpMessage message="~ MY TOP PROJECTS ~" />
+       </div>
       <div className='flex flex-wrap justify-center gap-[25px]'>
       
       {
         arrayProjectData.map((eachPost)=>[
-        <a href={eachPost._id}>
-        <div key={eachPost._id} className='relative w-full max-w-[600px] overflow-hidden h-[300px] projectbox'>
-        <div  className='w-full flex flex-col justify-between items-center overflow-hidden ' >
+        <a href={eachPost._id} className='w-full max-w-[400px] overflow-hidden h-[255px]'>
+        <div key={eachPost._id} className='relative w-full max-w-[400px] overflow-hidden h-[255px] projectbox'>
+        <div  className='w-full flex justify-between items-center overflow-hidden ' >
        <img className='w-full' src={eachPost.image} alt="" />
        </div>
        <div className=' absolute w-full bg-[#00000075] p-[20px] text-white bottom-[0px] hoverbox'>

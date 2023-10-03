@@ -4,7 +4,11 @@ import dp from "../img/image 1.jpg"
 import axios from 'axios';
 import LoadingComponent from './Loading';
 import Errormsg from './errorcomponent';
+
+
 function PostPage () {
+  const baseURL = process.env.PORT || 'http://localhost:5000'
+
     const [data , setdata] = useState([])
 const  {postId}  = useParams();
         const [relatedPost , setRelatedPost]= useState([])
@@ -16,7 +20,7 @@ const  {postId}  = useParams();
 useEffect(()=>{
   setIsLoading(true)
 
-  axios.get(`http://localhost:5000/post/${postId}`)
+  axios.get(`${baseURL}/post/${postId}`)
            
   .then((res)=>{
       setdata(res.data)
@@ -40,7 +44,7 @@ useEffect(()=>{
 },[postId])
 useEffect(()=>{
   setInterval(() => {
-    axios.get(`http://localhost:5000/posts`)
+    axios.get(`${baseURL}/posts`)
            
   .then((res)=>{
 

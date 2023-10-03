@@ -15,8 +15,8 @@ function InstafeedComponent(){
 <p>{{caption}}</p>
 <h1 class="flex items-center font-semibold text-violet-100 gap-[3px]"><a href="{{link}}">Let's check it out <i class="fa fa-arrow-right"></i></a></h1></div></div>`,
 target: "instaposth",
-accessToken: 'IGQWRPemt5MVVoX1Yzb2p6UzQ1MjJjaFVWV2loSkQwRWVnZAU5PVDJHODktOV9FSmhKOVdnSW93ZAURFeVdzcDV3ekdmeW1samhsSWZAhVktqQWZABX0xNejFlNTNIT0lVeXpMVDZAMVmVMM0RyYm9fcHBxX1F2R0ZArcFUZD',
-
+accessToken: process.env.Instatoken,
+// 'IGQWROVFREUEpHbmxMQmZAJNGJJMGFlZAkRRNHFjOXNGallGVGJJRXlPb2J5ZAzNBVXN0UXdvUUlkQ216eW96ejQ4dWpTWWpvalFuMTMtSUMtemtkSGU2V3p2eHl4V3pEanV4Ukx3MmVNbm5Jcnp6TlEzMFpMYTlJbGMZD'
 
 
 })
