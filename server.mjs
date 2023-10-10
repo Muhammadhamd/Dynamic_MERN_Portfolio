@@ -24,7 +24,7 @@ app.use(v1router)
 app.use(express.static(path.join(__dirname, 'portfolio/build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'portfolio/build/index.html'));
+  res.sendFile(path.join(__dirname, 'portfolio/build'));
 });
 const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log(PORT))
