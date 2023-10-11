@@ -21,10 +21,10 @@ app.use(cors(
 // })
 // app.use(reactDOm)
 app.use(v1router)
-app.use(express.static(path.join(__dirname, 'portfolio/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'portfolio/build'));
+  res.sendFile(path.join(__dirname, 'client/build'));
 });
 const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log(PORT))
