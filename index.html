@@ -1,0 +1,260 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home|HM sale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="bg-[#f2f2f2]">
+    <nav class="flex items-center justify-between py-5 px-8">
+        <div class="flex">
+            <h1 class="text-2xl font-bold text-orange">LOGO</h1>
+        </div>
+      <div class="flex max-w-[600px] w-full items-center justify-between pr-[50px]">
+        <ul class="flex items-center gap-[20px]">
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">Latest</li>
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">TOP</li>
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700" id="logoutbtn"><a href=""id="logoutbtn">LOGOUT</a></li>
+        </ul>
+        <div class="flex items-center gap-1 hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">
+            <a id="userIdLink" href="">
+                <i class="fa fa-user"></i>
+            <h1 id="displayUserName" class="font-semibold  text-[17px]">
+                USERNAME
+            </h1>
+            </a>
+        </div>
+      </div>
+    </nav>
+
+   <div class="flex justify-center px-[7%] flex-col">
+    <h1 class=" text-3xl tracking-[-0.02rem] text-slate-500 my-2 font-bold border-b-[10px] border-l-[10px] border-violet-500 w-[200px] pl-2 pb-2">For You</h1>
+    <div class="flex flex-wrap gap-[10px] justify-center" id="latest-post-div">
+        <a href="">
+            <div class="max-w-[200px] bg-white hover:shadow-[0px_0px_5px_#918787]">
+                <div class="w-full h-[200px] flex justify-center items-center shadow rounded">
+                    <img class="w-full" src="https://static-01.daraz.pk/p/4eef86f0ecab0809bfcc9e46e54e45b7.jpg_200x200q80-product.jpg_.webp" alt=""></div>
+                <h1 class="p-3">
+                    <p class="text-[17px] ">Stylish leadher wallet for men</p>
+                    <p class="mt-1 text-violet-700 text-xl tracking-[-0.02rem] font-[600]">RS.200</p>
+                    <p class="text-sm text-violet-700">20% off</p>
+                    <p class="text-slate-500 text-sm">by~MuhammadHamd</p>
+                </h1>
+                
+            </div>
+        </a>
+    
+
+    </div>
+   </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.js"></script>
+    <script src="./js/currentuser.js"></script>
+    <script>
+
+    
+        document.getElementById('logoutbtn').addEventListener("click",(e)=>{
+            // e.preventDefault()
+
+            axios.post("/logout")
+            .then((res)=>{
+                console.log(res.data)
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        })
+
+        document.addEventListener("DOMContentLoaded",(e)=>{
+
+            axios.get("/users")
+            .then((res)=>{
+                let relatedUsers;
+                let data = res.data
+                for (let i = 0; i < 3; i++) {
+                    relatedUsers +=`
+                   <a href="/account/${data[i]._id} "> <div class="py-3 rounded bg-white shadow flex items-center py-2 px-3 gap-2">
+                    <div class="w-[40px]">
+                        <img src="https://avatars.githubusercontent.com/u/111101485?v=4" alt="" class="w-full rounded-[50%]">
+
+                    </div>
+                    <div>
+                        <h1 class="font-semibold text-violet-700 text-l">
+                            ${data[i].name}
+                        </h1>
+                        <h1 class="text-[10px] text-slate-500">${data[i].username}</h1>
+                    </div>
+                </div></a>
+                    `
+                    
+                }
+
+                // document.getElementById("sellers-div").innerHTML = relatedUsers
+            })
+
+            axios.get("/posts")
+            .then((res)=>{
+                let data = res.data
+                 let   postdiv = ''
+                for (let i = 0; i < data.length; i++) {
+                   
+                    postdiv +=`
+                    <a href="post/${data[i]._id}">
+            <div class="max-w-[200px] bg-white hover:shadow-[0px_0px_5px_#918787]">
+                <div class="w-full h-[200px] flex justify-center items-center shadow rounded">
+                    <img class="w-full" src="${data[i].image}" alt=""></div>
+                <h1 class="p-3">
+                    <p class="text-[17px] max-h-[100px] overflow-hidden">${data[i].heading}</p>
+                    <p class="mt-1 text-violet-700 text-xl tracking-[-0.02rem] font-[600]">${data[i].price}</p>
+                    <p class="text-sm text-violet-700">20% off</p>
+                    <p class="text-slate-500 text-sm">by~${data[i].username}</p>
+                </h1>
+                
+            </div>
+        </a>
+    `
+                    
+                }
+
+                document.getElementById("latest-post-div").innerHTML = postdiv
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        })
+    </script>
+   
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home|HM sale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="bg-[#f2f2f2]">
+    <nav class="flex items-center justify-between py-5 px-8">
+        <div class="flex">
+            <h1 class="text-2xl font-bold text-orange">LOGO</h1>
+        </div>
+      <div class="flex max-w-[600px] w-full items-center justify-between pr-[50px]">
+        <ul class="flex items-center gap-[20px]">
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">Latest</li>
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">TOP</li>
+            <li class="hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700" id="logoutbtn"><a href=""id="logoutbtn">LOGOUT</a></li>
+        </ul>
+        <div class="flex items-center gap-1 hover:text-violet-700 cursor hover:border-b-[2px] hover:border-voilet-700">
+            <a id="userIdLink" href="">
+                <i class="fa fa-user"></i>
+            <h1 id="displayUserName" class="font-semibold  text-[17px]">
+                USERNAME
+            </h1>
+            </a>
+        </div>
+      </div>
+    </nav>
+
+   <div class="flex justify-center px-[7%] flex-col">
+    <h1 class=" text-3xl tracking-[-0.02rem] text-slate-500 my-2 font-bold border-b-[10px] border-l-[10px] border-violet-500 w-[200px] pl-2 pb-2">For You</h1>
+    <div class="flex flex-wrap gap-[10px] justify-center" id="latest-post-div">
+        <a href="">
+            <div class="max-w-[200px] bg-white hover:shadow-[0px_0px_5px_#918787]">
+                <div class="w-full h-[200px] flex justify-center items-center shadow rounded">
+                    <img class="w-full" src="https://static-01.daraz.pk/p/4eef86f0ecab0809bfcc9e46e54e45b7.jpg_200x200q80-product.jpg_.webp" alt=""></div>
+                <h1 class="p-3">
+                    <p class="text-[17px] ">Stylish leadher wallet for men</p>
+                    <p class="mt-1 text-violet-700 text-xl tracking-[-0.02rem] font-[600]">RS.200</p>
+                    <p class="text-sm text-violet-700">20% off</p>
+                    <p class="text-slate-500 text-sm">by~MuhammadHamd</p>
+                </h1>
+                
+            </div>
+        </a>
+    
+
+    </div>
+   </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.js"></script>
+    <script src="./js/currentuser.js"></script>
+    <script>
+
+    
+        document.getElementById('logoutbtn').addEventListener("click",(e)=>{
+            // e.preventDefault()
+
+            axios.post("/logout")
+            .then((res)=>{
+                console.log(res.data)
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        })
+
+        document.addEventListener("DOMContentLoaded",(e)=>{
+
+            axios.get("/users")
+            .then((res)=>{
+                let relatedUsers;
+                let data = res.data
+                for (let i = 0; i < 3; i++) {
+                    relatedUsers +=`
+                   <a href="/account/${data[i]._id} "> <div class="py-3 rounded bg-white shadow flex items-center py-2 px-3 gap-2">
+                    <div class="w-[40px]">
+                        <img src="https://avatars.githubusercontent.com/u/111101485?v=4" alt="" class="w-full rounded-[50%]">
+
+                    </div>
+                    <div>
+                        <h1 class="font-semibold text-violet-700 text-l">
+                            ${data[i].name}
+                        </h1>
+                        <h1 class="text-[10px] text-slate-500">${data[i].username}</h1>
+                    </div>
+                </div></a>
+                    `
+                    
+                }
+
+                // document.getElementById("sellers-div").innerHTML = relatedUsers
+            })
+
+            axios.get("/posts")
+            .then((res)=>{
+                let data = res.data
+                 let   postdiv = ''
+                for (let i = 0; i < data.length; i++) {
+                   
+                    postdiv +=`
+                    <a href="post/${data[i]._id}">
+            <div class="max-w-[200px] bg-white hover:shadow-[0px_0px_5px_#918787]">
+                <div class="w-full h-[200px] flex justify-center items-center shadow rounded">
+                    <img class="w-full" src="${data[i].image}" alt=""></div>
+                <h1 class="p-3">
+                    <p class="text-[17px] max-h-[100px] overflow-hidden">${data[i].heading}</p>
+                    <p class="mt-1 text-violet-700 text-xl tracking-[-0.02rem] font-[600]">${data[i].price}</p>
+                    <p class="text-sm text-violet-700">20% off</p>
+                    <p class="text-slate-500 text-sm">by~${data[i].username}</p>
+                </h1>
+                
+            </div>
+        </a>
+    `
+                    
+                }
+
+                document.getElementById("latest-post-div").innerHTML = postdiv
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        })
+    </script>
+   
+</body>
+>>>>>>> 7613f9e1373f74b20c6c695803581ef3fb90f55e
+</html>

@@ -1,35 +1,55 @@
 import express from "express"
-const app = express()
-import mongoose from "mongoose"
 import path from "path"
+// import cors from "cors"
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import mongoose from "mongoose"
+import cookieParser from 'cookie-parser'
+const app = express()
 const __dirname = path.resolve()
+const mongodbURI =  process.env.mongodbURI || "mongodb+srv://muhammadhamdali572:hamdali99332@cluster0.g7j5dka.mongodb.net/userdatabase?retryWrites=true&w=majority";
 import cors from "cors"
-import cookieParser from "cookie-parser"
-import v1router from "./v1/index.mjs"
-const mongodbURI =  process.env.mongodbURI || "mongodb+srv://muhammadhamdali572:hamdali99332@cluster0.g7j5dka.mongodb.net/Portfolio?retryWrites=true&w=majority";
+const SECRET = process.env.SECRET || "topsecret";
+import authrouter from "./v1/routes/auth.mjs"
+import apiv1 from "./v1/index.mjs"
+
 app.use(express.json())
 app.use(cookieParser());
-app.use(cors(
-    {
-        origin: ['http://localhost:3000', "*"],
+app.use(cors({
+    origin: ['http://localhost:3000', "*"],
     credentials: true
-}
-));
-// app.use((req,res,next)=>{
-//     console.log("token founded",req.cookies.Token)
-//     next(); 
-// })
-// app.use(reactDOm)
-app.use(v1router)
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build'));
-});
-const PORT = process.env.PORT || 5000
-app.listen(PORT, console.log(PORT))
+}));
 
 
+app.use(apiv1)
+function authenticateUser(req, res, next) {
+    const token = req.cookies.Token; // Assuming you store the token in a cookie
+    if (token) {
+      // Verify and decode the token here (use your actual logic)
+      // For example, you can use the 'jsonwebtoken' library
+      const decodedData = jwt.verify(token, SECRET);
+  
+      if (decodedData) {
+        // If the token is valid, set the user data in the request object
+        req.body.decodedData = decodedData;
+      }
+    }
+    next();
+  }
+
+app.use(express.static(path.join(__dirname, 'client/build')))
+app.get(express.static(path.join(__dirname, 'client/build')))
+app.use("*", express.static(path.join(__dirname, 'client/build')))
+
+
+
+
+
+
+const PORT = process.env.PORT || 2344
+app.listen(PORT,()=>{
+    console.log(PORT)
+})
 mongoose.connect(mongodbURI);
 
 ////////////////mongodb connected disconnected events///////////////////////////////////////////////

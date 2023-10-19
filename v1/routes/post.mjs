@@ -65,6 +65,8 @@ router.get("/posts",async(req ,res)=>{
 router.get('/post/:postId', async (req, res) => {
 
     const postID = req.params.postId
+    console.log(postID)
+
     const data = await col.findOne(
         { 
             _id: new ObjectId(postID) } // ObjectId as a string
