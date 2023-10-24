@@ -76,7 +76,7 @@ const  {postId}  = useParams();
 useEffect(()=>{
   setIsLoading(true)
 
-  axios.get(`http://localhost:2344/post/${postId}` ,{withCredentials:true})
+  axios.get(`/post/${postId}` ,{withCredentials:true})
            
   .then((res)=>{
       setdata(res.data)

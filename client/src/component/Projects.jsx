@@ -18,7 +18,7 @@ function Project({theme}){
       }, [arrayProjectData]);
   
       useEffect(()=>{
-        axios.get(`http://localhost:2344/api/projects`)
+        axios.get(`/api/projects`)
         .then((res)=>{
           setArrayProjectData(res.data)
           console.log(res.data)

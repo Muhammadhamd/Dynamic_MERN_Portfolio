@@ -186,7 +186,7 @@ axios.put(`/userinfo`,{
         </div>
         
       }
-        <h1 className={`text-[45px] md:text-[65px] ${theme? 'text-[#ccc]' : 'text-[#2E2D2D]'} font-extrabold tracking-[-0.16rem] leading-[90%]`}
+        <h1 className={`text-[45px] md:text-[65px] ${theme? 'text-[#ccc]' : 'text-[#2E2D2D]'} font-bold tracking-[-0.16rem] leading-[90%]`}
         
         >{name ||<div className='my-[10px] animate-pulse flex space-x-4'>
         <div class="rounded-full bg-slate-200 py-4  max-[400px]:w-[300px] max-[300px]:w-[240px] w-[400px]"></div>

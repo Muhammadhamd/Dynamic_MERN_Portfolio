@@ -8,6 +8,7 @@ import PopUpMessage from './heading';
 function ArticlesPage({theme}){
  const [articleArray , setArticlearray] = useState([])
  const [rerender , setrerender] = useState(false)
+ const [loading , setloading] = useState(true)
 // const SearchHandler = (e) => {
 //   e.preventDefault();
   
@@ -71,12 +72,15 @@ function ArticlesPage({theme}){
   }
 const renterArticles = async()=>{
   try {
-    const res = await axios.get("http://localhost:2344/posts" ,{withCredentials:true})
+    const res = await axios.get("/posts" ,{withCredentials:true})
   
     setArticlearray(res.data)
     setrerender(true)
+    setloading(false)
   } catch (error) {
     console.log(error)
+    setloading(false)
+
   }
  
 }
@@ -93,12 +97,17 @@ useEffect(()=>{
       <div className={`${theme ? ' bg-gray-900' : 'bg-[#f5f7f9]'}   py-[50px]`}>
 
       <div className='mt-[120px] ml-8 '>
-        <div className='flex'>
+        {
+          loading ? 
+          <div className='flex jsutify-center items-center h-[100vh] w-full'>
+            <LoadingComponent isLoading={loading} />
+          </div>
+         :
+         <>
+         <div className='flex'>
         <PopUpMessage message="Coding Articles" theme={theme} />
         </div>
-      {/* <h1 className={`mx-4 text-3xl font-extrabold  md:text-4xl md:text-left md:ml-11 ${theme ?'text-gray-200':'text-gray-800'}`}>
-   
-        </h1> */}
+      
         <div className='flex flex-col items-left gap-[20px] max-w-[950px] w-full mt-[30px]'>
           {articleArray.map((data , index)=>(
             <div key={index} className={`px-6 md:px-10 py-8  rounded-lg shadow-mdd max-w-[820px] w-full ${theme? 'bg-slate-700' : 'bg-white'}`}>
@@ -129,6 +138,9 @@ useEffect(()=>{
         
         
         </div>
+         </> 
+        }
+        
       </div>
 
       </div>
