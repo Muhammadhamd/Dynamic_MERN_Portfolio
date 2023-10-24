@@ -10,9 +10,31 @@ const SECRET = process.env.SECRET || "topsecret";
 import {client} from "../../mongodb.mjs"
 import { ObjectId } from "mongodb"
 const db = client.db("Portfolio");
-const col = db.collection("admins")
+const admincol = db.collection("admins")
 
 
+ function authenticateAdmin(req, res, next) {
+  const token = req.cookies.AdminToken; // Assuming you store the token in a cookie
+  console.log("token here ahha",token)
+  if (token) {
+    // Verify and decode the token here (use your actual logic)
+    // For example, you can use the 'jsonwebtoken' library
+    const decodedData = jwt.verify(token, SECRET);
+
+    if (decodedData.exp > Date.now()) {
+      // If the token is valid, set the user data in the request object
+      res.cookie('AdminToken', '', {
+          maxAge: 1,
+          httpOnly: true,
+        })
+      
+    }else{
+      req.body.decodedData = decodedData;
+      console.log(decodedData)
+      next()
+    }
+  }
+}
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -22,7 +44,7 @@ router.post("/login", async (req, res) => {
       
 
     try {
-      const data = await col.findOne(
+      const data = await admincol.findOne(
         { email: email  },
         "email password"
       );
@@ -42,11 +64,12 @@ router.post("/login", async (req, res) => {
           email: data.email,
           iat: Math.floor(Date.now() / 1000) - 30,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+          isAdmin:true
       }, SECRET);
 
       // res.send(token);
 
-      res.cookie('Token', token, {
+      res.cookie('AdminToken', token, {
           maxAge: 86_400_000,
           httpOnly: true,
           // sameSite: true,
@@ -54,7 +77,14 @@ router.post("/login", async (req, res) => {
       });
       // Cookies.set("username", "john", { expires: 7, path: "/" });
         // console.log(req.cookies.Token)
-        res.send("Login successful");
+        res.send({
+          message:'login sucessfully',
+          data:{
+            email: data.email,
+            _id:data._id,
+            isAdmin:true
+          }
+        });
         return
       } else {
         console.log("Password did not match");
@@ -66,25 +96,78 @@ router.post("/login", async (req, res) => {
     }
   });
   
-  router.get("/logout",(req, res) => {
+  router.get("/Admin-logout",(req, res) => {
 
-    res.cookie('Token', '', {
+    res.cookie('AdminToken', '', {
          maxAge: 1,
          httpOnly: true
      });
  
      res.send("Logout successful" );
-     console.log(req.cookies)
+     console.log(req.cookies.AnToken)
  })
-  router.get("/token",(req,res)=>{
 
-  if(req?.cookies?.Token){
-   
-    res.send({Tokenis:true}) 
-    return
-  }
+  router.get("/getToken",(req,res)=>{
+    console.log(req.cookies.AdminToken)
+    if(!req?.cookies?.AdminToken){
+      res.status(401).send("not login login first")
+      return
+    }
+
+   try {
+    if(req.cookies.AdminToken){
+      const decodedData = jwt.verify(req.cookies.AdminToken, SECRET);
+
+      if (decodedData.exp > Date.now()) {
+        // If the token is valid, set the user data in the request object
+        res.cookie('AdminToken', '', {
+            maxAge: 1,
+            httpOnly: true,
+          })
+        
+      }else{
+        req.body.decodedData = decodedData;
+        res.send({
+          data:{
+  
+          name:decodedData.name,
+          email:decodedData.email,
+          _id:decodedData._id,
+          isAdmin:decodedData.isAdmin
+        }
+        })
+        return
+      }
+    }else if(req.cookies.Token){
+      const decodedData = jwt.verify(req.cookies.Token, SECRET);
+      if (decodedData.exp > Date.now()) {
+        // If the token is valid, set the user data in the request object
+        res.cookie('Token', '', {
+            maxAge: 1,
+            httpOnly: true,
+          })
+        
+      }else{
+        res.send({
+          data:{
+  
+          name:decodedData.name,
+          email:decodedData.email,
+          _id:decodedData._id,
+          isAdmin:decodedData.isAdmin
+        }
+        })
+      }
      
-     res.send({Tokenis:false})
+    }
+    
+      
+   } catch (error) {
+    res.status(500).send('internal error')
+   }
+
+
+     
   })
 
   export default router

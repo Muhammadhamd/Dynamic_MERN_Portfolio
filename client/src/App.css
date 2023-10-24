@@ -1,0 +1,51 @@
+.service-div{
+  background-image: url('./img/h2-bg-section-02.webp');
+  background-repeat: no-repeat;
+    background-size: 150%;
+    background-position-x: -316px;
+}
+.experinceimage{
+  background-image: url('./img/testomonal.jpg');
+  background-repeat: no-repeat;
+    background-size:cover;
+
+    
+}
+
+.projectbg{
+  background-image: url('./img/Rectangle\ 94.jpg');
+ 
+  background-position-x: 743px;
+  background-repeat: no-repeat;
+  /* border: 6px solid #BC7AFF; */
+  
+}
+
+.contact-each-box:hover{
+  color: white;
+  background-color: #5333F2;
+  transition: all .4s;
+}
+.contact-each-box{
+  transition: all .4s;
+}
+.contact-each-box:hover h1 ,.contact-each-box:hover  i{
+  color: white;
+}
+
+.spin{
+  animation: spin 1.4s ease-in infinite;
+}
+
+@keyframes spin{
+
+  0%{
+    rotate: 0deg;
+  }
+  50%{
+    rotate: 180deg;
+  }
+  100%{
+    rotate:0deg;
+  }
+}
