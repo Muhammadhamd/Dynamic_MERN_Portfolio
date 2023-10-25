@@ -31,7 +31,7 @@ function App() {
   
   const loginHandler = async()=>{
     try {
-      const res = await axios.get("http://localhost:2344/getToken",
+      const res = await axios.get("/getToken",
       {withCredentials: true,
       })
       console.log(res)
