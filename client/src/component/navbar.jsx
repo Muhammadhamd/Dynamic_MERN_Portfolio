@@ -81,7 +81,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
 
   
   </i></button></li>
-<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>ABOUR</Link></li>
+<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>ABOUT</Link></li>
 <li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>CONTACT</Link></li>
 { islogin ?
   (<>
@@ -118,6 +118,10 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
          setisResponsiveNavOpen(false)
         }}
         ></i></div>
+        <li><button className='rounded-full w-[50px] h-[50px] p-[10px] flex justify-center items-center overflow-hidden bg-[##0000ff38]'
+  onClick={themeHandler}
+
+  ></button></li>
         <li className='max-[600px]:block hidden'><Link to='/Store/Women'>Projects</Link></li>
                 <li className='max-[650px]:block hidden'><Link to='/article' >Articles</Link></li>
                 <li className='max-[700px]:block hidden'><Link to='/notes'>Notes</Link></li>
