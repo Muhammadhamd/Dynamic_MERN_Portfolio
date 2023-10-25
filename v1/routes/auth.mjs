@@ -10,7 +10,7 @@ const SECRET = process.env.SECRET || "topsecret";
 import {client} from "../../mongodb.mjs"
 import { ObjectId } from "mongodb"
 const db = client.db("Portfolio");
-const admincol = db.collection("admin")
+const admincol = db.collection("admins")
 
 
  function authenticateAdmin(req, res, next) {
