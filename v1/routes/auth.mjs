@@ -44,49 +44,48 @@ router.post("/login", async (req, res) => {
       
 
     try {
-      const data = await admincol.find({}).toArray();
-    res.send({name:'hahaha',data:data})
-    //   if (!data) {
-    //     console.log("User not found");
-    //     return res.status(401).send( "Incorrect email or password" );
-    //   }
+      const data = await admincol.findOne({email:email});
+      if (!data) {
+        console.log("User not found");
+        return res.status(401).send( "Incorrect email or password" );
+      }
   
-    //   const isMatch = await bcrypt.compare(password, data.password);
+      const isMatch = await bcrypt.compare(password, data.password);
   
-    //   if (isMatch) {
-    //     console.log("Password matches");
+      if (isMatch) {
+        console.log("Password matches");
   
-    //     const token = jwt.sign({
-    //       _id: data._id,
-    //       email: data.email,
-    //       iat: Math.floor(Date.now() / 1000) - 30,
-    //       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-    //       isAdmin:true
-    //   }, SECRET);
+        const token = jwt.sign({
+          _id: data._id,
+          email: data.email,
+          iat: Math.floor(Date.now() / 1000) - 30,
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+          isAdmin:true
+      }, SECRET);
 
-    //   // res.send(token);
+      // res.send(token);
 
-    //   res.cookie('AdminToken', token, {
-    //       maxAge: 86_400_000,
-    //       httpOnly: true,
-    //       // sameSite: true,
-    //       // secure: true
-    //   });
-    //   // Cookies.set("username", "john", { expires: 7, path: "/" });
-    //     // console.log(req.cookies.Token)
-    //     res.send({
-    //       message:'login sucessfully',
-    //       data:{
-    //         email: data.email,
-    //         _id:data._id,
-    //         isAdmin:true
-    //       }
-    //     });
-    //     return
-    //   } else {
-    //     console.log("Password did not match");
-    //     return res.status(401).send("Incorrect password" );
-    //   }
+      res.cookie('AdminToken', token, {
+          maxAge: 86_400_000,
+          httpOnly: true,
+          // sameSite: true,
+          // secure: true
+      });
+      // Cookies.set("username", "john", { expires: 7, path: "/" });
+        // console.log(req.cookies.Token)
+        res.send({
+          message:'login sucessfully',
+          data:{
+            email: data.email,
+            _id:data._id,
+            isAdmin:true
+          }
+        });
+        return
+      } else {
+        console.log("Password did not match");
+        return res.status(401).send("Incorrect password" );
+      }
     } catch (err) {
       console.log("DB error:", err);
       res.status(500).send( "Login failed, please try later" );
