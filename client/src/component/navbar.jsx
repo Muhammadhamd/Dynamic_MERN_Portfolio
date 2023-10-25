@@ -1,38 +1,36 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { Link } from 'react-router-dom';
 import logo from "../img/image 1.jpg"
-
+import {GlobalContext}from '../context/context'
 import axios from 'axios';
 
 import css from "../css/Navcomponent.css"
 function Navcomponent({islogin , img  ,changeCss , theme}) {
-
+ const {state , dispatch}= useContext(GlobalContext)
   const [isResponsiveNavOpen ,setisResponsiveNavOpen] =useState(false)
-  // const [isLogin , setIslogin] = useState(false)
-// const userlogincheckhnadler = async() =>{
 
-//   try {
-//     const res = await axios.get("http://localhost:2344/currentuser",{
-//       withCredentials: true,
-//     })
-//     .then((res)=>{
-//       setIslogin(true)
-//     })
-//     .catch((e)=>{
-//       console.log(e)
-//     })
-//     console.log(res)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-// useEffect(()=>{
-//   userlogincheckhnadler()
-// },[isLogin])
   changeCss = true
+
   const navbarRef = useRef();
   const [scrolled , setScrolled] = useState()
+ const logoutHandler = async(e)=>{
+  try {
+   const res =await axios.get("user-logout")
+   dispatch({
+    tupe:'USER_LOGOUT'
+   })
+   
+  } catch (error) {console.log(error)
+    
+  }
+ }
+  const themeHandler = (e)=>{
+    e.preventDefault()
+    dispatch({
+      type: "CHANGE_THEME",
+      
+    });
+  }
   useEffect(() => {
 
     const handleScroll = () => {
@@ -76,18 +74,18 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
         <div className='leftul'>
 <ul className='flex items-center gap-[30px]  text-[18px]'>
   <li><button className='rounded-full w-[50px] h-[50px] p-[10px] flex justify-center items-center overflow-hidden bg-[##0000ff38]'
-  // onClick={()=>{cons0ole.log(hello)}}
+  onClick={themeHandler}
 
   >
   <i className='bi bi-moon'>
 
   
   </i></button></li>
-<li className=''><Link to='/About' className='hover:text-violet-500 font-[600]'>ABOUR</Link></li>
-<li className=''><Link to='/contact' className='hover:text-violet-500 font-[600]'>CONTACT</Link></li>
+<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>ABOUR</Link></li>
+<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>CONTACT</Link></li>
 { islogin ?
   (<>
-  <li className='text-[20px]'><Link to='/cart' className='hover:text-violet-500'><i className='fa fa-cart-plus'></i></Link></li>
+  <li className='text-[20px]'><button onClick={logoutHandler}>Logout</button></li>
   {/* <Link to='/profile'>
   <div className='w-[70px] h-[70px] overflow-hidden rounded-full'>
   <img src={img || imgholder} className='' alt="" />
@@ -121,14 +119,14 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
         }}
         ></i></div>
         <li className='max-[600px]:block hidden'><Link to='/Store/Women'>Projects</Link></li>
-                <li className='max-[650px]:block hidden'><Link to='/Store/Men' >Articles</Link></li>
-                <li className='max-[700px]:block hidden'><Link to='/Store/Children'>Notes</Link></li>
-                <li className='max-[700px]:block hidden'><Link to='/Store/Children'>Hire Me</Link></li>
-<li className=''><Link>ABOUR</Link></li>
+                <li className='max-[650px]:block hidden'><Link to='/article' >Articles</Link></li>
+                <li className='max-[700px]:block hidden'><Link to='/notes'>Notes</Link></li>
+                <li className='max-[700px]:block hidden'><Link to='/hire-me'>Hire Me</Link></li>
+<li className=''><Link>ABOUT</Link></li>
 <li className=''><Link>CONTACT</Link></li>
 { islogin ?
   (<>
-  <li className='text-[20px]'><Link to='/cart'><i className='fa fa-cart-plus'></i></Link></li>
+  <button onClick={logoutHandler}>Logout</button>
  
   </>)
 :

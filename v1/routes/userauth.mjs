@@ -10,12 +10,11 @@ const SECRET = process.env.SECRET || "topsecret";
 import {client} from "../../mongodb.mjs"
 import { ObjectId } from "mongodb"
 const db = client.db("Portfolio");
-const admincol = db.collection("user")
-
+const admincol = db.collection("admins")
+import multer from 'multer'
 
  function authenticateAdmin(req, res, next) {
-  const token = req.cookies.AdminToken; // Assuming you store the token in a cookie
-  console.log("token here ahha",token)
+  const token = req.cookies.Token; // Assuming you store the token in a cookie
   if (token) {
     // Verify and decode the token here (use your actual logic)
     // For example, you can use the 'jsonwebtoken' library
@@ -23,7 +22,7 @@ const admincol = db.collection("user")
 
     if (decodedData.exp > Date.now()) {
       // If the token is valid, set the user data in the request object
-      res.cookie('AdminToken', '', {
+      res.cookie('Token', '', {
           maxAge: 1,
           httpOnly: true,
         })
@@ -36,7 +35,7 @@ const admincol = db.collection("user")
   }
 }
 
-router.post("/login", async (req, res) => {
+router.post("/userlogin", async (req, res) => {
     const { email, password } = req.body;
   
     // const hashedPassword = await bcrypt.hash(password, 10)
@@ -62,14 +61,15 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({
           _id: data._id,
           email: data.email,
+          name: data.name,
           iat: Math.floor(Date.now() / 1000) - 30,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-          isAdmin:true
+          isAdmin:false
       }, SECRET);
 
       // res.send(token);
 
-      res.cookie('AdminToken', token, {
+      res.cookie('Token', token, {
           maxAge: 86_400_000,
           httpOnly: true,
           // sameSite: true,
@@ -81,8 +81,9 @@ router.post("/login", async (req, res) => {
           message:'login sucessfully',
           data:{
             email: data.email,
+            name: data.name,
             _id:data._id,
-            isAdmin:true
+            isAdmin:false
           }
         });
         return
@@ -95,11 +96,60 @@ router.post("/login", async (req, res) => {
       res.status(500).send( "Login failed, please try later" );
     }
   });
- 
+  router.post('/userregister',async (req, res) => {
+    const { password, email, name } = req.body;
+    if (!password || !email || !name) {
+      return res.status(400).send('Required fields are missing.');
+    }
   
-  router.get("/Admin-logout",authenticateAdmin,(req, res) => {
+    try {
+  
+  
+      
+            
+  
+      const user = await admincol.findOne({ email });
+      if (user) {
+        return res.status(400).send('User already exists. Please use a different email.');
+      } else {
+       
+  
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const data = await admincol.insertOne({
+          name,
+          email,
+          password: hashedPassword,
+        });
+        console.log(data.email)
+        // const token = jwt.sign({
+        //   _id: data._id,
+        //   email: data.email,
+        //   name:data.name,
+        //   image:data.profileImage,
+        //   iat: Date.now() / 1000 - 30,
+        //   exp: Date.now() / 1000 + (60 * 60 * 48),
+        // }, SECRET);
+  
+        // res.cookie('Token', token, {
+        //   maxAge: 86_400_000,
+        //   httpOnly: true,
+        // });
+  
+        res.send({
+          message:'user logedin',
+          data:{
+            fgss:"hewr"
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error during user registration:', error);
+      res.status(500).json({ error: 'Failed to register user.' });
+    }
+  });
+  router.get("/user-logout",authenticateAdmin,(req, res) => {
 
-    res.cookie('AdminToken', '', {
+    res.cookie('Token', '', {
          maxAge: 1,
          httpOnly: true
      });
@@ -108,66 +158,6 @@ router.post("/login", async (req, res) => {
      console.log(req.cookies.AnToken)
  })
 
-  router.get("/getToken",(req,res)=>{
-    console.log(req.cookies.AdminToken)
-    
 
-   try {
-    if(req?.cookies?.AdminToken){
-      const decodedData = jwt.verify(req.cookies.AdminToken, SECRET);
-
-      if (decodedData.exp > Date.now()) {
-        // If the token is valid, set the user data in the request object
-        res.cookie('AdminToken', '', {
-            maxAge: 1,
-            httpOnly: true,
-          })
-        
-      }else{
-        req.body.decodedData = decodedData;
-        res.send({
-          data:{
-  
-          name:decodedData.name,
-          email:decodedData.email,
-          _id:decodedData._id,
-          isAdmin:decodedData.isAdmin
-        }
-        })
-        return
-      }
-    }else if(req.cookies.Token){
-      const decodedData = jwt.verify(req.cookies.Token, SECRET);
-      if (decodedData.exp > Date.now()) {
-        // If the token is valid, set the user data in the request object
-        res.cookie('Token', '', {
-            maxAge: 1,
-            httpOnly: true,
-          })
-        
-      }else{
-        res.send({
-          data:{
-  
-          name:decodedData.name,
-          email:decodedData.email,
-          _id:decodedData._id,
-          isAdmin:decodedData.isAdmin
-        }
-        })
-      }
-     
-    }else{
-      res.status(401).send("not login haha")
-    }
-    
-      
-   } catch (error) {
-    res.status(500).send('internal error')
-   }
-
-
-     
-  })
 
   export default router

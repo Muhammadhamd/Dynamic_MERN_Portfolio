@@ -52,7 +52,7 @@ function App() {
   },[])
 
   useEffect(()=>{
-    setTheme(state.darkTheme)
+           
   },[])
   // Other code...
   console.log(state.role , state.isLogin)
@@ -61,14 +61,14 @@ function App() {
       {/* Render your components with the theme and login props */}
       {state.isLogin === true && state.role === "admin" ? (
         <>
-          <Navcomponent theme={theme} islogin={true} />
+          <Navcomponent theme={state.darkTheme} islogin={true} />
           <Routes>
-            <Route exact path="/" element={<Home theme={theme} />} />
+            <Route exact path="/" element={<Home theme={state.darkTheme} />} />
             <Route exact path="/dashboard" element={<Dashboard  />} />
-          <Route exact path="/work" element={<Project theme={theme} />} />
+          <Route exact path="/work" element={<Project theme={state.darkTheme} />} />
 
-            <Route exact path="/article/:postId" element={<PostPage theme={theme} />} />
-            <Route exact path="/article" element={<ArticlesPage theme={theme} />} />
+            <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
+            <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
             <Route path="*" element={<Navigate to="/" replace={true} />} />
           </Routes>
         </>
@@ -76,14 +76,14 @@ function App() {
       
       {state.isLogin === true && state.role === "user" ? (
         <>
-          <Navcomponent theme={theme} islogin={true} />
+          <Navcomponent theme={state.darkTheme} islogin={true} />
           <Routes>
-            <Route exact path="/" element={<Home theme={theme} />} />
-          <Route exact path="/work" element={<Project theme={theme} />} />
+            <Route exact path="/" element={<Home theme={state.darkTheme} />} />
+          <Route exact path="/work" element={<Project theme={state.darkTheme} />} />
 
             <Route exact path="/admin-login" element={<Adminlogin  />} />
-            <Route exact path="/article/:postId" element={<PostPage theme={theme} />} />
-            <Route exact path="/article" element={<ArticlesPage theme={theme} />} />
+            <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
+            <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
             <Route path="*" element={<Navigate to="/" replace={true} />} />
 
           </Routes>
@@ -91,15 +91,15 @@ function App() {
       ):null}
       {state.isLogin === false?(
         <>
-        <Navcomponent theme={theme} islogin={false} />
+        <Navcomponent theme={state.darkTheme} islogin={false} />
         <Routes>
-          <Route exact path="/" element={<Home theme={theme} />} />
-          <Route exact path="/work" element={<Project theme={theme} />} />
-          <Route exact path="/Login" element={<UserLogin theme={theme} />} />
-          <Route exact path="/register" element={<UserRegister theme={theme} />} />
-          <Route exact path="/admin-login" element={<Adminlogin theme={theme} />} />
-          <Route exact path="/article/:postId" element={<PostPage theme={theme} />} />
-          <Route exact path="/article" element={<ArticlesPage theme={theme} />} />
+          <Route exact path="/" element={<Home theme={state.darkTheme} />} />
+          <Route exact path="/work" element={<Project theme={state.darkTheme} />} />
+          <Route exact path="/Login" element={<UserLogin theme={state.darkTheme} />} />
+          <Route exact path="/register" element={<UserRegister theme={state.darkTheme} />} />
+          <Route exact path="/admin-login" element={<Adminlogin theme={state.darkTheme} />} />
+          <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
+          <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
       </>

@@ -29,6 +29,10 @@ function UserLogin(){
           )
           .then((res)=>{
             console.log(res)
+            dispatch({
+              type: "USER_LOGIN",
+              payload: res.data.data,
+            });
             history("/")
 
           })

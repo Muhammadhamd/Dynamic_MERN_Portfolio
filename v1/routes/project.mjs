@@ -92,7 +92,7 @@ router.delete("/project/:postid",async(req,res)=>{
 })
 
   function authenticateUser(req, res, next) {
-        const token = req.cookies.AdminToken; // Assuming you store the token in a cookie
+        const token = req.cookies.Token; // Assuming you store the token in a cookie
         console.log("token here ahha",token)
         if (token) {
           // Verify and decode the token here (use your actual logic)
@@ -101,7 +101,7 @@ router.delete("/project/:postid",async(req,res)=>{
       
           if (decodedData.exp > Date.now()) {
             // If the token is valid, set the user data in the request object
-            res.cookie('AdminToken', '', {
+            res.cookie('Token', '', {
                 maxAge: 1,
                 httpOnly: true,
               });

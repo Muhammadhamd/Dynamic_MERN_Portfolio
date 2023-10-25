@@ -5,11 +5,11 @@ import axios from 'axios'
     import {useNavigate} from "react-router-dom"
 
 function UserRegister(){
-    const [image , setdpimage] = useState(defaultImg)
+ 
     const passwordref = useRef(null)
     const emailref = useRef(null)
     const nameref = useRef(null)
-    const [img , setImg] = useState()
+    
     const navigate =  useNavigate()
     const submitHandler = async(e)=>{
         e.preventDefault();
@@ -17,13 +17,15 @@ console.log('eee')
         try {
 
           const formdata = new FormData()
-           formdata.append('email', emailref.current.value);
-              formdata.append('password', passwordref.current.value);
-              formdata.append('name', nameref.current.value);
-              formdata.append('ProfileImage',img);
+           
+           
           const response = await axios.post(
             '/userregister',
-              formdata,
+              {
+              email: emailref.current.value,
+              password: passwordref.current.value,
+              name: nameref.current.value,
+              },
             
             {
               withCredentials: true, // Use withCredentials instead of withCredential
@@ -44,29 +46,22 @@ console.log('eee')
           console.error(error);
         }
       };
-      useEffect(()=>{
-        console.log(img)
-      },[img])
+      
     return(
         <>
-        <Navcomponent changeCss={true}/>
+        
         <div className='w-full flex flex-col items-center'>
         <h1 className='font-bold text-6xl my-[20px]'>Register</h1>
 
             <form onSubmit={submitHandler} className='max-w-[600px] w-full  shadow p-[20px]'>
-                <div className='flex justify-center h-[80px] my-[10px] w-[80px]'>
-                    <img className='overflow-hidden rounded-full w-full' src={image} alt=""onClick={(e)=>{
-                      document.getElementById("inputimage").click()
-}} />
-                    <input type="file" id='inputimage' hidden onChange={(e)=>{
-                      setdpimage(URL.createObjectURL(e.target.files[0]))
-                      setImg(e.target.files[0])
-                    }
-
-                    }
+               
                     
-                     />
-                </div>
+                   
+
+                    
+                    
+                     
+               
                 <input type="text"  className='px-4 py-3 rounded border w-full my-[7px] '
                 
                 ref={nameref}
