@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
 
     try {
       const data = await admincol.find({}).toArray();
-    res.send(data)
+    res.send({name:'hahaha',data:data})
     //   if (!data) {
     //     console.log("User not found");
     //     return res.status(401).send( "Incorrect email or password" );
