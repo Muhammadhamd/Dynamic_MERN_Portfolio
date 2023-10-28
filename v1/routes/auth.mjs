@@ -132,7 +132,7 @@ router.post("/login", async (req, res) => {
         })
         return
       }
-    }else if(req.cookies.Token){
+    }else if(req?.cookies?.Token){
       const decodedData = jwt.verify(req.cookies.Token, SECRET);
       if (decodedData.exp > Date.now()) {
         // If the token is valid, set the user data in the request object

@@ -11,6 +11,7 @@ import {GlobalContext} from  './context/context'
 import UserLogin from "./component/login";
 import UserRegister from "./component/register";
 import Project from "./component/Projects";
+import About from "./component/about";
 function App() {
   const { state, dispatch } = useContext(GlobalContext);
 
@@ -100,6 +101,7 @@ function App() {
           <Route exact path="/admin-login" element={<Adminlogin theme={state.darkTheme} />} />
           <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
           <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
+          <Route exact path="/Hire-me" element={<About theme={state.darkTheme} />} />
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
       </>

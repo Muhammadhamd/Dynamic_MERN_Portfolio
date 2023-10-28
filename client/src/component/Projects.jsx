@@ -106,18 +106,23 @@ function Project({theme}){
 
 function ProjectItem({ data, theme }) {
   const { state, dispatch } = useContext(GlobalContext);
-
+  const [likes ,setLikes]= useState(data?.likes?.length)
   const [lovebtn, setLoveBtn] = useState(
     data?.likes?.some((id) => id.AuthorId === state.user._id) ? 'fa-heart' : 'fa-heart-o'
   );
 
   const LikeProjectHandler = async () => {
+    setLoveBtn(lovebtn === "fa-heart" ? "fa-heart-o" : "fa-heart")
+    setLoveBtn(lovebtn === "fa-heart" ? setLikes(data?.likes.length - 1) : setLikes(data?.likes.length + 1))
     try {
       const res = await axios.post(`http://localhost:2344/api/project-like/${data._id}`);
       if (res.data.Added) {
         setLoveBtn('fa-heart');
+    setLoveBtn(setLikes(data?.likes?.length + 1))
       } else {
         setLoveBtn('fa-heart-o');
+    setLoveBtn(setLikes(data?.likes?.length - 1))
+
       }
     } catch (error) {
       console.log(error);

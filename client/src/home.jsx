@@ -243,13 +243,13 @@ axios.put(`/userinfo`,{
 <>
 <ChatBot  theme={theme} />
 
+
 <Myservices  theme={theme}/>
     {/* <InstafeedComponent /> */}
     {/* <Experience / */}
-    <LatestPost theme={theme} />
+   
      
     
-    <Project theme={theme} /> 
     
    
      <div className={`${theme ? 'bg-transparent' :'bg-[#eae9ee6b]'}`}>

@@ -17,7 +17,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
   try {
    const res =await axios.get("user-logout")
    dispatch({
-    tupe:'USER_LOGOUT'
+    type:'USER_LOGOUT'
    })
    
   } catch (error) {console.log(error)
@@ -111,32 +111,60 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
         ></i>
       
         </div>
-      { isResponsiveNavOpen &&  <ul className={`${theme ? 'text-white bg-gray-700' :'text-black'} min-[1100px]:hidden flex z-[100] fixed bg-white p-[20px] shadow flex-col items-center gap-[30px] font-semibold top-[0px] right-[0px] w-[100%] min-[700px]:w-[500px] text-[18px] ulis`}>
+        { isResponsiveNavOpen &&  <ul className={`${theme ? 'text-white bg-gray-700' :'text-black'} min-[1100px]:hidden flex z-[100] fixed bg-white p-[20px] shadow flex-col items-center gap-[30px] font-semibold top-[0px] right-[0px] w-[100%] min-[700px]:w-[500px] text-[18px] ulis`}>
 
-        <div className='relative w-full'><i className={` absolute top-[3px] l-[3px] fa fa-times `}
-        onClick={(e)=>{
-         setisResponsiveNavOpen(false)
-        }}
-        ></i></div>
-        <li><button className='rounded-full w-[50px] h-[50px] p-[10px] flex justify-center items-center overflow-hidden bg-[##0000ff38]'
+<div className='relative w-full'><i className={` absolute top-[3px] l-[3px] fa fa-times `}
+onClick={(e)=>{
+ setisResponsiveNavOpen(false)
+}}
+></i></div>
+<li><button className='rounded-full w-[50px] h-[50px] p-[10px] flex justify-center items-center overflow-hidden bg-[##0000ff38]'
   onClick={themeHandler}
 
-  ></button></li>
-        <li className='max-[600px]:block hidden'><Link to='/Store/Women'>Projects</Link></li>
-                <li className='max-[650px]:block hidden'><Link to='/article' >Articles</Link></li>
-                <li className='max-[700px]:block hidden'><Link to='/notes'>Notes</Link></li>
-                <li className='max-[700px]:block hidden'><Link to='/hire-me'>Hire Me</Link></li>
-<li className=''><Link>ABOUT</Link></li>
-<li className=''><Link>CONTACT</Link></li>
+  >
+  <i className='bi bi-moon'>
+
+  
+  </i></button></li>
+<li className='max-[600px]:block hidden'
+onClick={()=>{
+  setisResponsiveNavOpen(false)
+}}
+><Link to='/work'>Projects</Link></li>
+        <li className='max-[650px]:block hidden'
+        onClick={()=>{
+          setisResponsiveNavOpen(false)
+        }}
+        ><Link to='/article' >Articles</Link></li>
+        <li className='max-[700px]:block hidden'
+        onClick={()=>{
+          setisResponsiveNavOpen(false)
+        }}
+        ><Link to='/notes'>Notes</Link></li>
+        <li className='max-[700px]:block hidden'
+        onClick={()=>{
+          setisResponsiveNavOpen(false)
+        }}
+        ><Link to='/hire-me'>Hire Me</Link></li>
+<li className=''
+onClick={()=>{
+  setisResponsiveNavOpen(false)
+}}
+><Link>ABOUT</Link></li>
+<li className=''
+onClick={()=>{
+  setisResponsiveNavOpen(false)
+}}
+><Link>CONTACT</Link></li>
 { islogin ?
-  (<>
-  <button onClick={logoutHandler}>Logout</button>
- 
-  </>)
+(<>
+<button onClick={logoutHandler}>Logout</button>
+
+</>)
 :
 (
-  <>
-  <li className=''><Link to='/register'>Signup</Link></li>
+<>
+<li className=''><Link to='/register'>Signup</Link></li>
 <li className=''><Link to="/login">login</Link></li></>
 )
 }

@@ -69,7 +69,7 @@ function ChatBot(){
     
     return(
 
-        <div className={`min-[500px]:max-w-[350px] w-full h-[500px] w-full fixed min-[500px]:right-[30px] bg-white z-[3] transition ease-in-out ${chatToggle ? 'bottom-[0px]':'bottom-[-460px]'}`}>
+        <div className={`min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] ${chatToggle ? 'h-[100vh]' : 'h-[40px]'} w-full fixed min-[500px]:right-[30px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
             <div className="text-white text-center bg-[#191818] py-[9px]">
                 <button
                 onClick={()=>{
@@ -77,8 +77,8 @@ function ChatBot(){
                 }}
                 >{`${chatToggle ? 'Close':'Open'} The Chat `}</button>
              </div>
-        <div>
-                <div className="h-[380px] flex flex-col bg-[#efefef] overflow-auto"
+        <div className=" flex flex-col justify-between h-[95%]">
+                <div className="h-[100%] flex flex-col bg-[#efefef] overflow-auto"
                 ref={chatContainerRef}
                 >
                    
