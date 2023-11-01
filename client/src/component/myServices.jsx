@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import UseToken from './token';
 import PopUpMessage from "./heading.jsx"
 import "../App.css"
+import '../css/animation.css'
 function Myservices({theme}) {
   const token = UseToken()
   // useEffect(()=>{
@@ -20,7 +21,7 @@ function Myservices({theme}) {
       </h1>
       </div>
       <div className='flex flex-wrap justify-center gap-[50px] mt-[90px] '>
-      <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_10px_#00000029] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box`}>
+      <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_10px_#00000029] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box xy-anim-1`}>
           <h1 className={`${theme ? 'text-white' : 'theme-black' } font-bold text-2xl mt-[50px]`}>Softwate Developer</h1>
           <div className='flex justify-center my-[14px]'> <div className='border-[#5333F2] border-[3px] w-full max-w-[150px]'></div></div>
           <p className={`${theme? 'text-gray-400' : 'text-black'}`}>

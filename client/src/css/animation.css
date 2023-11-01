@@ -1,0 +1,28 @@
+.xy-anim-1{
+    animation: infinityloopanim 2s ease infinite;
+}
+@keyframes infinityloopanim {
+    0%{
+        position: relative;
+        top: 0px;
+    }
+    25%{
+        position: relative;
+        top: 5px;
+    }
+    50%{
+        position: relative;
+        top: 0px;
+    }
+    75%{
+        position: relative;
+        top: -5px;
+    }
+    100%{
+        position: relative;
+        top: 0px;
+    }
+}
+.xy-anim-2{
+    
+}

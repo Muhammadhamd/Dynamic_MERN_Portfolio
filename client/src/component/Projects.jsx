@@ -115,7 +115,7 @@ function ProjectItem({ data, theme }) {
     setLoveBtn(lovebtn === "fa-heart" ? "fa-heart-o" : "fa-heart")
     setLoveBtn(lovebtn === "fa-heart" ? setLikes(data?.likes.length - 1) : setLikes(data?.likes.length + 1))
     try {
-      const res = await axios.post(`http://localhost:2344/api/project-like/${data._id}`);
+      const res = await axios.post(`/api/project-like/${data._id}`);
       if (res.data.Added) {
         setLoveBtn('fa-heart');
     setLoveBtn(setLikes(data?.likes?.length + 1))

@@ -19,7 +19,7 @@ import Experience from './component/exprence';
 import PopUpMessage from './component/heading';
 function Home({theme}) {
 
-  const token = UseToken()
+const token = false
 
   // useEffect(()=>{
   //   axios.get("/tokenCheck")
@@ -123,11 +123,11 @@ axios.put(`/userinfo`,{
   }, [imgDpTODB]);
 
   return (
-  <div className={`flex flex-col   pb-[100px] max-[700px]:gap-[70px]  max-[650px]:gap-[40px] max-[500px]:gap-[30px] gap-[140px] ${theme ? 'bg-gray-900' : 'bg-white'}`}>
+  <div className={`flex flex-col   pb-[100px] max-[700px]:gap-[70px]  max-[650px]:gap-[40px] max-[500px]:gap-[30px] gap-[140px] ${theme ? 'text-white bg-gray-900' : 'bg-white'}`}>
   
      <div className='flex  justify-center mt-[30px]'>
-    <div className=' mt-[100px] flex flex-wrap max-[1000px]:justify-center max-[900px]:gap-[40px] max-[1460px]:max-w-[80%] max-[1260px]:max-w-[90%] max-w-[70%] w-full justify-between'>
-      <div className='relative max-[1200px]:max-w-[550px] max-w-[600px] mr-[10px] m-2 mt-[3%] text-[#2E2D2D]'>
+    <div className='section1'>
+      <div className='container'>
        {token &&
         <button className='absolute left-[-50px] bg-[#BC7AFF] text-white text-[20px] flex justify-center items-center p-[10px] rounded-full w-[40px] h-[40px] shadow-xl'
         onClick={
@@ -186,33 +186,94 @@ axios.put(`/userinfo`,{
         </div>
         
       }
-        <h1 className={`text-[45px] md:text-[65px] ${theme? 'text-white' : 'text-[#2E2D2D]'} font-bold tracking-[-0.16rem] leading-[90%]`}
+          {/* <h3>{name ?`Hello it's me` : <div className='my-[2px] animate-pulse flex space-x-2'>
+        <div class="rounded-full bg-slate-200 py-1   w-[100px]"></div>
+        </div>}</h3>
+        <h1 className={` ${theme? 'text-white' : 'text-[#2E2D2D]'} `}
         
         >{name ||<div className='my-[10px] animate-pulse flex space-x-4'>
         <div class="rounded-full bg-slate-200 py-4  max-[400px]:w-[300px] max-[300px]:w-[240px] w-[400px]"></div>
         </div>}</h1>
-        <h2 className='text-[30px] leading-[90%] md:text-[35px] my-[10px] font-bold text-[#00eeff] tracking-[-4%] '
-       
-         >{subline ||<div className='my-[10px] animate-pulse flex space-x-4'>
+        
+         <h3>{subline ? <>'And I'm a <span class='multi-headline'></span></> : <div className='my-[10px] animate-pulse flex space-x-4'>
          <div class="rounded-full bg-slate-200 py-3 max-[400px]:w-[200px] max-[300px]:w-[160px] w-[300px]"></div>
-         </div>}</h2>
-        <h3 className={`${theme && 'text-white'} font-semibold text-[20px] tracking-[-0.05rem] leading-[24px]`}
-       
-        >{heading || <div className='my-[10px] animate-pulse flex space-x-4'>
+         </div> }</h3>
+        <p>
+        {heading || <div className='my-[10px] animate-pulse flex space-x-4'>
         <div class="rounded-full bg-slate-200 py-3  max-[400px]:w-[200px] max-[300px]:w-[160px] w-[300px] "></div>
-        </div>}</h3>
-     
-        <p className={` mt-[10px] text-gray-400 text-[17px] max-w-[450px] w-full leading-[29px] border-[#5333F2] border-l-[3px] pl-[20px]`}
-        // contentEditable={token ? true : false} 
-      
-        >{paragraph ||<div className=' animate-pulse'>
-        <div class="rounded-full bg-slate-200 py-2 my-[10px]  w-[100%]"></div>
-        <div className='flex my-[10px] justify-between'><div class="rounded-full bg-slate-200 py-2  w-[20%]"></div><div class="rounded-full bg-slate-200 py-2  w-[77%]"></div></div>
-
-        <div class="rounded-full bg-slate-200 py-2 my-[10px]  w-[100%]"></div>
-        <div className='flex my-[10px] justify-between'><div class="rounded-full bg-slate-200 py-2  w-[60%]"></div><div class="rounded-full bg-slate-200 py-2  w-[40%]"></div></div>
-
-        </div>}</p>
+        </div>}
+        </p>
+        <div class="social-div">
+          <a
+            target="_blank"
+            href="https://www.facebook.com/muhammadhamd11/"
+            // style="--i: 7"
+            ><i class="bx bxl-facebook"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.instagram.com/hamd_studiology/"
+            // style="--i: 8"
+            ><i class="bx bxl-instagram-alt"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.github.com/muhammadhamd/"
+            // style="--i: 9"
+            ><i class="bx bxl-github"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/muhammad-hamd-6828b1249/"
+            // style="--i: 10"
+            ><i class="bx bxl-linkedin"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.wa.me/+923251452080"
+            // style="--i: 11"
+            ><i class="bx bxl-whatsapp"></i
+          ></a>
+        </div> */}
+          <h3>Hello it's me</h3>
+        <h1>Muhammad Hamd</h1>
+        <h3>And I'm a <span class="multi-headline"></span></h3>
+        <p>
+          As a student, I am highly motivated and always looking for
+          opportunities to improve my skills To be better than before
+        </p>
+        <div class="social-div">
+          <a
+            target="_blank"
+            href="https://www.facebook.com/muhammadhamd11/"
+            // style="--i: 7"
+            ><i class="bx bxl-facebook"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.instagram.com/hamd_studiology/"
+            // style="--i: 8"
+            ><i class="bx bxl-instagram-alt"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.github.com/muhammadhamd/"
+            // style="--i: 9"
+            ><i class="bx bxl-github"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/muhammad-hamd-6828b1249/"
+            // style="--i: 10"
+            ><i class="bx bxl-linkedin"></i
+          ></a>
+          <a
+            target="_blank"
+            href="https://www.wa.me/+923251452080"
+            // style="--i: 11"
+            ><i class="bx bxl-whatsapp"></i
+          ></a>
+        </div>
       </div>
       <div>
         {imgDp ?
