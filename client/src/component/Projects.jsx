@@ -14,6 +14,7 @@ function Project({theme}){
 
 
       useEffect(() => {
+        document.title = "My work || Muhammad Hamd"
         console.log(arrayProjectData);
       }, [arrayProjectData]);
   

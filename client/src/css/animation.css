@@ -1,28 +1,23 @@
 .xy-anim-1{
-    animation: infinityloopanim 2s ease infinite;
-}
-@keyframes infinityloopanim {
-    0%{
-        position: relative;
-        top: 0px;
-    }
-    25%{
-        position: relative;
-        top: 5px;
-    }
-    50%{
-        position: relative;
-        top: 0px;
-    }
-    75%{
-        position: relative;
-        top: -5px;
-    }
-    100%{
-        position: relative;
-        top: 0px;
-    }
+    animation: zoomin 1s ease forwards , updownimg 2s ease-in-out infinite;
+    animation-delay:3s ;
 }
 .xy-anim-2{
-    
+    animation: zoomin 1s ease forwards , updownimg 2s ease-in-out infinite;
+    animation-delay:4s ;
 }
+@keyframes updownimg{
+    0%{
+        transform: translateY(0px);
+        
+    }
+    50%{
+        transform: translateY(-8px);
+
+    }
+    100%{
+        transform: translateY(0px);
+
+    }
+}
+

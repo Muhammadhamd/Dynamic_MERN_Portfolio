@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import style from './App.css'
-import UseToken from './component/token.jsx'
-import app from './firebaseConfig.mjs'
-import {  getStorage, ref, uploadBytes , getDownloadURL  } from "firebase/storage";
 import Project from './component/Projects';
 import reacticon from "./img/logo192.png"
 import axios, { toFormData } from 'axios';
 import db from './img/image 1.jpg'
-
+import Typed from 'typed.js'
 import whatsNewImg from './img/image-removebg 1.png'
 import mernstackImg from './img/mern-stack.png'
 import LatestPost from './component/LatestPost';
@@ -21,11 +18,7 @@ function Home({theme}) {
 
 const token = false
 
-  // useEffect(()=>{
-  //   axios.get("/tokenCheck")
-  //   .then((res)=>{console.log("token",res)})
-  //   .catch((e)=>{console.log("token",e)})
-  // },[])
+ 
   const  [imgDp , setImgDp] = useState(null)
   const [imgDpTODB , setImgDpTODB] = useState(null)
   const [imgURL , setImgURL] = useState(null)
@@ -50,45 +43,45 @@ const token = false
 
   
   const editUserData = async(e)=>{
-    e.preventDefault()
-    setShowForm(false)
+//     e.preventDefault()
+//     setShowForm(false)
 
-if(imgDpTODB){
-  const imgname = +new Date() + "-" + imgDpTODB.name;
-    const metadata = {
-     contentType: imgDpTODB.type
-    };
-    const storageRef = ref(getStorage(app), imgname)
+// if(imgDpTODB){
+//   const imgname = +new Date() + "-" + imgDpTODB.name;
+//     const metadata = {
+//      contentType: imgDpTODB.type
+//     };
+//     const storageRef = ref(getStorage(app), imgname)
     
-    const task = uploadBytes(storageRef, imgDpTODB, metadata);
+//     const task = uploadBytes(storageRef, imgDpTODB, metadata);
     
     
-    const snapshot = await task
+//     const snapshot = await task
     
-    const imgUrl =await getDownloadURL(snapshot.ref)
+//     const imgUrl =await getDownloadURL(snapshot.ref)
 
-      axios.put("/userinfo",{
-      namey:name,
-      subliney:subline,
-      headingy:heading,
-      paragraphy:paragraph,
-      dpImg:imgUrl
-    })
-    .then((res)=>{console.log(res)})
-    .catch((e)=>{console.log(e)})
-    return
-  }else{
-axios.put(`/userinfo`,{
-    namey:name,
-    subliney:subline,
-    headingy:heading,
-    paragraphy:paragraph,
-    dpImg:imgDp
-  })
-  .then((res)=>{console.log(res)})
-  .catch((e)=>{console.log(e)})
+//       axios.put("/userinfo",{
+//       namey:name,
+//       subliney:subline,
+//       headingy:heading,
+//       paragraphy:paragraph,
+//       dpImg:imgUrl
+//     })
+//     .then((res)=>{console.log(res)})
+//     .catch((e)=>{console.log(e)})
+//     return
+//   }else{
+// axios.put(`/userinfo`,{
+//     namey:name,
+//     subliney:subline,
+//     headingy:heading,
+//     paragraphy:paragraph,
+//     dpImg:imgDp
+//   })
+//   .then((res)=>{console.log(res)})
+//   .catch((e)=>{console.log(e)})
 
-  }
+//   }
   
 }
   
@@ -100,6 +93,7 @@ axios.put(`/userinfo`,{
   
 
   useEffect(()=>{
+    document.title = "Muhammad Hamd | Home"
     axios.get(`/mydata`)
     .then((res)=>{
       setHeading(res.data.heading)
@@ -122,6 +116,22 @@ axios.put(`/userinfo`,{
     console.log(imgDpTODB)
   }, [imgDpTODB]);
 
+
+  useEffect(()=>{
+    const options = {
+      strings:["Frontend Developer",  "MERN Developer","Graphic Designer","Freelancer","Bloger"],
+    typeSpeed:80,
+    backSpeed:80,
+    backdelay:1000,
+    loop:true
+  };
+
+  // New Typed instance
+  const typed = new Typed('.multi-headline', options);
+  return () => {
+    typed.destroy();
+};
+  },[])
   return (
   <div className={`flex flex-col   pb-[100px] max-[700px]:gap-[70px]  max-[650px]:gap-[40px] max-[500px]:gap-[30px] gap-[140px] ${theme ? 'text-white bg-gray-900' : 'bg-white'}`}>
   

@@ -71,6 +71,7 @@ function ArticlesPage({theme}){
      }
   }
 const renterArticles = async()=>{
+
   try {
     const res = await axios.get("/posts" ,{withCredentials:true})
   
@@ -87,6 +88,7 @@ const renterArticles = async()=>{
 
 useEffect(()=>{
  renterArticles()
+ document.title = "My Articles || Muhammad Hamd"
 },[rerender])
 
     return(
