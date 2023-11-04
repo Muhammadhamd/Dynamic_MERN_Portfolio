@@ -24,9 +24,10 @@ const db = client.db("userdatabase"),
       const SECRET = process.env.SECRET || "topsecret";
 
       function authenticateUser(req, res, next) {
-        const token = req.cookies.Token; // Assuming you store the token in a cookie
-        console.log("token here ahha",token)
+        const token = req?.cookies?.Token; // Assuming you store the token in a cookie
         if (token) {
+          console.log("hahah2")
+
           // Verify and decode the token here (use your actual logic)
           // For example, you can use the 'jsonwebtoken' library
           const decodedData = jwt.verify(token, SECRET);
@@ -37,21 +38,24 @@ const db = client.db("userdatabase"),
                 maxAge: 1,
                 httpOnly: true,
               });
+
+             res.status(401).send("please login again")
             
           }else{
             req.body.decodedData = decodedData;
             console.log(decodedData)
-          }
-        }
         next();
+
+          }
+        }else{
+           res.status(401).send("not login")
+        }
       }
     
 
 router.post("/post-rating/:productId", authenticateUser, async(req,res)=>{
 
-  if (!req.body.decodedData) {
-    return res.status(401).send('login first')
-  }
+
     const currentUserId = req.body.decodedData._id
     const currentUserImage = req.body.decodedData?.image
     const currentUserName = req.body.decodedData.name

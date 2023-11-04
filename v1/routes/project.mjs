@@ -105,12 +105,16 @@ router.delete("/project/:postid",async(req,res)=>{
                 maxAge: 1,
                 httpOnly: true,
               });
+          res.status(401).send("please login again")
             
           }else{
             req.body.decodedData = decodedData;
             next();
 
           }
+        }else{
+          res.status(401).send("not login")
+
         }
       }
     

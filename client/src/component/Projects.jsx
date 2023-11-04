@@ -19,7 +19,7 @@ function Project({theme}){
       }, [arrayProjectData]);
   
       useEffect(()=>{
-        axios.get(`/api/projects`)
+        axios.get(`http://localhost:2344/api/projects`)
         .then((res)=>{
           setArrayProjectData(res.data)
           console.log(res.data)
@@ -107,26 +107,35 @@ function Project({theme}){
 
 function ProjectItem({ data, theme }) {
   const { state, dispatch } = useContext(GlobalContext);
-  const [likes ,setLikes]= useState(data?.likes?.length)
+  const [likes ,setLikes]= useState(data?.likes?.length || 0)
   const [lovebtn, setLoveBtn] = useState(
-    data?.likes?.some((id) => id.AuthorId === state.user._id) ? 'fa-heart' : 'fa-heart-o'
+    data?.likes?.some((id) => id?.AuthorId === state?.user?._id) ? 'fa-heart' : 'fa-heart-o'
   );
 
   const LikeProjectHandler = async () => {
     setLoveBtn(lovebtn === "fa-heart" ? "fa-heart-o" : "fa-heart")
-    setLoveBtn(lovebtn === "fa-heart" ? setLikes(data?.likes.length - 1) : setLikes(data?.likes.length + 1))
+
+    lovebtn === "fa-heart" ? setLikes(likes- 1) : setLikes(likes + 1)
+    console.log(likes)
     try {
-      const res = await axios.post(`/api/project-like/${data._id}`);
+      const res = await axios.post(`http://localhost:2344/api/project-like/${data._id}`);
+      console.log(res.data)
+
       if (res.data.Added) {
         setLoveBtn('fa-heart');
-    setLoveBtn(setLikes(data?.likes?.length + 1))
+        setLikes(likes + 1)
+    // setLoveBtn(setLikes(data?.likes?.length + 1))
       } else {
         setLoveBtn('fa-heart-o');
-    setLoveBtn(setLikes(data?.likes?.length - 1))
+        setLikes(data?.likes?.length || 0) 
+    // setLoveBtn(setLikes(data?.likes?.length - 1))
 
       }
     } catch (error) {
       console.log(error);
+      setLoveBtn('fa-heart-o');
+      setLikes(data?.likes?.length  || 0) 
+
     }
   };
 
@@ -146,7 +155,7 @@ function ProjectItem({ data, theme }) {
         </div>
         <button className="flex items-center text-xl gap-[5px]">
           <i className={`fa ${lovebtn}`} onClick={LikeProjectHandler}></i>
-          <h4>{data?.likes?.length}</h4>
+          <h4>{likes}</h4>
         </button>
       </div>
     </div>
