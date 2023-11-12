@@ -68,14 +68,22 @@ function ChatBot(){
     },[messages])
     
     return(
-
-        <div className={`min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] ${chatToggle ? 'h-[100vh]' : 'h-[40px]'} w-full fixed min-[500px]:right-[30px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
-            <div className="text-white text-center bg-[#191818] py-[9px]">
-                <button
+      <>
+      <div>
+      <button className="bg-violet-700 text-white text-2xl rounded-full w-[80px] h-[80px] flex justify-center items-center fixed right-[30px] bottom-[50px] "
                 onClick={()=>{
                    chatToggle ? setChatToggle(false) :setChatToggle(true)
                 }}
-                >{`${chatToggle ? 'Close':'Open'} The Chat `}</button>
+                >{chatToggle ? <i class="bi bi-x"></i>:<i class="bi bi-chat-dots-fill"></i>}</button>
+      </div>
+        <div className={` rounded-[7px_7px_0_0] overflow-hidden shadow-[0px_0px_5px_#911] min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] ${chatToggle ? 'h-[100vh]' : 'h-[0px]'} w-full fixed min-[500px]:right-[150px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
+            <div className="text-white text-center bg-violet-700 font-semibold px-[20px] py-[15px] flex justify-between ">
+              Hamd's AI Bot
+              <button  
+                onClick={()=>{
+                   chatToggle ? setChatToggle(false) :setChatToggle(true)
+                }}
+                >{chatToggle ? <i class="bi bi-x"></i>:<i class="bi bi-chat-dots-fill"></i>}</button>
              </div>
         <div className=" flex flex-col justify-between h-[95%]">
                 <div className="h-[100%] flex flex-col bg-[#efefef] overflow-auto"
@@ -119,12 +127,13 @@ function ChatBot(){
                 </div>
                 <div className="border-t border-2 p-[5px] mb-[20px]">
                     <form onSubmit={sendMessagehandler}> 
-                        <input type="text" ref={MessageRef} placeholder="write your Message here.." className="outline-none w-[90%] py-2 px-3"/>
+                        <input type="text" ref={MessageRef} placeholder="write your Message here.." className="outline-none w-[90%] text-black py-2 px-3"/>
                         <button ><i className="fa fa-send"></i></button>
                     </form>
                 </div>
             </div>
         </div>
+        </>
     )
 }
 export default ChatBot

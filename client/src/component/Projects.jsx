@@ -6,11 +6,13 @@ import axios from 'axios';
 import PopUpMessage from './heading';
 import example from "../img/Mern Stack ecommerce website.jpg"
 import {GlobalContext} from "../context/context.jsx"
+import LoadingComponent from './Loading';
 function Project({theme}){
 
   
 
     const [arrayProjectData , setArrayProjectData] = useState([])
+    const [isLoading , setisloading] = useState(true)
 
 
       useEffect(() => {
@@ -19,10 +21,13 @@ function Project({theme}){
       }, [arrayProjectData]);
   
       useEffect(()=>{
-        axios.get(`http://localhost:2344/api/projects`)
+        axios.get(`/api/projects`)
         .then((res)=>{
           setArrayProjectData(res.data)
-          console.log(res.data)
+          setisloading(false)
+        })
+        .catch(()=>{
+          setisloading(false)
         })
       },[])
       // useEffect(() => {
@@ -86,13 +91,16 @@ function Project({theme}){
        
       <div className=''>
        
-      <div className={`flex flex-col gap-[50px] ${theme ?'bg-gray-900': 'bg-[#f5f7f9]'}`}>
-      <div className='flex mt-[130px]'>
+      <div className={`flex flex-col gap-[50px] h-[100vh] ${theme ?'bg-gray-900': 'bg-[#f5f7f9]'}`}>
+      <div className='flex  ml-[50px] mt-[130px]'>
        <PopUpMessage theme={theme} message="~ MY TOP PROJECTS ~" />
        </div>
       
       <div className='flex flex-wrap justify-center gap-[25px] '>
-      {arrayProjectData?.map((data) => (
+      {
+      isLoading ? <LoadingComponent isLoading={isLoading} />
+      :
+      arrayProjectData?.map((data) => (
         <ProjectItem key={data._id} data={data} theme={theme} />
       ))}
      
@@ -118,7 +126,7 @@ function ProjectItem({ data, theme }) {
     lovebtn === "fa-heart" ? setLikes(likes- 1) : setLikes(likes + 1)
     console.log(likes)
     try {
-      const res = await axios.post(`http://localhost:2344/api/project-like/${data._id}`);
+      const res = await axios.post(`/api/project-like/${data._id}`);
       console.log(res.data)
 
       if (res.data.Added) {

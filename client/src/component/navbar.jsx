@@ -67,7 +67,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
             <ul className='flex items-center  gap-[30px] text-[18px] right-ul'>
                 <li className=''><Link to="/work" className='hover:text-violet-500 font-[600]'>PROJECTS</Link></li>
                 <li className='max-[600px]:hidden'><Link to='/article' className='hover:text-violet-500  font-[600]'>ARTICLES</Link></li>
-                <li className='max-[650px]:hidden'><Link to='/notes' className='hover:text-violet-500 font-[600]'>FREE NOTES</Link></li>
+                <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500 font-[600]'>FREE NOTES</Link></li>
                 <li className='max-[700px]:hidden'><Link to="/hire-me" className='hover:text-violet-500 font-[600]'>HIRE ME</Link></li>
             </ul>
         </div>
