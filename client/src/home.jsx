@@ -5,6 +5,8 @@ import reacticon from "./img/logo192.png"
 import axios, { toFormData } from 'axios';
 import db from './img/image 1.jpg'
 import Typed from 'typed.js'
+import './css/animation.css'
+
 import whatsNewImg from './img/image-removebg 1.png'
 import mernstackImg from './img/mern-stack.png'
 import LatestPost from './component/LatestPost';
@@ -325,7 +327,7 @@ const token = false
    
      <div className={`${theme ? 'bg-transparent' :'bg-[#eae9ee6b]'}`}>
       <div className='flex justify-center'>
-        <PopUpMessage  theme={theme} message="~ More About Me ~s" />
+        <PopUpMessage  theme={theme} message="~ More About Me ~" />
       </div>
       <div className='flex flex-col items-center'>
       <h1 className={`${theme ? 'text-white': 'text-[#2E2D2D]'} max-[450px]:text-4xl max-[450px]:leading-[45px] max-[450px]:max-w-[250px] text-5xl font-bold mt-[10px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]`}>
@@ -334,7 +336,7 @@ const token = false
       <p className={`${theme && 'text-gray-400'} text-[#67687A] max-[450px]:text-[16px] text-[17px] max-[300px]:px-[6px] leading-[29px] max-w-[380px] text-center`}>Developing Websites with the Latest <span className='text-[#5333F2]'>MERN Stack</span>  Technology</p>
       
       <div className='flex flex-wrap justify-center gap-[50px] mt-[90px] '>
-      <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box`}>
+      <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] w-full p-[30px] text-center contact-each-box xy-anim-1`}>
       <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-html5"></i>
 
           <h1 className={`${theme ? 'text-white' : 'theme-black+' } font-bold text-2xl mt-[20px]`}>HTML5</h1>
@@ -346,7 +348,7 @@ const token = false
 
           </p>
         </div>
-        <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box`}>
+        <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] w-full p-[30px] text-center contact-each-box xy-anim-2`}>
       <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-css3"></i>
 
           <h1 className={`${theme ? 'text-white' : 'theme-black+' } font-bold text-2xl mt-[20px]`}>CSS3</h1>
@@ -356,7 +358,7 @@ const token = false
 CSS serves as the style wizard, creating visually appealing designs while maintaining responsiveness and user-friendliness in your web application.
           </p>
         </div>
-        <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] h-[340px] w-full p-[30px] text-center contact-each-box`}>
+        <div className={`${theme ? 'bg-[#1a293b]' : 'bg-white'} shadow-[0px_0px_20px_#00000087] rounded-[80px_0px_0px_0px] max-w-[340px] w-full p-[30px] text-center contact-each-box xy-anim-1`}>
       <i class="text-[60px] mt-[25px] text-[#5333F2]  fa fa-js"></i>
       <div className='flex justify-center h-[60px]'>
       <img src={reacticon} alt="" className='w-[60px] spin' />
