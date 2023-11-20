@@ -198,3 +198,114 @@ justify-content: space-between;
 
   }
 }
+
+@media screen and (max-width:1010px) {
+  .section1 .container h3{
+      font-size: 30px;
+  }
+  .section1 .container p{
+      font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 940px){
+.section1 .image-container .image-holder {
+width: 275px;
+}}
+@media screen and (max-width: 800px){
+.section1{
+flex-wrap: wrap;
+justify-content: center;
+
+}
+}
+
+
+@media screen and (max-width: 620px){
+
+
+.section1 .container h1{
+font-size: 50px;
+}
+.section1 .container h3{
+      font-size: 25px;
+  }
+  .section1 .container p{
+      font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 500px){
+
+.section1 .container h1{
+font-size: 48px;
+}
+.section1 .container h3{
+      font-size: 22px;
+  }
+  .section1 .container p{
+      font-size: 12px;
+  }
+  .container .btn{
+      margin: 30px 55px;
+  }
+
+  /* blogdiv2 */
+
+.section2 .blog-div2 .main-box .blog{
+margin: 25px 0;
+}
+   
+.section2 .blog-div2 .main-box .blog .head h1 {
+  font-size: 20px;
+}
+.section2 .blog-div2 .main-box .blog  p {
+font-size: 12px;
+}
+
+}
+@media screen and (max-width: 430px){
+
+
+.section1 .container h3 span{
+font-size: 15px;
+}
+
+
+}
+
+
+@media screen and (max-width: 365px){
+
+
+ 
+.section1 .container h1{
+font-size: 44px;
+}
+.section1 .container h3{
+      font-size: 20px;
+  }
+  .section1 .container p{
+      margin: 0 0 20px 0;
+      font-size: 10px;
+  }
+
+.section1 .container .social-div {
+  flex-wrap: wrap;
+display: flex;
+justify-content: center;
+}
+.section1 .container .social-div a{
+  margin:10px 0 0 10px;
+}
+.container .btn{
+  font-size: 14px;
+}
+
+}
+
+@media screen and (max-width:284px) {
+  .section1 .container h1{
+      font-size: 40px;
+  }
+}

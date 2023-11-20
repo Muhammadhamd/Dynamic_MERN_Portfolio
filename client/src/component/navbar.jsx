@@ -67,7 +67,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
             <ul className='flex items-center  gap-[30px] text-[18px] right-ul'>
                 <li className=''><Link to="/work" className='hover:text-violet-500 font-[600]'>PROJECTS</Link></li>
                 <li className='max-[600px]:hidden'><Link to='/article' className='hover:text-violet-500  font-[600]'>ARTICLES</Link></li>
-                <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500 font-[600]'>FREE NOTES</Link></li>
+                <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500 font-[600]'>MY BOTS</Link></li>
                 <li className='max-[700px]:hidden'><Link to="/hire-me" className='hover:text-violet-500 font-[600]'>HIRE ME</Link></li>
             </ul>
         </div>
@@ -111,7 +111,8 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
         ></i>
       
         </div>
-        { isResponsiveNavOpen &&  <ul className={`${theme ? 'text-white bg-gray-700' :'text-black'} min-[1100px]:hidden flex z-[100] fixed bg-white p-[20px] shadow flex-col items-center gap-[30px] font-semibold top-[0px] right-[0px] w-[100%] min-[700px]:w-[500px] text-[18px] ulis`}>
+        { isResponsiveNavOpen &&  
+        <ul className={`${theme ? 'text-white bg-gray-700' :'text-black'} min-[1100px]:hidden flex z-[300] fixed bg-white p-[20px] shadow flex-col items-center gap-[30px] font-semibold top-[0px] right-[0px] w-[100%] min-[700px]:w-[500px] text-[18px] ulis`}>
 
 <div className='relative w-full'><i className={` absolute top-[3px] l-[3px] fa fa-times `}
 onClick={(e)=>{
@@ -146,16 +147,7 @@ onClick={()=>{
           setisResponsiveNavOpen(false)
         }}
         ><Link to='/hire-me'>Hire Me</Link></li>
-<li className=''
-onClick={()=>{
-  setisResponsiveNavOpen(false)
-}}
-><Link>ABOUT</Link></li>
-<li className=''
-onClick={()=>{
-  setisResponsiveNavOpen(false)
-}}
-><Link>CONTACT</Link></li>
+
 { islogin ?
 (<>
 <button onClick={logoutHandler}>Logout</button>
