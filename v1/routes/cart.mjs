@@ -1,213 +1,169 @@
-import express from "express"
+import express from "express";
+const router = express.Router();
+import path from "path";
 import mongoose from "mongoose"
-import path from "path"
-import axios from "axios"
+import bcrypt from "bcrypt";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken"
+const __dirname = path.resolve();
+const SECRET = process.env.SECRET || "topsecret";
+import {client} from "../../mongodb.mjs"
 import { ObjectId } from "mongodb"
-import jwt from 'jsonwebtoken'
-
-const __dirname = path.resolve()
-const router = express.Router()
-import {client} from "./../../mongodb.mjs"
-import { type } from "os"
-import { match } from "assert"
-
-const db = client.db("userdatabase"),
-      productcol = db.collection("posts"),
-      cartsCol = db.collection('carts')
+const db = client.db("Portfolio");
+const admincol = db.collection("")
 
 
-   
+ function authenticateAdmin(req, res, next) {
+  const token = req.cookies.AdminToken; // Assuming you store the token in a cookie
+  console.log("token here ahha",token)
+  if (token) {
+    // Verify and decode the token here (use your actual logic)
+    // For example, you can use the 'jsonwebtoken' library
+    const decodedData = jwt.verify(token, SECRET);
 
-
-
-   
-    
-   
-      const SECRET = process.env.SECRET || "topsecret";
-
-      function authenticateUser(req, res, next) {
-        const token = req.cookies.Token; // Assuming you store the token in a cookie
-        console.log("token here ahha",token)
-        if (token) {
-          // Verify and decode the token here (use your actual logic)
-          // For example, you can use the 'jsonwebtoken' library
-          const decodedData = jwt.verify(token, SECRET);
+    if (decodedData.exp > Date.now()) {
+      // If the token is valid, set the user data in the request object
+      res.cookie('AdminToken', '', {
+          maxAge: 1,
+          httpOnly: true,
+        })
       
-          if (decodedData.exp > Date.now()) {
-            // If the token is valid, set the user data in the request object
-            res.cookie('Token', '', {
-                maxAge: 1,
-                httpOnly: true,
-              });
-            
-          }else{
-            req.body.decodedData = decodedData;
-            console.log(decodedData)
-          }
-        }
-        next();
+    }else{
+      req.body.decodedData = decodedData;
+      console.log(decodedData)
+      next()
+    }
+  }
+}
+
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+  
+    // const hashedPassword = await bcrypt.hash(password, 10)
+   
+      
+
+    try {
+      const data = await admincol.findOne({email:email});
+      if (!data) {
+        console.log("User not found");
+        return res.status(401).send( "Incorrect email or password" );
       }
   
-       
+      const isMatch = await bcrypt.compare(password, data.password);
+  
+      if (isMatch) {
+        console.log("Password matches");
+  
+        const token = jwt.sign({
+          _id: data._id,
+          email: data.email,
+          iat: Math.floor(Date.now() / 1000) - 30,
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+          isAdmin:true
+      }, SECRET);
+
+      // res.send(token);
+
+      res.cookie('AdminToken', token, {
+          maxAge: 86_400_000,
+          httpOnly: true,
+          // sameSite: true,
+          // secure: true
+      });
+      // Cookies.set("username", "john", { expires: 7, path: "/" });
+        // console.log(req.cookies.Token)
+        res.send({
+          message:'login sucessfully',
+          data:{
+            email: data.email,
+            _id:data._id,
+            isAdmin:true
+          }
+        });
+        return
+      } else {
+        console.log("Password did not match");
+        return res.status(401).send("Incorrect password" );
+      }
+    } catch (err) {
+      console.log("DB error:", err);
+      res.status(500).send( "Login failed, please try later" );
+    }
+  });
+ 
+  
+  router.get("/Admin-logout",authenticateAdmin,(req, res) => {
+
+    res.cookie('AdminToken', '', {
+         maxAge: 1,
+         httpOnly: true
+     });
+ 
+     res.send("Logout successful" );
+     console.log(req.cookies.AnToken)
+ })
+
+  router.get("/getToken",(req,res)=>{
+    console.log(req.cookies.AdminToken)
     
 
-router.post("/addtocart", authenticateUser , async(req,res)=>{
+   try {
+    if(req?.cookies?.AdminToken){
+      const decodedData = jwt.verify(req.cookies.AdminToken, SECRET);
 
-    // const currentUserEmail = res.locals.decodedData
-    const {isdata}= req.body
-    console.log(isdata)
-
-    // if (!req?.body?.decodedData) {
-    //     res.status(401).send("login first")
-    //     return
-    // }
-    const cart =await cartsCol.findOne({userId : req?.body?.decodedData?._id})
-
-    if (cart) {
-        const cartItemArray = cart.cartItems
-
-       const matchitems =  cartItemArray.findIndex((item)=> {
-        return item.productId === isdata.productid
-       })
-
-      if (matchitems > -1) {
-console.log(matchitems)
-
-        cartItemArray[matchitems].quantity = isdata.Quantity
-        // console.log(cartItemArray[matchitems].quantity)
-         cartsCol.updateOne(
-            {
-                userId:req.body.decodedData._id,
-            }
-            ,{
-                $set:{
-                    cartItems: cartItemArray,
-                }
-            }
-        )
-       
-    res.send("updated")
-    console.log(cartItemArray[matchitems])
+      if (decodedData.exp > Date.now()) {
+        // If the token is valid, set the user data in the request object
+        res.cookie('AdminToken', '', {
+            maxAge: 1,
+            httpOnly: true,
+          })
+        
+      }else{
+        req.body.decodedData = decodedData;
+        res.send({
+          data:{
+  
+          name:decodedData.name,
+          email:decodedData.email,
+          _id:decodedData._id,
+          isAdmin:decodedData.isAdmin
+        }
+        })
         return
       }
-        const newcartItem = {
-            productId:isdata.productid,
-            quantity:isdata.Quantity
-        }
+    }else if(req?.cookies?.Token){
+      const decodedData = jwt.verify(req.cookies.Token, SECRET);
+      if (decodedData.exp > Date.now()) {
+        // If the token is valid, set the user data in the request object
+        res.cookie('Token', '', {
+            maxAge: 1,
+            httpOnly: true,
+          })
         
-        console.log("fa",cartItemArray)
-        cart.cartItems.push(newcartItem)
-
-        cartsCol.updateOne(
-            {userId:req.body.decodedData._id},
-            { $set:{cartItems:cart.cartItems}}
-        )
-        res.send("added to cart")
-        return;
-    }else{
-        // const userData =await userCol.findOne({email:currentUserEmail})
-
-   console.log(isdata)
-   const dataTOarray= [isdata]
-
-
-   const addtocart = await cartsCol.insertOne({
+      }else{
+        res.send({
+          data:{
   
-    userId:req.body.decodedData._id,
-    cartItems:[
-        {
-            productId:isdata.productid,
-            quantity:isdata.Quantity
+          name:decodedData.name,
+          email:decodedData.email,
+          _id:decodedData._id,
+          isAdmin:decodedData.isAdmin
         }
-    ]
-});
-   res.send(addtocart)
+        })
+      }
+     
+    }else{
+      res.status(401).send("not login haha")
     }
-})
-
-
-router.get("/getcartdata",authenticateUser,async(req,res)=>{
-
-    const cart =await cartsCol.findOne({userId:req?.body?.decodedData?._id})
-
-    if (!cart) {
-      res.status(404).send("no querry found in cart")
-      console.log('noquerryt')
-      return
     
-    }
-
-        const cartItems = await cart.cartItems
-        console.log(cartItems)
-        const productid = cartItems?.map((item) => new ObjectId(item.productId));
-        console.log(productid)
-        const posts = await productcol.find({ _id: { $in: productid } }).toArray()
-        // res.send(posts)
-        
-        const cartData = cartItems.map((cartItem) => {
-            const product = posts.find((p) => p._id.equals(cartItem.productId));
-            return {
-              ...product,
-              quantity: cartItem.quantity,
-            };
-          });
-        res.json(cartData)
-})
-export default router   
-            
-
-
-router.delete('/remove-from-cart/:cartId',authenticateUser,async(req,res)=>{
-    try {
-        const cart =await cartsCol.findOne({userId : req?.body?.decodedData?._id})
-
-        if (cart) {
-            const cartItemArray = cart.cartItems
-    
-           const matchitems =  cartItemArray.findIndex((item)=> {
-            return item.productId === req.params.cartId
-
-           })
-    console.log("coming", req.params.cartId)
-    
-          if (matchitems > -1) {
-    console.log(matchitems)
       
+   } catch (error) {
+    res.status(500).send('internal error')
+   }
 
-   
-            cartItemArray.splice(matchitems , 1)
-            // console.log(cartItemArray[matchitems].quantity)
-             cartsCol.updateOne(
-                {
-                    userId:req.body.decodedData._id,
-                }
-                ,{
-                    $set:{
-                        cartItems: cartItemArray,
-                    }
-                }
-            )
-           
-        res.send("updated")
-        console.log(cartItemArray[matchitems])
-            return
-          }
-            const newcartItem = {
-                productId:isdata.productid,
-                quantity:isdata.Quantity
-            }
-            
-            console.log("fa",cartItemArray)
-            cart.cartItems.push(newcartItem)
-    
-            cartsCol.updateOne(
-                {userId:req.body.decodedData._id},
-                { $set:{cartItems:cart.cartItems}}
-            )
-            res.send("added to cart")
-            return;
-        }
-    } catch (error) {
-        
-    }
-})
+
+     
+  })
+
+  export default router
