@@ -68,6 +68,7 @@ router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
             { $push: { 'comments': { 
               id: new ObjectId(),
                 authorName:req.decodedData.name,
+                authorId:req.decodedData._id,
                text:message,
                timestamp:new Date()
             } ,
@@ -76,37 +77,59 @@ router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
         }
           );
         
-        res.send("review uploaded")
+        res.send({message:"comment added",data:{
+            id: new ObjectId(),
+            authorName:req.decodedData.name,
+            authorId:req.decodedData._id,
+           text:message,
+           timestamp:new Date()
+        }})
         
      } catch (error) {
         
      }
 })
-router.post("/addcomment:postid", async(req,res ,next)=>{
+router.post("/addReply/:postid/:commentid",authMiddleware, async(req,res ,next)=>{
     const postid = req.params.postid
-    const {name , email , text} = req.body
+    const commentid = req.params.commentid
+    const {reply} = req.body
 
-console.log("data coming")
-     
-
- 
-    const posts = await postsCol.findOne({_id : new ObjectId(postid)})
+    try {
+        const post = await col.findOne({_id : new ObjectId(postid)})
 
     
-    await postsCol.updateOne(
-        { _id: new ObjectId(postid) },
-        { $push: { 'reviews': { 
-          id: new ObjectId(),
-            email: email,
-            name:name,
-           text:text
-        } ,
+        const comment = post?.comments?.findIndex((comment)=>{ comment.id === commentid})
+        console.log(comment)
+        if (comment > -1) {
+            res.status(404).send("comment does not exist")
+            return
+        }
         
-        } 
-    }
-      );
-    
-    res.send("review uploaded")
+        await col.updateOne(
+            { _id: new ObjectId(postid) , "comments.id": new ObjectId(commentid) },
+            { $push: { 'comments.$.replies': { 
+              id: new ObjectId(),
+                authorName:req.decodedData.name,
+                authorId:req.decodedData._id,
+               text:reply,
+               timestamp:new Date()
+            } ,
+            
+            } 
+        }
+          );
+        
+        res.send({
+            id: new ObjectId(),
+                authorName:req.decodedData.name,
+                authorId:req.decodedData._id,
+               text:reply,
+               timestamp:new Date()
+        })
+        
+     } catch (error) {
+        res.status(500).send(error)
+     }
 })
 
 

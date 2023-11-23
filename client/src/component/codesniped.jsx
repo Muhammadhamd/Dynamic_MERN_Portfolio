@@ -8,7 +8,6 @@ function CodeSnippet({code ,  darkTheme ,lang}) {
     const [language ,setLang] = useState(lang)
     
 
- console.log(code)
     //   setLang(lang)
     //   setTheme(darkTheme ? 'dark' :'light'); // Toggle between light and dark themes
     //   useEffect(()=>{
