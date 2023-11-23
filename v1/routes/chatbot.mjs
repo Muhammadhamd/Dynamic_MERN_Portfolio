@@ -6,7 +6,7 @@ const __dirname = path.resolve()
 const router = express.Router();
 dotenv.config(); // Load .env file
 
-const apiKey = process.env.chatbotAPI
+const apiKey ="t243t63t3t34t34t3" || process.env.chatbotAPI
 const openai = new OpenAI({apiKey});
 const mydata = `Portfolio.
 Home

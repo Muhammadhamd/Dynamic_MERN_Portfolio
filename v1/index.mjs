@@ -6,9 +6,11 @@ import ContactRouter from "./routes/contact.mjs"
 import authRouter from "./routes/auth.mjs"
 import userauthRouter from "./routes/userauth.mjs"
 import chatbotRouter from "./routes/chatbot.mjs"
+import CommentROuter from "./routes/comment.mjs"
 const router = express.Router()
 
 router.use(postRouter)
+router.use(CommentROuter)
 router.use(chatbotRouter)
 router.use(ContactRouter)
 router.use(projectRouter)

@@ -16,7 +16,7 @@ const SECRET = process.env.SECRET || "topsecret";
 import multer from 'multer';
 
 
- function authMiddleware(){
+ function authMiddleware(req,res,next){
 
     if(!req?.cookies?.Token){
         res.status(401).send("login please")
@@ -54,21 +54,22 @@ import multer from 'multer';
         });
     }
  }
-router.post("/addcomment:postid",async(req,res)=>{
+router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
      const postid = req.params.postid
-     const {comment} = req.body
-
+     const {message} = req.body
+          
 
      try {
         const posts = await col.findOne({_id : new ObjectId(postid)})
 
     
-        await postsCol.updateOne(
+        await col.updateOne(
             { _id: new ObjectId(postid) },
             { $push: { 'comments': { 
               id: new ObjectId(),
-                
-               text:comment
+                authorName:req.decodedData.name,
+               text:message,
+               timestamp:new Date()
             } ,
             
             } 

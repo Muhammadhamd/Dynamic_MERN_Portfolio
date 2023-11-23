@@ -11,6 +11,8 @@ function PostPage ({theme , content}) {
 
     const [data , setdata] = useState([])
 const  {postId}  = useParams();
+    const commentRef = useRef(null)
+    const [commentMsg , setCommentmsg] = useState(null)
 
         const [relatedPost , setRelatedPost]= useState([])
         const [isLoading , setIsLoading] = useState(true)
@@ -76,7 +78,7 @@ const  {postId}  = useParams();
 useEffect(()=>{
   setIsLoading(true)
 
-  axios.get(`/post/${postId}` ,{withCredentials:true})
+  axios.get(`http://localhost:2344/post/${postId}` ,{withCredentials:true})
            
   .then((res)=>{
       setdata(res.data)
@@ -98,6 +100,18 @@ useEffect(()=>{
   })
   
 },[postId])
+const addComment = async(e)=>{
+e.preventDefault()
+  try {
+    const res = await axios.post(`http://localhost:2344/addcomment/${data._id}`,{
+      message: commentRef.current.value
+    },{withCredentials:true})
+    console.log(res)
+  } catch (error) {
+    console.log(error)
+    setCommentmsg(error.response.data)
+  }
+}
 // useEffect(()=>{
   
 //     axios.get(`/posts`)
@@ -171,13 +185,130 @@ const slicedRelatedPosts = filterpost.slice(0, 3);
           {renderContent(data.content)}
            </div>
 </div>
-<form className={`w-full mx-auto max-w-[1000px] md:mt-[90] mt-[40px] mb-[30px]  shadow-xl mx-4 md:mx-16 lg:mx-0 mb-4 rounded-lg px-4 pt-2 ${theme?'bg-slate-700':'bg-white'}`}>
+<form onSubmit={addComment} className={`w-full mx-auto max-w-[1000px] md:mt-[90] mt-[40px] mb-[30px]  shadow-xl mx-4 md:mx-16 lg:mx-0 mb-4 rounded-lg px-4 pt-2 ${theme?'bg-slate-700':'bg-white'}`}>
 <div>
   <h2 className={`px-4 pt-3 pb-2  text-lg lg:text-xl font-bold my-4 ${theme?'text-gray-300':'text-gray-800'}`}>Add a new comment</h2>
-  <textarea name="" placeholder='Type Your Comment' required id="" className={`rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium  focus:outline-none   ${theme ? ' text-gray-200 placeholder-gray-400 bg-slate-600':'focus:bg-white bg-gray-100   placeholder-gray-700'} `}></textarea>
+  <textarea name="" ref={commentRef} placeholder='Type Your Comment' required id="" className={`rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium  focus:outline-none   ${theme ? ' text-gray-200 placeholder-gray-400 bg-slate-600':'focus:bg-white bg-gray-100   placeholder-gray-700'} `}></textarea>
+  <div className='text-sm text-violet-300'>{commentMsg ? commentMsg : ""}</div>
   <button className={`text-sm font-white bg-violet-500 rounded shadow px-3 py-2 my-[15px] text-white` }>Post Comment</button>
 </div>
 </form>
+
+<div className='mx-auto max-w-[1000px] w-full'>
+  <h1 className={`px-4 pt-3 pb-2  text-lg lg:text-3xl font-bold my-4 ${theme?'text-gray-300':'text-gray-800'}`}> Comments</h1>
+  <div className='flex flex-col gap-[30px]'>
+    {
+      data?.comments?.length >0 ?
+      data.comments.map((comment)=>[
+          <div className='flex w-full gap-[10px] items-start'>
+        <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
+        <img src={dp} alt=""  className='w-full'/>
+        </div>
+        <div className='w-full'>
+        <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
+      
+      <div className='flex justify-between w-full gap-[30px]'>
+        <h1 class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>{comment.authorName}</h1>
+        
+      <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
+                      
+                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+      </div>
+           <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
+<div className='flex gap-[10px]'>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>See All Reply</button>
+  
+  </div>          
+           
+        </div>
+        <div className='ml-[30px] mt-[20px]'>
+      <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
+      
+      <div className='flex justify-between w-full gap-[30px]'>
+        <h1 class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>{comment.authorName}</h1>
+        
+      <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
+                      
+                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+      </div>
+           <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
+<div className='flex gap-[10px]'>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>See All Reply</button>
+  
+  </div>          
+           
+        </div>
+        <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
+      
+      <div className='flex justify-between w-full gap-[30px]'>
+        <h1 class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>{comment.authorName}</h1>
+        
+      <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
+                      
+                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+      </div>
+           <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
+<div className='flex gap-[10px]'>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>See All Reply</button>
+  
+  </div>          
+           
+        </div>
+        <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
+      
+      <div className='flex justify-between w-full gap-[30px]'>
+        <h1 class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>{comment.authorName}</h1>
+        
+      <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
+                      
+                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+      </div>
+           <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
+<div className='flex gap-[10px]'>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>See All Reply</button>
+  
+  </div>          
+           
+        </div>
+        <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
+      
+      <div className='flex justify-between w-full gap-[30px]'>
+        <h1 class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>{comment.authorName}</h1>
+        
+      <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
+                      
+                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+      </div>
+           <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
+<div className='flex gap-[10px]'>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+<button class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>See All Reply</button>
+  
+  </div>          
+           
+        </div>
+      </div>
+        </div>
+      
+      </div>
+
+      
+      
+      ])
+      : "no comment"
+    }
+   
+  </div>
+</div>
 
      
       {/* <div className='flex flex-wrap gap-[40px] items-center justify-center md:mx-[2%] my-[3%]'>
