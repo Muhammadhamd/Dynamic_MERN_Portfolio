@@ -32,7 +32,7 @@ function App() {
   
   const loginHandler = async()=>{
     try {
-      const res = await axios.get("/getToken",
+      const res = await axios.get("http://localhost:2344/getToken",
       {withCredentials: true,
       })
       console.log(res)
@@ -62,13 +62,13 @@ function App() {
       {/* Render your components with the theme and login props */}
       {state.isLogin === true && state.role === "admin" ? (
         <>
-          <Navcomponent theme={state.darkTheme} islogin={true} />
+          <Navcomponent theme={state.darkTheme} islogin="admin" />
           <Routes>
             <Route exact path="/" element={<Home theme={state.darkTheme} />} />
             <Route exact path="/dashboard" element={<Dashboard  />} />
           <Route exact path="/work" element={<Project theme={state.darkTheme} />} />
 
-            <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
+            <Route exact path="/article/:postId" element={<PostPage isAdmin={true} theme={state.darkTheme} />} />
             <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
             <Route path="*" element={<Navigate to="/" replace={true} />} />
           </Routes>
@@ -77,13 +77,13 @@ function App() {
       
       {state.isLogin === true && state.role === "user" ? (
         <>
-          <Navcomponent theme={state.darkTheme} islogin={true} />
+          <Navcomponent theme={state.darkTheme} islogin="user" />
           <Routes>
             <Route exact path="/" element={<Home theme={state.darkTheme} />} />
           <Route exact path="/work" element={<Project theme={state.darkTheme} />} />
 
             <Route exact path="/admin-login" element={<Adminlogin  />} />
-            <Route exact path="/article/:postId" element={<PostPage theme={state.darkTheme} />} />
+            <Route exact path="/article/:postId" element={<PostPage isAdmin={false} theme={state.darkTheme} />} />
             <Route exact path="/article" element={<ArticlesPage theme={state.darkTheme} />} />
             <Route path="*" element={<Navigate to="/" replace={true} />} />
 

@@ -7,8 +7,9 @@ import Errormsg from './errorcomponent';
 import CodeSnippet from './codesniped';
 // import ReplyCommentForm from './replyCommentForm';
 
-function PostPage ({theme , content}) {
+function PostPage ({theme , content , isAdmin}) {
 const [rerender , setrerender] =useState(false)
+const [openOption ,setOpenOption] = useState(false)
 
     const [data , setdata] = useState([])
     const [comments , setcomments] = useState([])
@@ -75,17 +76,21 @@ const  {postId}  = useParams();
 useEffect(()=>{
   setIsLoading(true)
 
-  axios.get(`/post/${postId}` ,{withCredentials:true})
+  axios.get(`http://localhost:2344/post/${postId}` ,{withCredentials:true})
            
   .then((res)=>{
       setdata(res.data)
       console.log(data)
-
+      if (res?.data.comments?.length) {
       setcomments(res.data?.comments)
+        
+      }
 
       
 })
-  .catch((e)=>{console.log(e)
+  .catch((e)=>{
+    console.log(e)
+    setdata({error:e.response.data})
 
     // ErrorRef.current(true)
     setErrorHandle(true)
@@ -101,11 +106,11 @@ const addComment = async(e)=>{
 e.preventDefault()
 setrerender(true)
   try {
-    const res = await axios.post(`/addcomment/${data._id}`,{
+    const res = await axios.post(`http://localhost:2344/addcomment/${data._id}`,{
       message: commentRef.current.value
     },{withCredentials:true})
     console.log(res)
-    setcomments((comments)=>[...comments , res.data.data])
+    setcomments((comments)=>[...comments , res?.data?.data])
     setrerender(false)
   } catch (error) {
     console.log(error)
@@ -138,6 +143,7 @@ function ReplyCommentForm({postId,theme , commentid , authorName}){
       event.preventDefault()
       console.log(commentid)
       try {
+      setcomments(res.data?.comments)
         const res = await axios.post(`/addReply/${postId}/${commentid}`,{
           reply:replyRef.current.value
         })
@@ -173,25 +179,52 @@ function ReplyCommentForm({postId,theme , commentid , authorName}){
   )
 }
 
+const DeletePost = async()=>{
+  try {
+    const res = await axios.delete(`http://localhost:2344/deleteArticle/${data._id}`,{withCredentials:true})
+    console.log(res)
+    window.location.reload()
+  } catch (error) {
+    console.log(error)
+  }
+}
+const editPost = async()=>{
+
+}
 
 useEffect(()=>{
   console.log(comments)
   },[rerender])
   return (
   <div className={`${theme ? 'bg-gray-900' : 'bg-gray-50'}`}>
-   {/* {isLoading ?
-   (
-    <LoadingComponent isLoading={isLoading}/>
-   )
-   :
-   (
-   <>  
-  { errorhandle?
-   (<Errormsg isError={errorhandle} note='network error please check your Internet connection or try again' /> )
-   : */}
   
-   <div className='flex flex-col items-center lg:min-h-screen '>
-   <div className={`mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10`}>
+  {
+    data?.heading ?
+    <div className=' flex flex-col items-center lg:min-h-screen '>
+      
+   <div className={`relative mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10`}>
+    {
+      isAdmin ?
+      <div className={`flex flex-col w-full absolute right-[0px] top-[10px] items-end  ${ theme? 'text-white': 'text-gray-800'}`}>
+        <button className='text-xl font-semibold flex items-center mx-[20px]'
+        onClick={()=>{
+          setOpenOption(openOption ? false : true)
+        }}
+        >...</button>
+        {
+          openOption ?
+          <div className={`flex flex-col p-[10px] mr-[10px] ${theme ? "bg-gray-900":"bg-gray-400"}`}>
+          <button onClick={DeletePost}>delete</button>
+          <button onClick={editPost}>Edit</button>
+        </div>
+        :null
+        }
+       
+      </div>
+      :null
+    }
+
+   
 
 <h1 className={`text-xl md:text-4xl font-bold ${ theme? 'text-white': 'text-gray-800'}`}>
                 {data.heading}
@@ -207,8 +240,9 @@ useEffect(()=>{
                   <span class={`text-xs md:text-sm ${theme? 'text-gray-400' : 'text-gray-600'}`}>
                     
                   {new Date(data.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
-            { new Date(data.timeStamp).getDay()} , {new Date(data.timeStamp).getFullYear()}
+            { new Date(data.timeStamp).getDate()} , {new Date(data.timeStamp).getFullYear()}
             </span>
+            
            </div>
            <div className={`cont w-full  leading-relaxed ${theme? 'text-gray-100':'text-dark'} `}>
             <div className='flex justify-center w-full mt-[20px] my-[10px]'>
@@ -234,7 +268,7 @@ useEffect(()=>{
     {
       comments?.length >0 ?
       [...comments].reverse().map((comment)=>[
-          <div className='flex w-full gap-[10px] items-start'>
+          <div id={comment.id} className='flex w-full gap-[10px] items-start'>
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
         <img src={dp} alt=""  className='w-full'/>
         </div>
@@ -246,8 +280,11 @@ useEffect(()=>{
         
       <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
                       
-                      {new Date(comment.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
-                { new Date(comment.timeStamp).getDay()} , {new Date(comment?.timeStamp).getFullYear()}</small>
+                      
+                
+                {new Date(comment.timestamp).toLocaleString('en-US', { month: 'long' })}{' '}
+            { new Date(comment.timestamp).getDate()} , {new Date(comment.timestamp).getFullYear()}
+            </small>
       </div>
            <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{comment?.text}</p>
 <div className='flex gap-[10px]'>
@@ -298,8 +335,8 @@ class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900
         
       <small class={` my-[5px] text-[10px] ${theme? 'text-gray-400' : 'text-gray-600'}`}>
                       
-                      {new Date(reply.timeStamp).toLocaleString('en-US', { month: 'long' })}{' '}
-                { new Date(reply.timeStamp).getDay()} , {new Date(reply?.timeStamp).getFullYear()}</small>
+                      {new Date(reply.timestamp).toLocaleString('en-US', { month: 'long' })}{' '}
+                { new Date(reply.timestamp).getDay()} , {new Date(reply?.timestamp).getFullYear()}</small>
       </div>
            <p className={` text-base ${theme?'text-gray-300':'text-gray-800'}`}>{reply?.text}</p>
          
@@ -385,6 +422,58 @@ class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900
         }
         </div> */}
     </div>
+    : data?.error ?
+    <div className=' flex flex-col items-center lg:min-h-screen '>
+      
+    <div className={`relative mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10`}>
+    
+    
+<h1 className={`text-xl md:text-4xl font-semibold ${ theme? 'text-gray-400': 'text-gray-800'}`}>
+                {data.error}
+               </h1>
+
+     
+     </div>
+     </div>
+
+     :
+    <div className=' flex flex-col items-center lg:min-h-screen '>
+    <div className={`mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10 ` }>
+ 
+ <h1 className={`bg-slate-200 h-[25px] w-[80%] rounded-full animate-pulse ${ theme? 'text-white ': 'text-gray-800'}`}>
+                 
+                                 </h1>
+             
+            <div className={` mt-[30px] animate-pulse max-w-[300px] h-[300px] rounded-lg bg-slate-400 cont w-full  leading-relaxed ${theme? 'text-gray-100':'text-dark'} `}>
+            
+           {renderContent(data.content)}
+            </div>
+
+            <div className='w-full'>
+              <h1 className='animate-pulse w-[70%] my-[20px] rounded-full bg-slate-200 h-[20px]'></h1>
+              <p className='animate-pulse w-[50%] my-[20px] rounded-full bg-slate-200 h-[10px]'>
+
+              </p>
+              <p className='animate-pulse w-[70%] my-[20px] rounded-full bg-slate-200 h-[10px]'>
+
+              </p>
+              <p className='animate-pulse w-[40%] my-[20px] rounded-full bg-slate-200 h-[10px]'>
+
+              </p>
+              <p className='animate-pulse w-[100%] my-[20px] rounded-full bg-slate-200 h-[10px]'>
+
+              </p>
+
+            </div>
+ </div>
+
+
+ 
+      
+    
+     </div>
+  }
+   
     {/* } */}
    {/* </>  */}
   {/* //  ) */}

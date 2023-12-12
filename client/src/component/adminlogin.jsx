@@ -16,7 +16,7 @@ function Adminlogin (){
       setisPosting(true)
 
       try {
-        const res =  await axios.post(`/login`,{
+        const res =  await axios.post(`http://localhost:2344/login`,{
           email:email.current.value,
           password:password.current.value
 

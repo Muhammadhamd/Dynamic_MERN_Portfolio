@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken"
 const __dirname = path.resolve();
 const SECRET = process.env.SECRET || "topsecret";
 import multer from 'multer';
+import { notify } from "./notification.mjs"
 
 
  function authMiddleware(req,res,next){
@@ -84,9 +85,11 @@ router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
            text:message,
            timestamp:new Date()
         }})
+
+        notify(postid , `${req.decodedData.name} just Commented`)
         
      } catch (error) {
-        
+        res.status(500).send(error)
      }
 })
 router.post("/addReply/:postid/:commentid",authMiddleware, async(req,res ,next)=>{

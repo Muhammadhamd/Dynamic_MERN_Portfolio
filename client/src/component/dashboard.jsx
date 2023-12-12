@@ -46,7 +46,7 @@ function Dashboard() {
         
         formdata.append('setUrl',URLtitle)
         formdata.append('image',img)
-        axios.post("/post", formdata , {
+        axios.post("http://localhost:2344/post", formdata , {
             withCredentials: true, 
         })
           .then((res)=>{
@@ -103,7 +103,7 @@ function Dashboard() {
          
          
             
-            <div className='max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl'>
+            <div className='mt-[140px] max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl'>
                 <h1 className='text-4xl font-semibold'>Add a Article</h1>
                 <form onSubmit={AddProducthandler}>
                 <div className='flex justify-center h-[80px] my-[10px] w-[40px]'>

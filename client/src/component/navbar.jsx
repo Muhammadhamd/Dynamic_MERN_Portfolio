@@ -8,14 +8,15 @@ import css from "../css/Navcomponent.css"
 function Navcomponent({islogin , img  ,changeCss , theme}) {
  const {state , dispatch}= useContext(GlobalContext)
   const [isResponsiveNavOpen ,setisResponsiveNavOpen] =useState(false)
-
+  const [openNotification , setOpenNotification] = useState(false)
   changeCss = true
 
   const navbarRef = useRef();
   const [scrolled , setScrolled] = useState()
+  const [NotificationArray , setNotificationArray] = useState([])
  const logoutHandler = async(e)=>{
   try {
-   const res =await axios.get("user-logout")
+   const res =await axios.get("http://localhost:2344/user-logout")
    dispatch({
     type:'USER_LOGOUT'
    })
@@ -31,10 +32,26 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       
     });
   }
+  const NotificationHandle = async()=>{
+    try {
+      const res = await axios.get("http://localhost:2344/notifications")
+       setNotificationArray(res?.data)
+       console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const updateNotificationHandler = async(notifyId)=>{
+    try {
+      const res = await axios.put(`http://localhost:2344/updateNotifyStatus/${notifyId}`)
+    } catch (error) {
+      
+    }
+  }
   useEffect(() => {
 
     const handleScroll = () => {
-      if ((window.scrollY + 90 ) > navbarRef.current.clientHeight) {
+      if ((window.scrollY + 90 ) > navbarRef?.current?.clientHeight) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -47,6 +64,9 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  useEffect(()=>{
+console.log(NotificationArray)
+  },[NotificationArray])
     return (
       <nav 
       ref={navbarRef}
@@ -72,7 +92,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
             </ul>
         </div>
         <div className='leftul'>
-<ul className='flex items-center gap-[30px]  text-[18px]'>
+<ul className='relative flex items-center gap-[30px]  text-[18px]'>
   <li><button className='rounded-full w-[50px] h-[50px] p-[10px] flex justify-center items-center overflow-hidden bg-[##0000ff38]'
   onClick={themeHandler}
 
@@ -83,15 +103,45 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
   </i></button></li>
 <li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>ABOUT</Link></li>
 <li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>CONTACT</Link></li>
-{ islogin ?
+{ islogin === "admin" ?
   (<>
+      <li className=''><Link to='/dashboard' className='text-violet-500'>Dashboard</Link></li>
+      <li className=''><button
+      onClick={()=>{
+        setOpenNotification(openNotification ? false : true)
+  NotificationHandle()
+
+      }}
+      ><i className='bi bi-bell-fill'></i></button></li>
+      {
+        openNotification &&
+        <div className='flex text-[black] flex-col gap-[10px] overflow-scroll w-[300px] h-[300px] bg-white rounded absolute right-[30px] top-[80px]'>
+        
+        {
+          NotificationArray?.map((noti)=>[
+            <div
+            onClick={()=>{updateNotificationHandler(noti._id)}}
+            key={noti._id} className='flex justify-between items-center border-b pb-[10px] px-[10px]'>
+          <h1><Link to={"/article"/noti.link}>{noti.title}</Link></h1>
+          
+          {
+            noti.Status === "pending" &&
+          <span className='w-[10px] h-[10px] p-[3px] bg-violet-500 rounded-full'></span>
+            
+          }
+        </div>
+          ])
+        }
+      </div>
+      }
+      
+    </>)
+: islogin === "user" ?
+(<>
   <li className='text-[20px]'><button onClick={logoutHandler}>Logout</button></li>
-  {/* <Link to='/profile'>
-  <div className='w-[70px] h-[70px] overflow-hidden rounded-full'>
-  <img src={img || imgholder} className='' alt="" />
-  </div>
-  </Link> */}
+  
   </>)
+
 :
 (
   <>

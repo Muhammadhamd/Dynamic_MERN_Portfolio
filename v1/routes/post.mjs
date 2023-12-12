@@ -21,33 +21,7 @@ const upload = multer({
     },
   });
   
-// const postSchema =  new mongoose.Schema({
 
-  
-//     timeStamp:{
-//         type: Date,
-//         default: Date.now
-//     },
-//     description:{
-//         type:String,
-//         required:true
-//     },
-//     heading:{
-//         type:String,
-//         required:true
-//     },
-//     tags:{
-//         type:Array,
-//         required:true
-//     },
-   
-  
-//     image:{
-//         type:String,
-//         required:true
-//     } ,
-        
-// })
 
 function adminAuth(req,res,next){
     if(!req.cookies.AdminToken){
@@ -115,7 +89,7 @@ router.post('/post',upload.single('image'),adminAuth, async(req,res,next)=>{
 
 router.get("/posts",async(req ,res)=>{
 
-    const postsData = await col.find({}).toArray()
+    const postsData = await col.find({}).sort({_id:-1}).toArray()
 
     res.send(postsData)
 })
@@ -134,10 +108,10 @@ router.get('/post/:postId', async (req, res) => {
         res.send(data)
         return
       }
-      res.send('post not found')
+      res.status(404).send('post not found')
 })
 
-router.delete("/post/:postid",async(req,res)=>{
+router.delete("/deleteArticle/:postid",async(req,res)=>{
     const postid = req.params.postid
     const update =  await col.findOneAndDelete({_id:new ObjectId(postid)})
     update ? res.send("post deleted") : res.send('error deleting post')
