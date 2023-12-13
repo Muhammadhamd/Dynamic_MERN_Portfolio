@@ -61,13 +61,17 @@ router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
           
 
      try {
-        const posts = await col.findOne({_id : new ObjectId(postid)})
-
+        const post = await col.findOne({_id : new ObjectId(postid)})
+        if (!post) {
+            res.status(404).send("post not found")
+            return
+        }
+        const id = new ObjectId()
     
         await col.updateOne(
             { _id: new ObjectId(postid) },
             { $push: { 'comments': { 
-              id: new ObjectId(),
+              id,
                 authorName:req.decodedData.name,
                 authorId:req.decodedData._id,
                text:message,
@@ -79,14 +83,14 @@ router.post("/addcomment/:postid", authMiddleware,async(req,res)=>{
           );
         
         res.send({message:"comment added",data:{
-            id: new ObjectId(),
+            id,
             authorName:req.decodedData.name,
             authorId:req.decodedData._id,
            text:message,
            timestamp:new Date()
         }})
 
-        notify(postid , `${req.decodedData.name} just Commented`)
+        notify(`article/${post?.ArticleUrl}?C=${id}` , `${req.decodedData.name} just Commented`)
         
      } catch (error) {
         res.status(500).send(error)

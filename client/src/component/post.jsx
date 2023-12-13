@@ -15,7 +15,12 @@ const [openOption ,setOpenOption] = useState(false)
     const [comments , setcomments] = useState([])
     const [openReply , setOpenReply] = useState([])
     const [openReplyForm , setOpenReplyForm] = useState([])
-const  {postId}  = useParams();
+    const  {postId}  = useParams();
+    const CommentQuery = new URLSearchParams(window.location.search).get("C") || new URLSearchParams(window.location.search).get("c");
+    const TargetedComment = useRef()
+    
+
+   
     const commentRef = useRef(null)
     const [commentMsg , setCommentmsg] = useState(null)
 
@@ -75,13 +80,14 @@ const  {postId}  = useParams();
         
 useEffect(()=>{
   setIsLoading(true)
-
   axios.get(`http://localhost:2344/post/${postId}` ,{withCredentials:true})
            
   .then((res)=>{
-      setdata(res.data)
-      console.log(data)
-      if (res?.data.comments?.length) {
+      setdata(res?.data)
+      if (res?.data?.comments?.length) {
+        res?.data?.comments?.unshift(res?.data?.comments?.splice(res?.data?.comments?.findIndex((each)=> each?.id == CommentQuery) ,1)[0])
+      
+       
       setcomments(res.data?.comments)
         
       }
@@ -90,7 +96,7 @@ useEffect(()=>{
 })
   .catch((e)=>{
     console.log(e)
-    setdata({error:e.response.data})
+    setdata({error:e.response?.data})
 
     // ErrorRef.current(true)
     setErrorHandle(true)
@@ -101,7 +107,7 @@ useEffect(()=>{
 
   })
   
-},[postId])
+},[postId ,CommentQuery])
 const addComment = async(e)=>{
 e.preventDefault()
 setrerender(true)
@@ -120,7 +126,6 @@ setrerender(true)
 
 
 useEffect(()=>{
-  console.log(data)
   document.title = data.heading
 },[data])
 useEffect(()=>{
@@ -128,8 +133,17 @@ useEffect(()=>{
 useEffect(()=>{
   },[openReplyForm])
 useEffect(()=>{
-console.log(comments)
 },[comments])
+
+useEffect(()=>{
+  
+  TargetedComment.current =  document.getElementById(comments?.find((each)=> each?.id == CommentQuery)?.id)
+  const toscroll = -5
+  const y = commentRef.current?.getBoundingClientRect().top + window.pageYOffset;
+  console.log(y)
+  window.scrollTo({top:y,behavior:'smooth'})
+  
+},[comments,CommentQuery])
 
 const filterpost = relatedPost.filter((post)=>post._id !== postId)
 const slicedRelatedPosts = filterpost.slice(0, 3);
@@ -267,7 +281,7 @@ useEffect(()=>{
   <div className='flex flex-col gap-[30px]'>
     {
       comments?.length >0 ?
-      [...comments].reverse().map((comment)=>[
+      comments.map((comment)=>[
           <div id={comment.id} className='flex w-full gap-[10px] items-start'>
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
         <img src={dp} alt=""  className='w-full'/>

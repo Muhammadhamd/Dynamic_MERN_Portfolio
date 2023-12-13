@@ -27,7 +27,7 @@ async function notify(link , title){
 }
 
 router.get("/notifications",async(req,res)=>{
-    const data = await col.find({}).toArray()
+    const data = await col.find({}).sort({_id:-1}).toArray()
     res.send(data)
 })
 

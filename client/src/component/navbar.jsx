@@ -7,11 +7,13 @@ import axios from 'axios';
 import css from "../css/Navcomponent.css"
 function Navcomponent({islogin , img  ,changeCss , theme}) {
  const {state , dispatch}= useContext(GlobalContext)
+ const notifyCountRef = useRef()
   const [isResponsiveNavOpen ,setisResponsiveNavOpen] =useState(false)
   const [openNotification , setOpenNotification] = useState(false)
   changeCss = true
 
   const navbarRef = useRef();
+  const titleRef = useRef()
   const [scrolled , setScrolled] = useState()
   const [NotificationArray , setNotificationArray] = useState([])
  const logoutHandler = async(e)=>{
@@ -37,6 +39,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       const res = await axios.get("http://localhost:2344/notifications")
        setNotificationArray(res?.data)
        console.log(res.data)
+
     } catch (error) {
       console.log(error)
     }
@@ -65,8 +68,19 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     };
   }, []);
   useEffect(()=>{
-console.log(NotificationArray)
-  },[NotificationArray])
+    NotificationHandle()
+    
+  },[])
+  useEffect(() => {
+  
+    notifyCountRef.current = NotificationArray.filter(each => each.Status === 'pending').length;
+    titleRef.current = document.title
+    setTimeout(() => {
+    document.title = notifyCountRef.current > 0 ? `(${notifyCountRef.current}) ${titleRef.current}` : document.title;
+      
+    }, 1000);
+  console.log(notifyCountRef.current)
+  }, [NotificationArray]);
     return (
       <nav 
       ref={navbarRef}
@@ -107,12 +121,20 @@ console.log(NotificationArray)
   (<>
       <li className=''><Link to='/dashboard' className='text-violet-500'>Dashboard</Link></li>
       <li className=''><button
+      className='relative text-xl'
       onClick={()=>{
         setOpenNotification(openNotification ? false : true)
-  NotificationHandle()
+
+       
 
       }}
-      ><i className='bi bi-bell-fill'></i></button></li>
+      ><i className='bi bi-bell-fill'></i>
+      {
+        notifyCountRef.current > 0 &&
+      <div className='absolute bg-violet-500 p-[4px] w-[13px] h-[13px] top-[2px] right-[-3px] rounded-full'></div>
+
+      }
+      </button></li>
       {
         openNotification &&
         <div className='flex text-[black] flex-col gap-[10px] overflow-scroll w-[300px] h-[300px] bg-white rounded absolute right-[30px] top-[80px]'>
@@ -120,9 +142,11 @@ console.log(NotificationArray)
         {
           NotificationArray?.map((noti)=>[
             <div
-            onClick={()=>{updateNotificationHandler(noti._id)}}
+            onClick={()=>{
+              setOpenNotification(false)
+              noti.Status === "pending" && updateNotificationHandler(noti._id)}}
             key={noti._id} className='flex justify-between items-center border-b pb-[10px] px-[10px]'>
-          <h1><Link to={"/article"/noti.link}>{noti.title}</Link></h1>
+          <h1><Link to={`/${noti.link}`}>{noti.title}</Link></h1>
           
           {
             noti.Status === "pending" &&
