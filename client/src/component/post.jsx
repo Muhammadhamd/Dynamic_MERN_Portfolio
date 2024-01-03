@@ -1,6 +1,7 @@
 import React,{useEffect ,useState , useRef} from 'react';
 import { useParams , Link } from 'react-router-dom';
 import dp from "../img/image 1.jpg"
+import avatar from "../img/Commentavatar.png"
 import axios from 'axios';
 import LoadingComponent from './Loading';
 import Errormsg from './errorcomponent';
@@ -136,12 +137,19 @@ useEffect(()=>{
 },[comments])
 
 useEffect(()=>{
+
   
+  if (CommentQuery) {
   TargetedComment.current =  document.getElementById(comments?.find((each)=> each?.id == CommentQuery)?.id)
-  const toscroll = -5
-  const y = commentRef.current?.getBoundingClientRect().top + window.pageYOffset;
-  console.log(y)
-  window.scrollTo({top:y,behavior:'smooth'})
+
+    if (TargetedComment) {
+      const y = commentRef.current?.getBoundingClientRect().top + window.pageYOffset;
+      console.log(y)
+      window.scrollTo({top:y,behavior:'smooth'})
+    }
+   
+  }
+ 
   
 },[comments,CommentQuery])
 
@@ -157,7 +165,6 @@ function ReplyCommentForm({postId,theme , commentid , authorName}){
       event.preventDefault()
       console.log(commentid)
       try {
-      setcomments(res.data?.comments)
         const res = await axios.post(`/addReply/${postId}/${commentid}`,{
           reply:replyRef.current.value
         })
@@ -278,13 +285,13 @@ useEffect(()=>{
 
 <div className='mx-auto max-w-[1000px] w-full'>
   <h1 className={`px-4 pt-3 pb-2  text-lg lg:text-3xl font-bold my-4 ${theme?'text-gray-300':'text-gray-800'}`}> Comments</h1>
-  <div className='flex flex-col gap-[30px]'>
+  <div className='flex flex-col gap-[20px]'>
     {
       comments?.length >0 ?
       comments.map((comment)=>[
-          <div id={comment.id} className='flex w-full gap-[10px] items-start'>
+          <div id={comment.id} className='flex w-full gap-[15px] items-start'>
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
-        <img src={dp} alt=""  className='w-full'/>
+        <img src={avatar} alt=""  className='w-full'/>
         </div>
         <div className='w-full'>
         <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
@@ -314,7 +321,7 @@ onClick={() => {
     setOpenReplyForm((openReplyForm) => [...openReplyForm, comment.id]);
   }
 }}
-class={`mt-4 text-xs md:text-[11px] ${theme ? 'text-slate-1000': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Reply</button>
+class={`mt-8 text-sm md:text-[11px] text-white  px-2 py-1 rounded bg-violet-500 transition ease-in-out duration-150 mx-1`}>Reply</button>
 <button onClick={() => {
     if (openReply.includes(comment.id)) {
       // If the comment's ID is already included, remove it

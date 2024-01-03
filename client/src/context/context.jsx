@@ -9,7 +9,8 @@ let data = {
   user: {}, // { firstName: "John", lastName: "Doe", email: "XXXXXXXXXXXXXX" }
   role: null, // null || "user" || "admin"
   isLogin: null, // null || true || false
-  darkTheme: true
+  darkTheme: true,
+  PersonalData:{}
 }
 
 

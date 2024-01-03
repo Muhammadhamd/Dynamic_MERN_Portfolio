@@ -49,6 +49,20 @@ function App() {
     }
   }
   useEffect(()=>{
+    axios.get(`http://localhost:2344/mydata`)
+    .then((res)=>{
+      dispatch({
+        type: "MY_DATA",
+        payload: res.data,
+      });
+    })
+    .catch((e)=>{
+      console.log(e)
+      // setAfterNetwork(false)
+
+    })
+  },[])
+  useEffect(()=>{
    loginHandler()
   },[])
 
@@ -56,13 +70,13 @@ function App() {
            
   },[])
   // Other code...
-  console.log(state.role , state.isLogin)
+  console.log(state.role , state.isLogin , state.PersonalData)
   return (
     <div>
       {/* Render your components with the theme and login props */}
       {state.isLogin === true && state.role === "admin" ? (
         <>
-          <Navcomponent theme={state.darkTheme} islogin="admin" />
+           {window.location.pathname !== "/dashboard" && <Navcomponent theme={state.darkTheme} islogin="admin" />}
           <Routes>
             <Route exact path="/" element={<Home theme={state.darkTheme} />} />
             <Route exact path="/dashboard" element={<Dashboard  />} />

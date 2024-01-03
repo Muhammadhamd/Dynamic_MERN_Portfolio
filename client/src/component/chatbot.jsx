@@ -30,7 +30,7 @@ function ChatBot(){
         }
         setMessages((messages)=>[...messages , newMessage])
         MessageRef.current.value = "";
-         axios.post(`/Chatbot-message`,{
+         axios.post(`http://localhost:2344/Chatbot-message`,{
             message:messageToSend
         })
         .then((res)=>{

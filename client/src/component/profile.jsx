@@ -20,7 +20,7 @@ function Profile() {
   const userLoginCheckHandler = async() =>{
 
     try {
-      const res = await axios.get("/currentuser",{
+      const res = await axios.get("http://localhost:2344/currentuser",{
         withCredentials: true,
       })
       setIsLogin(true)

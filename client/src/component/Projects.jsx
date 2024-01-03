@@ -21,7 +21,7 @@ function Project({theme}){
       }, [arrayProjectData]);
   
       useEffect(()=>{
-        axios.get(`/api/projects`)
+        axios.get(`http://localhost:2344/api/projects`)
         .then((res)=>{
           setArrayProjectData(res.data)
           setisloading(false)
@@ -126,7 +126,7 @@ function ProjectItem({ data, theme }) {
     lovebtn === "fa-heart" ? setLikes(likes- 1) : setLikes(likes + 1)
     console.log(likes)
     try {
-      const res = await axios.post(`/api/project-like/${data._id}`);
+      const res = await axios.post(`http://localhost:2344/api/project-like/${data._id}`);
       console.log(res.data)
 
       if (res.data.Added) {

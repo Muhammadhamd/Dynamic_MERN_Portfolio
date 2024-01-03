@@ -68,7 +68,7 @@ useEffect(()=>{
   setSearchInput(searchQuery || '')
   
   setisloading(true)
-axios.get(`/posts?s=${searchQuery || ""}`)
+axios.get(`http://localhost:2344/posts?s=${searchQuery || ""}`)
 .then((res)=>{
   console.log(res.data)
   setProducts(res.data)

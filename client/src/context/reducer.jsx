@@ -18,6 +18,25 @@ export const reducer = (state, action) => {
         }
   
       }
+      case "MY_DATA": {
+  
+        if (
+          
+           action.payload
+        ) {
+  
+         
+          return { ...state, 
+            PersonalData:  {heading: action.payload?.heading,
+            _id: action.payload?._id,
+            subline:action.payload?.subline,
+            name:action.payload?.name,
+            dp:action.payload?.dp,
+            paragraph:action.payload?.paragraph,
+            timeStamp:action.payload?.timeStamp,}}
+        }
+  
+      }
      
       case "USER_LOGOUT": {
         return { ...state, isLogin: false, role: null, user: {}  }
