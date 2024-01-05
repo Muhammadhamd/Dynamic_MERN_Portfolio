@@ -4,15 +4,18 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../context/context";
+import WarningModal from "./warningModal";
+import MyEditor from "./RTE";
 
 function Dashboard() {
   const { state, dispatch } = useContext(GlobalContext);
 
   const navigate = useNavigate();
+  const [projectItems, setProjectItem] = useState([]);
   const [productItems, setProductItem] = useState([]);
   const [title, settitle] = useState("");
   const [rerenderOnPost, setrerenderOnPost] = useState(false);
-  const [rerender, setrerender] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [image, setdpimage] = useState(null);
   const [Articleimage, setArticleimage] = useState(null);
   const [URLtitle, setURLtitle] = useState("");
@@ -25,6 +28,7 @@ function Dashboard() {
   const projectImage = useRef(null);
   const [img_pro, setImg_pro] = useState();
   const [openOption, setOpenOption] = useState();
+  const [openGalaray, setOpenGalaray] = useState(false);
   const [NotificationArray, setNotificationArray] = useState([]);
   const notifyCountRef = useRef();
   const titleRef = useRef();
@@ -32,7 +36,7 @@ function Dashboard() {
   const heading = useRef();
   const subline = useRef();
   const paragraph = useRef();
-
+  const [selectedSubline, setSelectedSubline] = useState([]);
   const pageQuerrry =
     new URLSearchParams(window.location.search).get("Page") ||
     new URLSearchParams(window.location.search).get("page");
@@ -96,15 +100,7 @@ function Dashboard() {
       console.log(error);
     }
   };
-  const NotificationHandle = async () => {
-    try {
-      const res = await axios.get("http://localhost:2344/notifications");
-      setNotificationArray(res?.data);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
   const updateNotificationHandler = async (notifyId) => {
     try {
       const res = await axios.put(
@@ -113,10 +109,11 @@ function Dashboard() {
     } catch (error) {}
   };
   useEffect(() => {
-    NotificationHandle();
-  }, []);
+    setNotificationArray(state?.notification);
+
+  }, [state?.notification]);
   useEffect(() => {
-    notifyCountRef.current = NotificationArray.filter(
+    notifyCountRef.current = NotificationArray?.filter(
       (each) => each.Status === "pending"
     ).length;
     titleRef.current = document.title;
@@ -172,52 +169,78 @@ function Dashboard() {
       img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
     },
   ];
-  // const productsHandler = async()=>{
+  useEffect(() => {
+    setSelectedSubline(state.PersonalData.subline);
+  }, [state.PersonalData.subline]);
+  useEffect(() => {
+    if (subline?.current?.value) {
+      subline.current.value = "";
+    }
+  }, [selectedSubline]);
+  const productsHandler = async()=>{
 
-  //   try {
-  //     const res = await axios.get('/posts')
-  //     console.log(res.data)
-  //     setProductItem((productItems) => [...productItems , res.data])
-  //    setrerender(true)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  // useEffect(()=>{
-  //   // productsHandler()
-  // },[rerenderOnPost])
-  // useEffect(()=>{
-  //   console.log(productItems)
-  // },[productItems])
-  // useEffect(()=>{
-  //     console.log(ProductsArray)
+    try {
+      const res = await axios.get('http://localhost:2344/posts')
+      console.log(res.data)
+      setProductItem(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const projectsHandler = async()=>{
 
-  // },[ProductsArray])
-  // useEffect(()=>{
-  //     AdmincheckingHandler()
-  // },[islogin])
+    try {
+      const res = await axios.get('http://localhost:2344/api/projects')
+      setProjectItem(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    productsHandler()
+    projectsHandler()
+  },[])
+  useEffect(()=>{
+    console.log(productItems)
+  },[productItems])
+  useEffect(()=>{
+    console.log(projectItems)
+  },[projectItems])
+  useEffect(()=>{
+      console.log(ProductsArray)
+
+  },[ProductsArray])
+ 
   const editUserData = async (e) => {
     e.preventDefault();
 
     try {
       let formdata = new FormData();
       formdata.append("namey", name.current.value);
-      formdata.append("subline", subline.current.value);
+      formdata.append("subline", JSON.stringify(selectedSubline));
       formdata.append("heading", heading.current.value);
       formdata.append("paragraphy", paragraph.current.value);
+      formdata.append("imagefromGalary", image);
 
       formdata.append("dpImg", img);
       const res = await axios.put("http://localhost:2344/userinfo", formdata, {
         withCredentials: true,
       });
       console.log(res);
+      dispatch({
+        type: "MY_DATA",
+        payload: res.data.data,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(()=>{
+
+  },[showModal])
   return (
-    <div className="relative">
+    <div className="relative bg-white text-black">
       <style>
         {`
           table {
@@ -238,6 +261,12 @@ function Dashboard() {
         `}
       </style>
       <div className="absolute bg-gray-800 text-white h-screen w-[230px]">
+        <Link to='/'>
+        <div className="w-[200px] h-[150px] overflow-hidden rounded-full">
+          <img className="w-full" src={state?.PersonalData?.dp} alt="" />
+        </div>
+        </Link>
+        
         <Link to="/dashboard" className="block py-2 px-4">
           Dashboard
         </Link>
@@ -263,7 +292,8 @@ function Dashboard() {
       <div className={`ml-[250px]`}>
         {pageQuerrry ? (
           pageQuerrry === "Article" ? (
-            <div className=" max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">
+            <>
+            {/* <div className=" max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">
               <h1 className="text-4xl font-semibold">Add a Article</h1>
               <form onSubmit={AddProducthandler}>
                 <div className="flex justify-center h-[80px] my-[10px] w-[40px]">
@@ -326,7 +356,8 @@ function Dashboard() {
                   </div>
                 </div>
               </form>
-            </div>
+            </div> */}
+            <MyEditor /></>
           ) : pageQuerrry === "Project" ? (
             <>
               <div className="max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">
@@ -424,19 +455,31 @@ function Dashboard() {
                   <th>Visibility</th>
                   <th></th>
                 </tr>
-                {dummydata?.map((each) => (
-                  <tr key={each.title}>
-                    <td>{each.title}</td>
-                    <td>{each.date}</td>
-                    <td>{each.status}</td>
+                {productItems?.map((each) => (
+                  <tr key={each._id}>
+                    <td>{each?.heading}</td>
+                    <td>{each?.timeStamp}</td>
+                    <td>{each?.status || 'public'}</td>
                     <td>
                       <i
                         className={`${
-                          each.visibility
+                          each?.visibility
                             ? "bi bi-eye-fill"
                             : "bi bi-eye-slash-fill"
                         }`}
-                      ></i>
+                      onClick={async()=>{
+                        try {
+                          const res = await axios.put(`http://localhost:2344/Article-visibility/${each._id}`,{
+                            visibility:each?.visibility ? true :false
+                          })
+                          console.log(res)
+                          setProductItem(productItems.map((item)=> item._id === res.data.data._id ?res.data.data :item ))
+
+                        } catch (error) {
+                          console.log(error)
+                        }
+                      }}
+                       ></i>
                     </td>
                     <td className="flex flex-col text-slate-500 text-sm">
                       <button>Edit</button>
@@ -457,20 +500,21 @@ function Dashboard() {
                   <th>Visibility</th>
                   <th></th>
                 </tr>
-                {dummydata?.map((each) => (
-                  <tr key={each.title}>
+                {projectItems?.length  &&
+                projectItems?.map((each) => (
+                  <tr key={each._id}>
                     <td>
                       <div className="w-[60px]">
-                        <img src={each.img} className="w-full" alt="" />
+                        <img src={each?.image} className="w-full" alt="" />
                       </div>
                     </td>
-                    <td>{each.date}</td>
+                    <td>{each.RepoLink}</td>
                     <td>
-                      <a href="https://github.com/muhammadhamd">
-                        https://github.com/muhammadhamd
+                      <a href={each?.hostlink}>
+                      {each?.hostlink}
                       </a>
                     </td>
-                    <td>{each.status}</td>
+                    <td>{each?.status || "published"}</td>
                     <td>
                       <i
                         className={`${
@@ -478,12 +522,30 @@ function Dashboard() {
                             ? "bi bi-eye-fill"
                             : "bi bi-eye-slash-fill"
                         }`}
+                        onClick={async()=>{
+                          try {
+                            const res = await axios.put(`http://localhost:2344/Project-visibility/${each._id}`,{
+                              visibility:each?.visibility ? true :false
+                            })
+                            console.log(res)
+                            setProjectItem(projectItems.map((item)=> item._id === res.data.data._id ?res.data.data :item ))
+  
+                          } catch (error) {
+                            console.log(error)
+                          }
+                        }}
                       ></i>
                     </td>
                     <td className="flex flex-col text-slate-500 text-sm">
                       <button>Edit</button>
-                      <button>Delete</button>
+                      <button
+                      onClick={()=>{
+                    <WarningModal showModal={true} Message={`want to delete ${each?._id}`}/>
+
+                      }}
+                      >Delete</button>
                     </td>
+                    
                   </tr>
                 ))}
               </table>
@@ -495,7 +557,17 @@ function Dashboard() {
                   className="max-w-[600px] bg-white flex flex-wrap shadow rounded w-full gap-[15px] justify-center p-[20px]"
                   onSubmit={editUserData}
                 >
-                  <div className="w-full flex justify-center">
+                  <div className="w-full flex justify-center items-end">
+                    <button 
+                    onClick={(e)=>{
+                      e.preventDefault()
+                      setOpenGalaray(true)
+                    }}
+                    className="text-violet-500">
+                      
+                      <i className="bi bi-images"></i> Galaray
+                    </button>
+
                     <div
                       className="w-[150px] h-[150px] overflow-hidden rounded-full flex justify-center items-center"
                       onClick={() => {
@@ -518,6 +590,13 @@ function Dashboard() {
                         alt=""
                       />
                     </div>
+                    <button className="text-violet-500">
+                      {" "}
+                      <i className="bi bi-camera"></i> Click Now!
+                    </button>
+                  </div>
+                  <div className="w-full flex justify-center">
+                    <div className="w-80 flex justify-between"></div>
                   </div>
                   <input
                     className="border rounded w-[45%] px-3 py-2 shadow focus:border-violet-700"
@@ -525,12 +604,7 @@ function Dashboard() {
                     defaultValue={state.PersonalData.name}
                     ref={name}
                   />
-                  <input
-                    className="border rounded w-[45%] px-3 py-2 shadow focus:border-violet-700"
-                    type="text"
-                    defaultValue={state.PersonalData.subline}
-                    ref={subline}
-                  />
+
                   <input
                     className="border rounded w-[45%] px-3 py-2 shadow focus:border-violet-700"
                     type="text"
@@ -543,6 +617,53 @@ function Dashboard() {
                     defaultValue={state.PersonalData.paragraph}
                     ref={paragraph}
                   />
+                  <div className="w-full">
+                    <div className=" flex border rounded w-[100%] shadow focus:border-violet-700">
+                      <input
+                        className=" w-[100%] px-3 py-2"
+                        type="text"
+                        ref={subline}
+                      />
+
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedSubline(() => [
+                            ...selectedSubline,
+                            subline.current.value,
+                          ]);
+                        }}
+                        className="bg-violet-500 text-white font-semibold px-3 py-2 rounded"
+                      >
+                        Add
+                      </button>
+                    </div>
+                    <div className="flex gap-[5px] flex-wrap">
+                      {selectedSubline?.map((each, Index) => [
+                        <div
+                          key={Index}
+                          className="flex items-center justify-bwtween text-sm bg-slate-100 rounded pl-4 pr-2 py-2 text-black"
+                        >
+                          <span>{each}</span>
+                          &nbsp; &nbsp;
+                          <button
+                            className="text-slate-500"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              console.log(Index);
+                              const updatedArray = [...selectedSubline];
+                              updatedArray.splice(Index, 1);
+
+                              setSelectedSubline(updatedArray);
+                            }}
+                          >
+                            <i className="bi bi-x"></i>
+                          </button>
+                        </div>,
+                      ])}
+                    </div>
+                  </div>
+
                   <input
                     type="submit"
                     value="Change"
@@ -550,6 +671,37 @@ function Dashboard() {
                   />
                 </form>
               </div>
+              {
+                openGalaray &&
+                <div className="absolute top-0 w-[80%]  h-[100vh] flex justify-center items-center">
+                <div className="relative p-[30px] max-w-[600px] w-full rounded shadow bg-white">
+                  <button className="absolute top-[4px] right-[4px]"
+                  onClick={()=>{
+                    setOpenGalaray(false)
+                  }}
+                  ><i className="bi bi-x"></i></button>
+                <h1 className=" mb-8 text-xl fomt-semibold">Select Image from your Galar</h1>
+                  
+                  <div className="flex gap-[5px]">
+                    {state?.PersonalData?.Galary &&
+  state?.PersonalData?.Galary.map((each) => (
+    <div 
+    onClick={(e)=>{
+      e.preventDefault()
+      setdpimage(each)
+      setImg(null)
+      
+    }}
+    key={each} 
+    className="w-[100px] overflow-hidden h-[100px]">
+      <img src={each} className="w-full" alt="" />
+    </div>
+  ))}
+                  </div>
+                </div>
+              </div>
+              }
+              
             </div>
           ) : (
             <div className="max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">

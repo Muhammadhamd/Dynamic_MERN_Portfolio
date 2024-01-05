@@ -88,7 +88,7 @@ router.post(
 );
 
 router.get("/posts", async (req, res) => {
-  const postsData = await col.find({}).sort({ _id: -1 }).toArray();
+  const postsData = await col.find({visibility:true}).sort({ _id: -1 }).toArray();
 
   res.send(postsData);
 });
@@ -99,6 +99,7 @@ router.get("/post/:postId", async (req, res) => {
 
   const data = await col.findOne({
     ArticleUrl: postID,
+    visibility:true
   });
   if (data) {
     res.send(data);
@@ -107,10 +108,27 @@ router.get("/post/:postId", async (req, res) => {
   res.status(404).send("post not found");
 });
 
-router.delete("/deleteArticle/:postid", async (req, res) => {
+router.delete("/deleteArticle/:postid",adminAuth, async (req, res) => {
   const postid = req.params.postid;
   const update = await col.findOneAndDelete({ _id: new ObjectId(postid) });
   update ? res.send("post deleted") : res.send("error deleting post");
+});
+router.put("/Article-visibility/:postid", adminAuth, async (req, res) => {
+  const postid = req.params.postid;
+  
+  try {
+
+    const update = await col.findOneAndUpdate(
+      { _id: new ObjectId(postid) },
+      { $set: { visibility: req?.body?.visibility ? false : true } }
+      ,{returnDocument:"after"}
+      );
+
+    res.send({Message:"post updated",data:update.value});
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
 });
 
 export default router;

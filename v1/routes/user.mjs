@@ -5,6 +5,7 @@ import { client } from "../../mongodb.mjs";
 import { ObjectId } from "mongodb";
 const db = client.db("Portfolio");
 const col = db.collection("userinfo");
+const galary_col = db.collection("DP_GALARY");
 const admincol = db.collection("admin");
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import cookieParser from "cookie-parser";
@@ -40,7 +41,7 @@ const userSchema = new mongoose.Schema({
   },
 
   subline: {
-    type: String,
+    type: Array,
     required: true,
   },
 });
@@ -70,9 +71,9 @@ router.put(
   adminAuth,
   upload.single("dpImg"),
   async (req, res, next) => {
-    const { heading, namey, subline, paragraphy } = req.body;
+    const { heading, namey, subline, paragraphy, imagefromGalary } = req.body;
+    const sublineArray = JSON.parse(subline); // Convert JSON string to array
 
-    // Check if a new image is provided
     const addImgDB = req?.file;
     let imgUrl = null;
     try {
@@ -87,19 +88,29 @@ router.put(
         const snapshot = await task;
         imgUrl = await getDownloadURL(snapshot.ref);
       }
-
+      const findData = await col.findOne( {
+        _id: new ObjectId("64f04b2244f71fda1dc121f5"),
+      },)
+      console.log(findData.Galary)
       // Build the update object based on whether a new image is provided
       const updateObject = {
         timeStamp: new Date(),
         heading,
         paragraph: paragraphy,
-        subline,
+        subline: sublineArray,
         name: namey,
+        Galary:findData?.Galary ||[]
       };
 
-      // Conditionally add the dp field to the update object if a new image is provided
-      if (imgUrl) {
-        updateObject.dp = imgUrl;
+      // i dont know why null is in string
+      if (imgUrl || imagefromGalary !== "null") {
+        console.log("imagefromGalary",imagefromGalary)
+        console.log("imgUrl",imgUrl)
+        updateObject.dp = imgUrl || imagefromGalary;
+        if (imgUrl) {
+        updateObject.Galary.push(imgUrl);
+          
+        }
       }
 
       // Update the document in the database
@@ -110,9 +121,12 @@ router.put(
         {
           $set: updateObject,
         }
+        , { returnDocument: 'after' }
       );
+      console.log(data.value.name);
 
-      res.status(200).send(req.body);
+      res.status(200).send({message:"sucessfully Updated", data:data.value});
+      
     } catch (error) {
       res.status(500).send("Internal error ", error);
     }

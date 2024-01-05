@@ -80,7 +80,7 @@ try {
 
 router.get("/api/projects",async(req ,res)=>{
 
-    const postsData = await col.find({}).toArray()
+    const postsData = await col.find({visibility:true}).toArray()
 
     res.send(postsData)
 })
@@ -155,5 +155,21 @@ router.post("/api/project-like/:productId", authenticateUser, async(req,res)=>{
      
   return res.json({'Added':true});
 })
+router.put("/Project-visibility/:postid", adminAuth, async (req, res) => {
+  const postid = req.params.postid;
+  
+  try {
 
+    const update = await col.findOneAndUpdate(
+      { _id: new ObjectId(postid) },
+      { $set: { visibility: req?.body?.visibility ? false : true } }
+      ,{returnDocument:"after"}
+      );
+
+    res.send({Message:"post updated",data:update.value});
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+});
 export default router

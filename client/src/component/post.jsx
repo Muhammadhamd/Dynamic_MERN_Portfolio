@@ -1,4 +1,4 @@
-import React,{useEffect ,useState , useRef} from 'react';
+import React,{useEffect ,useState , useRef, useContext} from 'react';
 import { useParams , Link } from 'react-router-dom';
 import dp from "../img/image 1.jpg"
 import avatar from "../img/Commentavatar.png"
@@ -6,9 +6,12 @@ import axios from 'axios';
 import LoadingComponent from './Loading';
 import Errormsg from './errorcomponent';
 import CodeSnippet from './codesniped';
+import { GlobalContext } from '../context/context';
+import ImageModal from './openImageModal';
 // import ReplyCommentForm from './replyCommentForm';
 
 function PostPage ({theme , content , isAdmin}) {
+  const {state} =useContext(GlobalContext)
 const [rerender , setrerender] =useState(false)
 const [openOption ,setOpenOption] = useState(false)
 
@@ -77,7 +80,17 @@ const [openOption ,setOpenOption] = useState(false)
         
       
         }
-        
+        const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+const openModal = (imageUrl) => {
+  setSelectedImage(imageUrl);
+  setShowModal(true);
+};
+
+const closeModal = () => {
+  setSelectedImage(null);
+  setShowModal(false);
+};
         
 useEffect(()=>{
   setIsLoading(true)
@@ -291,7 +304,7 @@ useEffect(()=>{
       comments.map((comment)=>[
           <div id={comment.id} className='flex w-full gap-[15px] items-start'>
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
-        <img src={avatar} alt=""  className='w-full'/>
+        <img src={avatar} alt=""  onClick={()=>{openModal(avatar)}}  className='w-full'/>
         </div>
         <div className='w-full'>
         <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
@@ -346,7 +359,11 @@ class={`mt-8 text-sm md:text-[11px] text-white  px-2 py-1 rounded bg-violet-500 
               [...comment.replies].reverse().map((reply)=>(
 <div className='flex w-full gap-[10px] items-start'>
         <div className='w-[30px] h-[30px] rounded-full overflow-hidden'>
-        <img src={dp} alt=""  className='w-full'/>
+        <img 
+        src={dp}
+         alt=""  
+        onClick={()=>{openModal(state?.PersonalData?.dp)}}
+          className='w-full'/>
         </div>
         <div className='w-full'>
         <div className={` py-[10px] px-[15px] max-w-[500px]   shadow-xl  rounded-lg ${theme?'bg-slate-700':'bg-white'}`}>
@@ -491,8 +508,9 @@ class={`mt-8 text-sm md:text-[11px] text-white  px-2 py-1 rounded bg-violet-500 
 
  
       
-    
+ 
      </div>
+    
   }
    
     {/* } */}
@@ -501,6 +519,9 @@ class={`mt-8 text-sm md:text-[11px] text-white  px-2 py-1 rounded bg-violet-500 
     
     
     {/* // } */}
+    {showModal && (
+        <ImageModal imageUrl={selectedImage} onClose={closeModal} />
+      )}
   </div>
   );
 }

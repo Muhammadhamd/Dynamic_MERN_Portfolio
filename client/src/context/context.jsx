@@ -10,7 +10,8 @@ let data = {
   role: null, // null || "user" || "admin"
   isLogin: null, // null || true || false
   darkTheme: true,
-  PersonalData:{}
+  PersonalData:{},
+  notification:null
 }
 
 

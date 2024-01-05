@@ -17,14 +17,24 @@ import ChatBot from "./component/chatbot";
 import Experience from "./component/exprence";
 import PopUpMessage from "./component/heading";
 import { GlobalContext } from "./context/context";
+import ImageModal from "./component/openImageModal";
 function Home({ theme }) {
   const { state, dispatch } = useContext(GlobalContext);
-
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [afterNetwork, setAfterNetwork] = useState(true);
+  const openModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setShowModal(true);
+  };
 
+  const closeModal = () => {
+    setSelectedImage(null);
+    setShowModal(false);
+  };
   useEffect(() => {
     const options = {
-      strings: [
+      strings: state.PersonalData.subline || [
         "Frontend Developer",
         "MERN Developer",
         "Graphic Designer",
@@ -42,13 +52,90 @@ function Home({ theme }) {
     return () => {
       typed.destroy();
     };
-  }, []);
+  }, [state.PersonalData.subline]);
+
   return (
     <div
       className={`flex flex-col   pb-[100px] max-[700px]:gap-[70px]  max-[650px]:gap-[40px] max-[500px]:gap-[30px] gap-[140px] ${
         theme ? "text-white bg-gray-900" : "bg-white"
-      }`}
+      } App`}
     >
+      <div className="absolute top-0 w-full h-[100vh]">
+      {/* <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={{
+          background: {
+            color: {
+              value: "#0d47a1",
+            },
+          },
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: true,
+                mode: "push",
+              },
+              onHover: {
+                enable: true,
+                mode: "repulse",
+              },
+              resize: true,
+            },
+            modes: {
+              push: {
+                quantity: 4,
+              },
+              repulse: {
+                distance: 200,
+                duration: 0.4,
+              },
+            },
+          },
+          particles: {
+            color: {
+              value: "#ffffff",
+            },
+            links: {
+              color: "#ffffff",
+              distance: 150,
+              enable: true,
+              opacity: 0.5,
+              width: 1,
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce",
+              },
+              random: false,
+              speed: 2, // Adjust the speed here
+              straight: false,
+            },
+            number: {
+              density: {
+                enable: true,
+                area: 800,
+              },
+              value: 80,
+            },
+            opacity: {
+              value: 0.5,
+            },
+            shape: {
+              type: "circle",
+            },
+            size: {
+              value: { min: 1, max: 5 },
+            },
+          },
+          detectRetina: true,
+        }}
+      /> */}
+      </div>
       <div className="flex  justify-center mt-[30px]">
         <div className="section1">
           <div className="container">
@@ -155,7 +242,7 @@ function Home({ theme }) {
                   theme ? "shadow-none" : "shadow-[0px_0px_5px_#0000007a]"
                 } max-[700px]:hidden overflow-hidden`}
               >
-                <img src={state.PersonalData.dp} alt="" />:
+                <img src={state.PersonalData.dp} alt="" onClick={()=>{openModal(state.PersonalData.dp)}} />:
               </div>
             ) : (
               <div className="animate-pulse flex space-x-4">
@@ -277,8 +364,15 @@ function Home({ theme }) {
           {/* <Adminlogin /> */}
         </>
       )}
+      {showModal && (
+        <ImageModal imageUrl={selectedImage} onClose={closeModal} />
+      )}
+      
+      
     </div>
   );
 }
 
 export default Home;
+
+

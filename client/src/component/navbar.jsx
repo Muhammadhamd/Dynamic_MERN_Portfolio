@@ -34,16 +34,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       
     });
   }
-  const NotificationHandle = async()=>{
-    try {
-      const res = await axios.get("http://localhost:2344/notifications")
-       setNotificationArray(res?.data)
-       console.log(res.data)
 
-    } catch (error) {
-      console.log(error)
-    }
-  }
   const updateNotificationHandler = async(notifyId)=>{
     try {
       const res = await axios.put(`http://localhost:2344/updateNotifyStatus/${notifyId}`)
@@ -68,12 +59,13 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     };
   }, []);
   useEffect(()=>{
-    NotificationHandle()
+    setNotificationArray(state?.notification)
+
     
-  },[])
+  },[state?.notification])
   useEffect(() => {
   
-    notifyCountRef.current = NotificationArray.filter(each => each.Status === 'pending').length;
+    notifyCountRef.current = NotificationArray?.filter(each => each.Status === 'pending')?.length;
     titleRef.current = document.title
     setTimeout(() => {
     document.title = notifyCountRef.current > 0 ? `(${notifyCountRef.current}) ${titleRef.current}` : document.title;
@@ -91,8 +83,14 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
             <div className='w-[60px] h-[60px] overflow-hidden rounded-full'>
               <Link to='/'>
           
-              <img className='w-full' src={logo} alt="" />
-
+              {
+                state?.PersonalData?.dp ?
+              <img className='w-full' src={state?.PersonalData?.dp} alt="" />
+:
+                <div className="animate-pulse flex space-x-4">
+                <div class="rounded-full bg-slate-200 h-[60px]  md:w-[60px]"></div>
+              </div>
+              }
             
 
               </Link>

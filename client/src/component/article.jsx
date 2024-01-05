@@ -1,11 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import axios from 'axios';
 import SubmitBtn from './submitbtn';
 import { useNavigate, useLocation , Link} from 'react-router-dom';
 import LoadingComponent from './Loading';
 import dp from '../img/image 1.jpg'
 import PopUpMessage from './heading';
+import { GlobalContext } from '../context/context';
+import ImageModal from './openImageModal';
 function ArticlesPage({theme}){
+  const { state, dispatch } = useContext(GlobalContext);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
  const [articleArray , setArticlearray] = useState([])
  const [rerender , setrerender] = useState(false)
  const [loading , setloading] = useState(true)
@@ -59,7 +64,15 @@ function ArticlesPage({theme}){
 // })
 // },[])
 
+const openModal = (imageUrl) => {
+  setSelectedImage(imageUrl);
+  setShowModal(true);
+};
 
+const closeModal = () => {
+  setSelectedImage(null);
+  setShowModal(false);
+};
   const renderParagraph =(content)=>{
     const paragraphRegex = /''(.*?)''/g;
      const match = paragraphRegex.exec(content)
@@ -117,10 +130,14 @@ useEffect(()=>{
                     <Link to={`/article/${data.ArticleUrl}`}>{data.heading}</Link>
                   </h1>
                   <div class="flex my-2 items-center"><div class="h-4 w-4 md:h-8 md:w-8 overflow-hidden rounded-full">
-                    <a href="https://www.codewithharry.com/" class="block w-full h-full text">
                       
-                      <img alt="Muhammad Hamd's photo" src={dp} class="w-full h-full object-cover"/>
-                    </a>
+                      <img
+                       alt="Muhammad Hamd's photo" 
+                       src={state?.PersonalData?.dp || dp} 
+                       class="w-full h-full object-cover"
+                     onClick={()=>{openModal(state?.PersonalData?.dp)}}
+                       
+                       />
                   </div>
                   <Link to={`/`} class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Muhammad Hamd</Link>
                   <span class={`mx-1 block font-bold ${theme?'text-gray-400':'text-slate-500'} md:block`}>·</span>
@@ -144,7 +161,9 @@ useEffect(()=>{
         }
         
       </div>
-
+      {showModal && (
+        <ImageModal imageUrl={selectedImage} onClose={closeModal} />
+      )}
       </div>
      
   
