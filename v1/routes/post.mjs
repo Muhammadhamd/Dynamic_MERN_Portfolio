@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken";
 const __dirname = path.resolve();
 const SECRET = process.env.SECRET || "topsecret";
 import multer from "multer";
+import { verify } from "crypto";
 const upload = multer({
   storage: multer.memoryStorage(), // Store files in memory
   limits: {
@@ -97,9 +98,39 @@ router.get("/post/:postId", async (req, res) => {
   const postID = req.params.postId;
   console.log(postID);
 
+   if (!ObjectId.isValid(postID)) {
+    const data = await col.findOne({
+      ArticleUrl: postID,
+      visibility:true
+    });
+    if (data) {
+      res.send(data);
+      return;
+    }
+   }
+  
+  
+
+  if (ObjectId.isValid(postID)) {
+    const databyid = await col.findOne({
+      _id: new ObjectId(postID),
+      visibility:true
+    });
+    if(databyid){
+      res.send(databyid)
+      return
+    }
+    
+  }
+  
+  res.status(404).send("post not found");
+});
+router.get("/ToEditPost/:postId",adminAuth, async (req, res) => {
+  const postID = req.params.postId;
+  console.log(postID);
+
   const data = await col.findOne({
-    ArticleUrl: postID,
-    visibility:true
+    _id: new ObjectId(postID),
   });
   if (data) {
     res.send(data);
@@ -107,7 +138,42 @@ router.get("/post/:postId", async (req, res) => {
   }
   res.status(404).send("post not found");
 });
+router.get("/Admin-Article",adminAuth, async (req, res) => {
+  
+  
 
+  const data = await col.find({}).sort({ _id: -1 }).toArray();
+  
+  res.send(data);
+});
+router.put("/editArticle/:postId",adminAuth, upload.single("image"), async (req, res) => {
+  const postID = req.params.postId;
+  const { Heading, content, setUrl } = req.body;
+ console.log(Heading, content, setUrl)
+
+  if (!Heading && !content && !setUrl) {
+    res.status(401).send("input all data")
+    return false
+  }
+  const data = await col.findOneAndUpdate({
+    _id: new ObjectId(postID),
+  }
+  ,
+  {
+  $set:{
+    content:content,
+    heading:Heading,
+    ArticleUrl:setUrl
+  }
+  },
+  {returnDocument:"after"}
+  );
+  if (data) {
+    res.send({data:data.value,messsage:"Article is updated"});
+    return;
+  }
+  res.status(404).send("post not found");
+});
 router.delete("/deleteArticle/:postid",adminAuth, async (req, res) => {
   const postid = req.params.postid;
   const update = await col.findOneAndDelete({ _id: new ObjectId(postid) });

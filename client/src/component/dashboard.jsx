@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../context/context";
 import WarningModal from "./warningModal";
-import MyEditor from "./RTE";
 
+import AddArticle from "./addArticle";
 function Dashboard() {
   const { state, dispatch } = useContext(GlobalContext);
 
@@ -17,12 +17,10 @@ function Dashboard() {
   const [rerenderOnPost, setrerenderOnPost] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [image, setdpimage] = useState(null);
-  const [Articleimage, setArticleimage] = useState(null);
-  const [URLtitle, setURLtitle] = useState("");
+	
   const [img, setImg] = useState(state.PersonalData.dp);
-  const [Articleimg, setArticleImg] = useState();
-  const [content, setContent] = useState("");
   const [ProductsArray, setProductsArray] = useState([]);
+ 
   const projectRepoRef = useRef(null);
   const projectliveLinkRef = useRef(null);
   const projectImage = useRef(null);
@@ -53,34 +51,7 @@ function Dashboard() {
       console.log(error);
     }
   };
-  const AddProducthandler = (e) => {
-    e.preventDefault();
-
-    const newAdd = {
-      heading: title,
-      content: content,
-      urlTitle: URLtitle,
-    };
-
-    setProductsArray((ProductsArray) => [...ProductsArray, newAdd]);
-    const formdata = new FormData();
-    formdata.append("Heading", title);
-    formdata.append("content", content);
-
-    formdata.append("setUrl", URLtitle);
-    formdata.append("image", Articleimg);
-    axios
-      .post("http://localhost:2344/post", formdata, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-        setrerenderOnPost(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  
   const AddProjectHandler = async (e) => {
     e.preventDefault();
 
@@ -125,50 +96,7 @@ function Dashboard() {
     }, 1000);
     console.log(notifyCountRef.current);
   }, [NotificationArray]);
-  const dummydata = [
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: true,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
-    },
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: false,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
-    },
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: true,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1698858448452-Mern%20Stack%20ecommerce%20website.jpg?alt=media&token=8dc2083a-2963-4bc7-809f-653d73ba8fda",
-    },
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: true,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
-    },
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: true,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
-    },
-    {
-      title: "how to cansole string in ES6",
-      status: "published",
-      date: "23 oct",
-      visibility: true,
-      img: "https://firebasestorage.googleapis.com/v0/b/buying-selling-hh.appspot.com/o/1697944738470-unnamed.png?alt=media&token=38265ee8-97a2-4316-878c-8c6ed02a783a",
-    },
-  ];
+  
   useEffect(() => {
     setSelectedSubline(state.PersonalData.subline);
   }, [state.PersonalData.subline]);
@@ -180,8 +108,7 @@ function Dashboard() {
   const productsHandler = async()=>{
 
     try {
-      const res = await axios.get('http://localhost:2344/posts')
-      console.log(res.data)
+      const res = await axios.get('http://localhost:2344/Admin-Article')
       setProductItem(res.data)
     } catch (error) {
       console.log(error)
@@ -239,6 +166,9 @@ function Dashboard() {
   useEffect(()=>{
 
   },[showModal])
+
+ 
+  
   return (
     <div className="relative bg-white text-black">
       <style>
@@ -292,72 +222,9 @@ function Dashboard() {
       <div className={`ml-[250px]`}>
         {pageQuerrry ? (
           pageQuerrry === "Article" ? (
-            <>
-            {/* <div className=" max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">
-              <h1 className="text-4xl font-semibold">Add a Article</h1>
-              <form onSubmit={AddProducthandler}>
-                <div className="flex justify-center h-[80px] my-[10px] w-[40px]">
-                  <img
-                    className=" w-full"
-                    src={Articleimage}
-                    alt=""
-                    onClick={(e) => {
-                      document.getElementById("inputArticleimage").click();
-                    }}
-                  />
-                  <input
-                    type="file"
-                    id="inputArticleimage"
-                    hidden
-                    onChange={(e) => {
-                      setArticleimage(URL.createObjectURL(e.target.files[0]));
-                      setArticleImg(e.target.files[0]);
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col w-full gap-[20px]">
-                  <input
-                    type="text"
-                    value={title}
-                    className="border px-4 py-3 w-full"
-                    onChange={(e) => {
-                      settitle(e.target.value);
-                    }}
-                    placeholder="title...."
-                  />
-                  <input
-                    type="text"
-                    value={URLtitle}
-                    className="border px-4 py-3 w-full"
-                    onChange={(e) => {
-                      setURLtitle(e.target.value);
-                    }}
-                    placeholder="add a unique title for Url"
-                  />
-
-                  <textarea
-                    name=""
-                    id=""
-                    cols="30"
-                    rows="10"
-                    value={content}
-                    className="border px-4 py-3 w-full"
-                    onChange={(e) => {
-                      setContent(e.target.value);
-                    }}
-                    placeholder="add content"
-                  ></textarea>
-                  <div className="w-full">
-                    <SubmitBtn
-                      value="add new Product"
-                      valueOnUpload="addingg"
-                      Requirments={[title, content, URLtitle]}
-                    />
-                  </div>
-                </div>
-              </form>
-            </div> */}
-            <MyEditor /></>
+         <>
+         <AddArticle/>
+         </>
           ) : pageQuerrry === "Project" ? (
             <>
               <div className="max-w-[1000px] w-full p-[40px] bg-[white] border-rounded shadow-xl">
@@ -401,7 +268,7 @@ function Dashboard() {
                       <SubmitBtn
                         value="add new Product"
                         valueOnUpload="addingg"
-                        Requirments={[title, content, URLtitle]}
+                        
                       />
                     </div>
                   </div>
@@ -482,7 +349,7 @@ function Dashboard() {
                        ></i>
                     </td>
                     <td className="flex flex-col text-slate-500 text-sm">
-                      <button>Edit</button>
+                      <button ><Link to={`/dashboard?page=Article&edit=${each._id}`}>Edit</Link></button>
                       <button>Delete</button>
                     </td>
                   </tr>

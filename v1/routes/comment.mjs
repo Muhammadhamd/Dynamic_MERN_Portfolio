@@ -92,9 +92,29 @@ router.post("/addcomment/:postid", authMiddleware, async (req, res) => {
     res.status(500).send(error);
   }
 });
+function adminAuth(req, res, next) {
+  if (!req.cookies.AdminToken) {
+    return res.status(401).send("not login as admin");
+  }
+
+  const decodedData = jwt.verify(req.cookies.AdminToken, SECRET);
+
+  if (decodedData.exp > Date.now()) {
+    // If the token is valid, set the user data in the request object
+    res.cookie("AdminToken", "", {
+      maxAge: 1,
+      httpOnly: true,
+    });
+    res.status(401).send("login again ");
+  } else {
+    req.body.decodedData = decodedData;
+    console.log(decodedData);
+    next();
+  }
+}
 router.post(
   "/addReply/:postid/:commentid",
-  authMiddleware,
+  authMiddleware,adminAuth,
   async (req, res) => {
     const postid = req.params.postid;
     const commentid = req.params.commentid;

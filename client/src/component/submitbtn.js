@@ -2,7 +2,7 @@
 
 function SubmitBtn({isProcessing  , valueOnUpload, value , Requirments , css}){
 
-  const Inputs = Requirments.some((value)=> value.trim() === '')
+  const Inputs = Requirments?.some((value)=> value?.trim() === '')
 
  const isAnyEmpty = Inputs
     return(

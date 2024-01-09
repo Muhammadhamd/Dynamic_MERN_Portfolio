@@ -3,6 +3,7 @@ import { useParams , Link } from 'react-router-dom';
 import dp from "../img/image 1.jpg"
 import avatar from "../img/Commentavatar.png"
 import axios from 'axios';
+import css from "../css/post.css"
 import LoadingComponent from './Loading';
 import Errormsg from './errorcomponent';
 import CodeSnippet from './codesniped';
@@ -42,7 +43,7 @@ const [openOption ,setOpenOption] = useState(false)
 
 
         
-            const codeRegex =/'`([\s\S]*?)`'/g; // Use triple backticks for code snippets
+          const codeRegex = /<pre>([\s\S]*?)<\/pre>/g; // Use triple backticks for code snippets
           
             const parts = content?.split(codeRegex);
             const processedContent = parts?.map((part, index) => {
@@ -53,10 +54,7 @@ const [openOption ,setOpenOption] = useState(false)
                       key={index}
                       dangerouslySetInnerHTML={{
                         __html: part
-                          .replace(headingRegex, '<h1 class="text-3xl max-[650px]:text-2xl font-semibold mt-4 w-full">$1</h1')
-                          .replace(linebreak, '<br>')
-                          .replace(paragraphRegex, '<p class="text-[16px] max-[650px]:text-[15px] my-3  leading-[30px]">$1</p>')
-                          .replace(linkRegex, '<a class="text-white" href="$1">$1</a>')
+                        
                       }}
                     />
                   );
@@ -266,7 +264,7 @@ useEffect(()=>{
                <div class="flex my-2 items-center"><div class="h-4 w-4 md:h-8 md:w-8 overflow-hidden rounded-full">
                     <a href="/" class="block w-full h-full text">
                       
-                      <img alt="Muhammad Hamd's photo" src={dp} class="w-full h-full object-cover"/>
+                      <img alt={`${state?.PersonalData?.name}'s photo`} src={state?.PersonalData?.dp} class="w-full h-full object-cover"/>
                     </a>
                   </div>
                   <Link to={`/`} class={`text-xs md:text-sm ${theme ? 'text-white': 'text-slate-900'}  hover:text-purple-700 transition ease-in-out duration-150 mx-1`}>Muhammad Hamd</Link>

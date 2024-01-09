@@ -1,69 +1,71 @@
+h1 {
+  font-size: 1.875rem;
+  /* text-3xl in rem units (24px) */
+  font-weight: 600;
+  /* font-semibold */
+  margin-top: 1rem;
+  /* mt-4 in rem units (16px) */
+  width: 100%;
+}
 
-  ul#tabs-nav {
-    display: flex;
-  
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  /* font-semibold */
+  margin-top: 1rem;
+  /* mt-4 in rem units (16px) */
+  width: 100%;
+}
+
+h2 {
+  font-size: 1.5rem;
+  /* text-2xl in rem units (20px) */
+}
+
+h3 {
+  font-size: 1.25rem;
+  /* text-xl in rem units (18px) */
+}
+
+h4 {
+  font-size: 1.125rem;
+  /* text-lg in rem units (16px) */
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 1.5rem;
+    /* text-xl in rem units (18px) */
   }
-  .product-rating img{
-    width: 14%;
+
+  h2 {
+    font-size: 1.25rem;
+    /* text-lg in rem units (16px) */
   }
-  ul#tabs-nav li{
-    padding: 15px;
+
+  h3 {
+    font-size: 1.125rem;
+    /* text-base in rem units (14px) */
   }
-  ul#tabs-nav li.active {
-    background: #013F44;
-    border-radius: 10px 10px 0px 0px;
-    border-bottom: 2px solid #000000;
+
+  h4 {
+    font-size: 1rem;
+    /* text-sm in rem units (12px) */
   }
-  /*overlay Popup*/
-  /* .popup-window.flex form {
-    display: flex;
-    flex-direction: column;
+}
+
+p {
+  font-size: 1rem;
+  /* text-[16px] in rem units (16px) */
+  margin-top: 0.75rem;
+  /* my-3 in rem units (12px) */
+  line-height: 1.875rem;
+}
+
+@media (max-width: 650px) {
+  p {
+    font-size: 0.9375rem;
+    /* text-[15px] in rem units (15px) */
   }
-  .popup-overlay {
-    background: #000000b8;
-    z-index: 100;
-    padding: 5% 0%;
-  }
-  .cross-button img {
-    border-radius: 42px;
-    cursor: pointer;
-  }
-  .overlay-loader{
-    width: 100%;
-  } */
-  /* #loadingimageoverlay{
-    background: url('../images/home/gif.gif') center no-repeat #ffffff;
-    width: 100%;
-    height: 100%;
-    background-size: 75% 75%;
-    animation-name: loading;
-    animation-duration: 20s;
-    animation-iteration-count: 1;
-  } */
-  /* @keyframes loading{
-    0%{
-      opacity:100%;
-      top:0;
-      position: fixed;
-      z-index: 100;
-      left:0;
-    }
-    100%{
-      opacity:0;
-      position: unset;
-    }
-  } */
-  /* .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }
-   */
-  
+}
