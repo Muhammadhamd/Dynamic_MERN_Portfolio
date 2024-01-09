@@ -1,9 +1,0 @@
-
-.product .cartbtn{
-    display: none;
-    transition: ease-in .4s;
-    }
-.product:hover .cartbtn{
-    display: flex;
-
-    }
