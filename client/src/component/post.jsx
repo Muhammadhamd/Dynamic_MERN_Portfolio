@@ -240,7 +240,7 @@ useEffect(()=>{
       <div className={`flex flex-col w-full absolute right-[0px] top-[10px] items-end  ${ theme? 'text-white': 'text-gray-800'}`}>
         <button className='text-xl font-semibold flex items-center mx-[20px]'
         onClick={()=>{
-          setOpenOption(openOption ? false : true)
+          setOpenOption(openOption ? false : true) 
         }}
         >...</button>
         {
