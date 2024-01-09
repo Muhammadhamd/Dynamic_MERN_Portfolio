@@ -1,0 +1,71 @@
+h1 {
+  font-size: 1.875rem;
+  /* text-3xl in rem units (24px) */
+  font-weight: 600;
+  /* font-semibold */
+  margin-top: 1rem;
+  /* mt-4 in rem units (16px) */
+  width: 100%;
+}
+
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  /* font-semibold */
+  margin-top: 1rem;
+  /* mt-4 in rem units (16px) */
+  width: 100%;
+}
+
+h2 {
+  font-size: 1.5rem;
+  /* text-2xl in rem units (20px) */
+}
+
+h3 {
+  font-size: 1.25rem;
+  /* text-xl in rem units (18px) */
+}
+
+h4 {
+  font-size: 1.125rem;
+  /* text-lg in rem units (16px) */
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 1.5rem;
+    /* text-xl in rem units (18px) */
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    /* text-lg in rem units (16px) */
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    /* text-base in rem units (14px) */
+  }
+
+  h4 {
+    font-size: 1rem;
+    /* text-sm in rem units (12px) */
+  }
+}
+
+p {
+  font-size: 1rem;
+  /* text-[16px] in rem units (16px) */
+  margin-top: 0.75rem;
+  /* my-3 in rem units (12px) */
+  line-height: 1.875rem;
+}
+
+@media (max-width: 650px) {
+  p {
+    font-size: 0.9375rem;
+    /* text-[15px] in rem units (15px) */
+  }
+}
