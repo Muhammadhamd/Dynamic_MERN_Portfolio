@@ -238,9 +238,9 @@ function Home({ theme }) {
           <div>
             {state.PersonalData.dp ? (
               <div
-                className={`md:w-[300px] max-[1160px]:w-[360px] relative  w-[350px] max-[350px]:w-[300px] max-[300px]:w-[250px] max-[300px]:h-[250px] mx-[auto] rounded-full ${
+                className={`relative  w-[350px] max-[350px]:w-[300px] max-[300px]:w-[250px] mx-[auto] rounded-full ${
                   theme ? "shadow-none" : "shadow-[0px_0px_5px_#0000007a]"
-                } max-[700px]:hidden overflow-hidden`}
+                } overflow-hidden`}
               >
                 <img src={state.PersonalData.dp} alt="" onClick={()=>{openModal(state.PersonalData.dp)}} />:
               </div>

@@ -16,6 +16,14 @@ function ChatBot(){
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
       }
     };
+    const style = {
+      offchat: {
+        height: "0px",
+      },
+      onChat: {
+        height: "-webkit-fill-available",
+      },
+    };
     const sendMessagehandler = async(e)=>{
         e.preventDefault()
          const messageToSend = MessageRef.current.value;
@@ -79,7 +87,8 @@ function ChatBot(){
                 >{chatToggle ? <i class="bi bi-x"></i>:<i class="bi bi-chat-dots-fill"></i>}</button>
       </div>
         <div 
-        style={chatToggle ? style.onChat.height : style.offchat.height }
+        style={chatToggle ? style.onChat : style.offchat}
+
         className={` rounded-[7px_7px_0_0] overflow-hidden shadow-[0px_0px_5px_#911] min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] w-full fixed min-[500px]:right-[150px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
             <div className="text-white text-center bg-violet-700 font-semibold px-[20px] py-[15px] flex justify-between ">
               Hamd's AI Bot
@@ -140,14 +149,6 @@ function ChatBot(){
         </>
     )
 
-   const style = {
-      offchat:{
-        height:"0px"
-      },
-      onChat:{
-        height:"-webkit-fill-available"
-
-      }
-    }
+   
 }
 export default ChatBot
