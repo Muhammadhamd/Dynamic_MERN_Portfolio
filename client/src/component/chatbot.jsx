@@ -69,6 +69,8 @@ function ChatBot(){
     
     return(
       <>
+      
+
       <div>
       <button className="z-[200] bg-violet-700 text-white text-2xl rounded-full w-[80px] h-[80px] flex justify-center items-center fixed right-[30px] bottom-[50px] "
                 onClick={()=>{
@@ -76,7 +78,9 @@ function ChatBot(){
                 }}
                 >{chatToggle ? <i class="bi bi-x"></i>:<i class="bi bi-chat-dots-fill"></i>}</button>
       </div>
-        <div className={` rounded-[7px_7px_0_0] overflow-hidden shadow-[0px_0px_5px_#911] min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] ${chatToggle ? 'h-[100vh]' : 'h-[0px]'} w-full fixed min-[500px]:right-[150px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
+        <div 
+        style={chatToggle ? style.onChat.height : style.offchat.height }
+        className={` rounded-[7px_7px_0_0] overflow-hidden shadow-[0px_0px_5px_#911] min-[500px]:max-w-[350px] w-full min-[500px]:max-h-[500px] w-full fixed min-[500px]:right-[150px] bg-white z-[3000] transition ease-in-out bottom-[0px]`}>
             <div className="text-white text-center bg-violet-700 font-semibold px-[20px] py-[15px] flex justify-between ">
               Hamd's AI Bot
               <button  
@@ -135,5 +139,15 @@ function ChatBot(){
         </div>
         </>
     )
+
+   const style = {
+      offchat:{
+        height:"0px"
+      },
+      onChat:{
+        height:"-webkit-fill-available"
+
+      }
+    }
 }
 export default ChatBot
