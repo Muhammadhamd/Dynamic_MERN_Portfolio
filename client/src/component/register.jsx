@@ -20,7 +20,7 @@ console.log('eee')
            
            
           const response = await axios.post(
-            'http://localhost:2344/userregister',
+            '/userregister',
               {
               email: emailref.current.value,
               password: passwordref.current.value,

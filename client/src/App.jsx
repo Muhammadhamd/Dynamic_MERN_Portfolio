@@ -36,7 +36,7 @@ function App() {
 
   const loginHandler = async () => {
     try {
-      const res = await axios.get("http://localhost:2344/getToken", {
+      const res = await axios.get("/getToken", {
         withCredentials: true,
       });
       console.log(res);
@@ -53,7 +53,7 @@ function App() {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:2344/mydata`)
+      .get(`/mydata`)
       .then((res) => {
         dispatch({
           type: "MY_DATA",
@@ -68,7 +68,7 @@ function App() {
   }, []);
   const NotificationHandle = async()=>{
     try {
-      const res = await axios.get("http://localhost:2344/notifications")
+      const res = await axios.get("/notifications")
       dispatch({
         type: "NOTIFICATION",
         payload: res.data,

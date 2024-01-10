@@ -26,7 +26,7 @@ function AddArticle(params) {
         formdata.append("setUrl", URLtitle);
         formdata.append("image", Articleimg);
         axios
-          .post("http://localhost:2344/post", formdata, {
+          .post("/post", formdata, {
             withCredentials: true,
           })
           .then((res) => {
@@ -78,7 +78,7 @@ function AddArticle(params) {
         formdata.append("setUrl", URLtitle);
         formdata.append("image", Articleimg);
             const res = await axios
-            .put(`http://localhost:2344/editArticle/${new URLSearchParams(window.location.search).get("edit")}`, formdata, {
+            .put(`/editArticle/${new URLSearchParams(window.location.search).get("edit")}`, formdata, {
                 withCredentials: true,
               })
         } catch (error) {
@@ -91,7 +91,7 @@ function AddArticle(params) {
         if (new URLSearchParams(window.location.search).get("edit")?.length) {
             console.log(new URLSearchParams(window.location.search).get("edit"))
           
-          axios.get(`http://localhost:2344/ToEditPost/${new URLSearchParams(window.location.search).get("edit")}`)
+          axios.get(`/ToEditPost/${new URLSearchParams(window.location.search).get("edit")}`)
           .then((res)=>{
             console.log(res.data)
             setArticleModifiedContent(res.data.content)

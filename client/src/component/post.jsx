@@ -92,7 +92,7 @@ const closeModal = () => {
         
 useEffect(()=>{
   setIsLoading(true)
-  axios.get(`http://localhost:2344/post/${postId}` ,{withCredentials:true})
+  axios.get(`/post/${postId}` ,{withCredentials:true})
            
   .then((res)=>{
       setdata(res?.data)
@@ -124,7 +124,7 @@ const addComment = async(e)=>{
 e.preventDefault()
 setrerender(true)
   try {
-    const res = await axios.post(`http://localhost:2344/addcomment/${data._id}`,{
+    const res = await axios.post(`/addcomment/${data._id}`,{
       message: commentRef.current.value
     },{withCredentials:true})
     console.log(res)
@@ -213,7 +213,7 @@ function ReplyCommentForm({postId,theme , commentid , authorName}){
 
 const DeletePost = async()=>{
   try {
-    const res = await axios.delete(`http://localhost:2344/deleteArticle/${data._id}`,{withCredentials:true})
+    const res = await axios.delete(`/deleteArticle/${data._id}`,{withCredentials:true})
     console.log(res)
     window.location.reload()
   } catch (error) {

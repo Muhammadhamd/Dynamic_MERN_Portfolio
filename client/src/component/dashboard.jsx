@@ -43,7 +43,7 @@ function Dashboard() {
   const deleteProductHandler = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:2344/delete-product/${id}`
+        `/delete-product/${id}`
       );
       console.log(res.data);
       setrerenderOnPost(true);
@@ -62,7 +62,7 @@ function Dashboard() {
       formdata.append("RepoLink", projectRepoRef.current.value);
       formdata.append("image", img_pro);
       const res = await axios.post(
-        `http://localhost:2344/Add-project`,
+        `/Add-project`,
         formdata,
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ function Dashboard() {
   const updateNotificationHandler = async (notifyId) => {
     try {
       const res = await axios.put(
-        `http://localhost:2344/updateNotifyStatus/${notifyId}`
+        `/updateNotifyStatus/${notifyId}`
       );
     } catch (error) {}
   };
@@ -108,7 +108,7 @@ function Dashboard() {
   const productsHandler = async()=>{
 
     try {
-      const res = await axios.get('http://localhost:2344/Admin-Article')
+      const res = await axios.get('/Admin-Article')
       setProductItem(res.data)
     } catch (error) {
       console.log(error)
@@ -117,7 +117,7 @@ function Dashboard() {
   const projectsHandler = async()=>{
 
     try {
-      const res = await axios.get('http://localhost:2344/api/projects')
+      const res = await axios.get('/api/projects')
       setProjectItem(res.data)
     } catch (error) {
       console.log(error)
@@ -150,7 +150,7 @@ function Dashboard() {
       formdata.append("imagefromGalary", image);
 
       formdata.append("dpImg", img);
-      const res = await axios.put("http://localhost:2344/userinfo", formdata, {
+      const res = await axios.put("/userinfo", formdata, {
         withCredentials: true,
       });
       console.log(res);
@@ -336,7 +336,7 @@ function Dashboard() {
                         }`}
                       onClick={async()=>{
                         try {
-                          const res = await axios.put(`http://localhost:2344/Article-visibility/${each._id}`,{
+                          const res = await axios.put(`/Article-visibility/${each._id}`,{
                             visibility:each?.visibility ? true :false
                           })
                           console.log(res)
@@ -391,7 +391,7 @@ function Dashboard() {
                         }`}
                         onClick={async()=>{
                           try {
-                            const res = await axios.put(`http://localhost:2344/Project-visibility/${each._id}`,{
+                            const res = await axios.put(`/Project-visibility/${each._id}`,{
                               visibility:each?.visibility ? true :false
                             })
                             console.log(res)

@@ -18,7 +18,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
   const [NotificationArray , setNotificationArray] = useState([])
  const logoutHandler = async(e)=>{
   try {
-   const res =await axios.get("http://localhost:2344/user-logout")
+   const res =await axios.get("/user-logout")
    dispatch({
     type:'USER_LOGOUT'
    })
@@ -37,7 +37,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
 
   const updateNotificationHandler = async(notifyId)=>{
     try {
-      const res = await axios.put(`http://localhost:2344/updateNotifyStatus/${notifyId}`)
+      const res = await axios.put(`/updateNotifyStatus/${notifyId}`)
     } catch (error) {
       
     }
