@@ -114,7 +114,7 @@ function adminAuth(req, res, next) {
 }
 router.post(
   "/addReply/:postid/:commentid",
-  authMiddleware,adminAuth,
+  authMiddleware,
   async (req, res) => {
     const postid = req.params.postid;
     const commentid = req.params.commentid;
