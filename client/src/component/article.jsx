@@ -86,7 +86,7 @@ const closeModal = () => {
 const renterArticles = async()=>{
 
   try {
-    const res = await axios.get("http://localhost:2344/posts" ,{withCredentials:true})
+    const res = await axios.get("/posts" ,{withCredentials:true})
   
     setArticlearray(res.data)
     setrerender(true)

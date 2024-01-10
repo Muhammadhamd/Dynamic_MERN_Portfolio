@@ -16,7 +16,7 @@ import apiv1 from "./v1/index.mjs"
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:3000', "*"],
+    origin: ['http://localhost:3000', "https://muhammadhamd.up.railway.app"],
     credentials: true
 }));
 
