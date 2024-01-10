@@ -96,7 +96,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
               </Link>
              
             </div>
-            <ul className='flex items-center  gap-[30px] text-[18px] right-ul'>
+            <ul className='flex items-center  gap-[30px] text-[16px] right-ul'>
                 <li className=''><Link to="/work" className='hover:text-violet-500 font-[600]'>PROJECTS</Link></li>
                 <li className='max-[600px]:hidden'><Link to='/article' className='hover:text-violet-500  font-[600]'>ARTICLES</Link></li>
                 <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500 font-[600]'>MY BOTS</Link></li>
@@ -113,8 +113,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
 
   
   </i></button></li>
-<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>ABOUT</Link></li>
-<li className=''><Link to='/' className='hover:text-violet-500 font-[600]'>CONTACT</Link></li>
+
 { islogin === "admin" ?
   (<>
       <li className=''><Link to='/dashboard' className='text-violet-500'>Dashboard</Link></li>
