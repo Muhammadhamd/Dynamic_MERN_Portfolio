@@ -12,18 +12,18 @@ const GoogleAuth = () => {
       {/* Your website content goes here */}
       
       {/* Google Login Button */}
-     
       <GoogleLogin
-    clientId="813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com"
-    // render={renderProps => (
-    //   <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
-    // )}
-    buttonText="Login"
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'https://muhammadhamd.up.railway.app'}
-    isSignedIn={true} 
-  />
+        clientId="YOUR_GOOGLE_CLIENT_ID"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'https://muhammadhamd.up.railway.app'}
+        isSignedIn={true}
+        // Additional settings if needed
+        // redirectUri="https://muhammadhamd.up.railway.app" 
+        // onRequest={() => console.log("Requesting...")}
+        // scope="profile email"
+      />
     </div>
   );
 };
