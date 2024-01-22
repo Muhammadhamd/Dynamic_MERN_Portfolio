@@ -80,7 +80,7 @@ function ChatBot(){
       
 
       <div>
-      <button className="z-[200] bg-violet-700 text-white text-2xl rounded-full w-[80px] h-[80px] flex justify-center items-center fixed right-[30px] bottom-[50px] "
+      <button className="z-[200] bg-[#5333F2] text-white text-[24px] rounded-xl w-[65px] h-[65px] flex justify-center items-center fixed right-[30px] bottom-[50px] "
                 onClick={()=>{
                    chatToggle ? setChatToggle(false) :setChatToggle(true)
                 }}

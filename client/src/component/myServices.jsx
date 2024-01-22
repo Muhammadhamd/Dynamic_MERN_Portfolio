@@ -13,8 +13,8 @@ function Myservices({theme}) {
   //  },[])
  
     return (
-          <div className={`${theme? 'bg-gray-900' : 'bg-[#eae9ee6b] '} pb-[200px]`}>
-      <div className='flex flex-col items-center w-full mt-[170px]'>
+          <div className={`${theme? 'bg-gray-900' : 'bg-[#eae9ee6b] '} py-[100px]`}>
+      <div className='flex flex-col items-center w-full'>
         <PopUpMessage theme={theme} message="~ What My IT Services Offers ~" />
       <h1 className={`${theme ? 'text-white': 'text-[#2E2D2D]'} max-[450px]:text-4xl max-[450px]:leading-[45px] max-[450px]:max-w-[250px]  text-5xl font-bold mt-[10px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]`}>
      I am <span className='text-[#5333F2]'>Dedicated</span> To Serve You All Time.

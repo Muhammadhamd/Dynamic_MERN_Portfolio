@@ -18,6 +18,7 @@ import Experience from "./component/exprence";
 import PopUpMessage from "./component/heading";
 import { GlobalContext } from "./context/context";
 import ImageModal from "./component/openImageModal";
+import GoogleAuth from "./component/googleLogin";
 function Home({ theme }) {
   const { state, dispatch } = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
@@ -56,142 +57,19 @@ function Home({ theme }) {
 
   return (
     <div
-      className={`flex flex-col   pb-[100px] max-[700px]:gap-[70px]  max-[650px]:gap-[40px] max-[500px]:gap-[30px] gap-[140px] ${
+      className={`flex flex-col ${
         theme ? "text-white bg-gray-900" : "bg-white"
       } App`}
     >
-      <div className="absolute top-0 w-full h-[100vh]">
-      {/* <Particles
-        id="tsparticles"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        options={{
-          background: {
-            color: {
-              value: "#0d47a1",
-            },
-          },
-          fpsLimit: 120,
-          interactivity: {
-            events: {
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
-              onHover: {
-                enable: true,
-                mode: "repulse",
-              },
-              resize: true,
-            },
-            modes: {
-              push: {
-                quantity: 4,
-              },
-              repulse: {
-                distance: 200,
-                duration: 0.4,
-              },
-            },
-          },
-          particles: {
-            color: {
-              value: "#ffffff",
-            },
-            links: {
-              color: "#ffffff",
-              distance: 150,
-              enable: true,
-              opacity: 0.5,
-              width: 1,
-            },
-            move: {
-              direction: "none",
-              enable: true,
-              outModes: {
-                default: "bounce",
-              },
-              random: false,
-              speed: 2, // Adjust the speed here
-              straight: false,
-            },
-            number: {
-              density: {
-                enable: true,
-                area: 800,
-              },
-              value: 80,
-            },
-            opacity: {
-              value: 0.5,
-            },
-            shape: {
-              type: "circle",
-            },
-            size: {
-              value: { min: 1, max: 5 },
-            },
-          },
-          detectRetina: true,
-        }}
-      /> */}
-      </div>
+     <GoogleAuth />
       <div className="flex  justify-center mt-[30px]">
         <div className="section1">
           <div className="container">
-            {/* <h3>{name ?`Hello it's me` : <div className='my-[2px] animate-pulse flex space-x-2'>
-        <div class="rounded-full bg-slate-200 py-1   w-[100px]"></div>
-        </div>}</h3>
-        <h1 className={` ${theme? 'text-white' : 'text-[#2E2D2D]'} `}
-        
-        >{name ||<div className='my-[10px] animate-pulse flex space-x-4'>
-        <div class="rounded-full bg-slate-200 py-4  max-[400px]:w-[300px] max-[300px]:w-[240px] w-[400px]"></div>
-        </div>}</h1>
-        
-         <h3>{subline ? <>'And I'm a <span class='multi-headline'></span></> : <div className='my-[10px] animate-pulse flex space-x-4'>
-         <div class="rounded-full bg-slate-200 py-3 max-[400px]:w-[200px] max-[300px]:w-[160px] w-[300px]"></div>
-         </div> }</h3>
-        <p>
-        {heading || <div className='my-[10px] animate-pulse flex space-x-4'>
-        <div class="rounded-full bg-slate-200 py-3  max-[400px]:w-[200px] max-[300px]:w-[160px] w-[300px] "></div>
-        </div>}
-        </p>
-        <div class="social-div">
-          <a
-            target="_blank"
-            href="https://www.facebook.com/muhammadhamd11/"
-            // style="--i: 7"
-            ><i class="bx bxl-facebook"></i
-          ></a>
-          <a
-            target="_blank"
-            href="https://www.instagram.com/hamd_studiology/"
-            // style="--i: 8"
-            ><i class="bx bxl-instagram-alt"></i
-          ></a>
-          <a
-            target="_blank"
-            href="https://www.github.com/muhammadhamd/"
-            // style="--i: 9"
-            ><i class="bx bxl-github"></i
-          ></a>
-          <a
-            target="_blank"
-            href="https://www.linkedin.com/in/muhammad-hamd-6828b1249/"
-            // style="--i: 10"
-            ><i class="bx bxl-linkedin"></i
-          ></a>
-          <a
-            target="_blank"
-            href="https://www.wa.me/+923251452080"
-            // style="--i: 11"
-            ><i class="bx bxl-whatsapp"></i
-          ></a>
-        </div> */}
+         
             <h3>Hello it's me</h3>
             <h1>{state?.PersonalData?.name}</h1>
             <h3>
-              And I'm a <span class="multi-headline"></span>
+              And I'm a <span class="multi-headline" style={state.darkTheme == false ? {color:"#ab5e00"} : null} ></span>
             </h3>
             <p>
               As a student, I am highly motivated and always looking for
@@ -252,15 +130,12 @@ function Home({ theme }) {
           </div>
         </div>
       </div>
-      {afterNetwork && (
-        <>
+      
           <ChatBot theme={theme} />
 
           <Myservices theme={theme} />
-          {/* <InstafeedComponent /> */}
-          {/* <Experience / */}
 
-          <div className={`${theme ? "bg-transparent" : "bg-[#eae9ee6b]"}`}>
+          <div className={`py-[100px] ${theme ? "bg-transparent" : "bg-[#eae9ee6b]"}`}>
             <div className="flex justify-center">
               <PopUpMessage theme={theme} message="~ More About Me ~" />
             </div>
@@ -359,11 +234,10 @@ function Home({ theme }) {
               </div>
             </div>
           </div>
+
           <ContactComponent theme={theme} />
 
-          {/* <Adminlogin /> */}
-        </>
-      )}
+       
       {showModal && (
         <ImageModal imageUrl={selectedImage} onClose={closeModal} />
       )}

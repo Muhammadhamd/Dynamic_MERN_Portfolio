@@ -76,7 +76,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     return (
       <nav 
       ref={navbarRef}
-      className={`fixed flex items-center justify-between px-[3%] py-[20px] w-full z-[1000] ${scrolled && 'shadow-[0px_4px_10px_#0000005c]'}
+      className={`absolute flex items-center justify-between px-[3%] py-[15px] w-full z-[1000] ${scrolled && 'shadow-[0px_4px_10px_#0000005c]'}
       
       ${theme ? 'bg-gray-800 text-white' : changeCss ?  "bg-white text-black" : ' bg-[#0000001c] text-white'}`}>
         <div className='flex items-center gap-[100px]'>
@@ -96,11 +96,11 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
               </Link>
              
             </div>
-            <ul className='flex items-center  gap-[30px] text-[16px] right-ul'>
-                <li className=''><Link to="/work" className='hover:text-violet-500 font-[600]'>PROJECTS</Link></li>
-                <li className='max-[600px]:hidden'><Link to='/article' className='hover:text-violet-500  font-[600]'>ARTICLES</Link></li>
-                <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500 font-[600]'>MY BOTS</Link></li>
-                <li className='max-[700px]:hidden'><Link to="/hire-me" className='hover:text-violet-500 font-[600]'>HIRE ME</Link></li>
+            <ul className='flex items-center  gap-[30px] text-[15px] right-ul font-[600]'>
+                <li className=''><Link to="/work" className='hover:text-violet-500'>PROJECTS</Link></li>
+                <li className='max-[600px]:hidden'><Link to='/article' className='hover:text-violet-500  '>ARTICLES</Link></li>
+                <li className='max-[650px]:hidden'><Link to='/Ai projects' className='hover:text-violet-500'>MY BOTS</Link></li>
+                <li className='max-[700px]:hidden'><Link to="/hire-me" className='hover:text-violet-500'>HIRE ME</Link></li>
             </ul>
         </div>
         <div className='leftul'>

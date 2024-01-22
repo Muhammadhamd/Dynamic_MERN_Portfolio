@@ -43,12 +43,12 @@ const formSubmitHandler = (e)=>{
 
 }
     return (
-        <div className='max-w-[1400px]'>
+        <div className='max-w-[1400px] py-[100px]'>
              <div className='flex justify-center'>
         <PopUpMessage theme={theme}  message="~ Contact ME ~" />
       </div>
       <div className='flex flex-col items-center'>
-      <h1 className={`${theme ? 'text-white': 'text-[#2E2D2D]'} text-5xl font-bold text-[#2E2D2D] mt-[20px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]`}>
+      <h1 className={`${theme ? 'text-white': 'text-[#2E2D2D]'} text-5xl font-bold  mt-[20px] max-w-[500px] text-center leading-[60px] tracking-[0.025rem]`}>
       Get In <span className='text-[#5333F2]'>Touch </span>With Me.
       </h1>
       <p className={`${theme ? 'text-gray-400' : 'text-[#67687A]'} text-[17px] leading-[29px] max-w-[380px] text-center mt-[10px]`}>Feel free to get in <span className='text-[#5333F2] font-semibold'>touch anytime</span> to discuss your project, ask questions, or just say <span className='text-[#5333F2] font-semibold'>hello</span> . I'm here to help!</p>
@@ -88,7 +88,7 @@ const formSubmitHandler = (e)=>{
                     <p className={`${theme ? 'text-gray-400' : 'text-slate-700'}  leading-[1.5rem] mt-[50px]`}>Cras elementum finibus lacus nec lacinia. Quisque non convallis nisl, eu condimentum sem. Proin dignissim libero lacus, ut eleifend magna vehicula et. Nam mattis est sed tellus.</p>
                 </div>
           <form onSubmit={formSubmitHandler} className={`bg-transparent rounded-lg  py-[20px] px-[40px] max-w-[600px] w-full`}>
-           <div> <h1 className={`${theme && 'text-white'} font-semibold text-4xl mb-5 text-[#2E2D2D]`}>Get in touch</h1></div>
+           <div> <h1 className={`${theme && 'text-white'} font-semibold text-4xl mb-5`}>Get in touch</h1></div>
             <input  className="border rounded w-full px-6 py-3 mt-[20px] text-[18px]" type="text" placeholder='Your Name' 
             value={name} 
              onChange={
