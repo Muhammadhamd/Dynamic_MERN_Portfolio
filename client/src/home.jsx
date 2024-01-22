@@ -61,8 +61,9 @@ function Home({ theme }) {
         theme ? "text-white bg-gray-900" : "bg-white"
       } App`}
     >
-     <GoogleAuth />
       <div className="flex  justify-center mt-[30px]">
+     <GoogleAuth />
+
         <div className="section1">
           <div className="container">
          

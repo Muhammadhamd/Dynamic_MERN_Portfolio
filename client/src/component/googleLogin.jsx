@@ -8,17 +8,22 @@ const GoogleAuth = () => {
   };
 
   return (
-    <div>
+    <div className='mt-[100px]'>
       {/* Your website content goes here */}
       
       {/* Google Login Button */}
+     
       <GoogleLogin
-        clientId="813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com"
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      />
+    clientId="813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com"
+    // render={renderProps => (
+    //   <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
+    // )}
+    buttonText="Login"
+    onSuccess={responseGoogle}
+    onFailure={responseGoogle}
+    cookiePolicy={'https://muhammadhamd.up.railway.app'}
+    isSignedIn={true} 
+  />
     </div>
   );
 };
