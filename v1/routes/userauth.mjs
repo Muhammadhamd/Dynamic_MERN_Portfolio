@@ -40,7 +40,7 @@ router.post("/api/google-Login",async(req,res)=>{
 
 try {
   const findUser = admincol.findOne({email:req.body.res.email})
-
+  console.log(findUser)
   if(findUser){
     const token = jwt.sign({
       _id: findUser._id,

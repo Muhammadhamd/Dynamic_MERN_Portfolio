@@ -103,21 +103,17 @@ const particlesLoaded = useCallback(async container => {
 }, []);
 
 
-useEffect(()=>{
-function start(){
-  gapi.client.init({
-    clientId:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
-    scope:"email profile"
-  })
-}
+// useEffect(()=>{
+// function start(){
+//   gapi.client.init({
+//     clientId:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
+//     scope:"email profile"
+//   })
+// }
 
-gapi.load('client:auth2', start)
-})
-useEffect(()=>{
-  axios.get("http://localhost:2344/googleis")
-  .then((res)=>{console.log(res)})
-  .catch((err)=>{console.log(err)})
-},[])
+// gapi.load('client:auth2', start)
+// })
+
   return (
     <div className={`${state?.darkTheme ? "text-white bg-gray-900" : "bg-white"}`}>
       <Particles
