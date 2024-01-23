@@ -104,6 +104,7 @@ const particlesLoaded = useCallback(async container => {
 
 
 useEffect(() => {
+  console.log("hello")
   function start() {
     gapi.client.init({
       clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
