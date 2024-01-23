@@ -103,39 +103,39 @@ const particlesLoaded = useCallback(async container => {
 }, []);
 
 
-useEffect(() => {
-  console.log("hello")
-  function start() {
-    gapi.client.init({
-      clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
-      scope: '',
-    })
-      .then(() => {
-        const authInstance = gapi.auth2.getAuthInstance();
-        const isSignedIn = authInstance.isSignedIn.get();
+// useEffect(() => {
+//   console.log("hello")
+//   function start() {
+//     gapi.client.init({
+//       clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
+//       scope: '',
+//     })
+//       .then(() => {
+//         const authInstance = gapi.auth2.getAuthInstance();
+//         const isSignedIn = authInstance.isSignedIn.get();
 
-        console.log('Is user signed in:', isSignedIn);
+//         console.log('Is user signed in:', isSignedIn);
 
-        // If user is signed in, you can get the user's basic profile
-        if (isSignedIn) {
-          const user = authInstance.currentUser.get();
-          const basicProfile = user.getBasicProfile();
-          console.log('User basic profile:', basicProfile);
-        }
-      })
-      .catch((error) => {
-        console.error('Error initializing Google API client:', error);
-      });
-  }
+//         // If user is signed in, you can get the user's basic profile
+//         if (isSignedIn) {
+//           const user = authInstance.currentUser.get();
+//           const basicProfile = user.getBasicProfile();
+//           console.log('User basic profile:', basicProfile);
+//         }
+//       })
+//       .catch((error) => {
+//         console.error('Error initializing Google API client:', error);
+//       });
+//   }
 
-  gapi.load('client:auth2', start);
-}, []);
+//   gapi.load('client:auth2', start);
+// }, []);
 
-useEffect(()=>{
-  axios.get("http://localhost:2344/googleis")
-  .then((res)=>{console.log(res)})
-  .catch((err)=>{console.log(err)})
-},[])
+// useEffect(()=>{
+//   axios.get("http://localhost:2344/googleis")
+//   .then((res)=>{console.log(res)})
+//   .catch((err)=>{console.log(err)})
+// },[])
   return (
     <div className={`${state?.darkTheme ? "text-white bg-gray-900" : "bg-white"}`}>
       <Particles
