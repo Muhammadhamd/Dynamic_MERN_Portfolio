@@ -40,6 +40,53 @@ router.post("/api/google-Login",async(req,res)=>{
 
   res.send(req.body)
   console.log(req.body)
+
+  const findUser = admincol.findOne({email:req.body.res.email})
+
+  if(findUser){
+    const token = jwt.sign({
+      _id: findUser._id,
+      email: findUser.email,
+      name: findUser.name,
+      iat: Math.floor(Date.now() / 1000) - 30,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      isAdmin:false
+  }, SECRET);
+
+  res.cookie('Token', token, {
+      maxAge: 86_400_000,
+      httpOnly: true,
+      // sameSite: true,
+      // secure: true
+  });
+  res.send("you are login sucessfully")
+  return;
+  }
+  const addnew =  admincol.insertOne({
+    email: req.body.res.email,
+    name: req.body.res.name,
+  })
+
+  if (addnew) {
+    const findTheNew = admincol.findOne({email:req.body.res.email})
+
+    const token = jwt.sign({
+      _id: findTheNew._id,
+      email: findTheNew.email,
+      name: findTheNew.name,
+      iat: Math.floor(Date.now() / 1000) - 30,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      isAdmin:false
+  }, SECRET);
+
+  res.cookie('Token', token, {
+      maxAge: 86_400_000,
+      httpOnly: true,
+      // sameSite: true,
+      // secure: true
+  });
+  req.send("new login sucessfully")  
+}
 })
 router.post("/userlogin", async (req, res) => {
     const { email, password } = req.body;
