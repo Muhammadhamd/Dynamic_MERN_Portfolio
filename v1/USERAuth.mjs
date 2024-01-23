@@ -1,23 +1,4 @@
-import { OAuth2Client, auth } from 'google-auth-library';
-import {gapi} from "gapi-script"
-const CLIENT_ID = "813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com"; // Replace with your actual Google client ID
-const client = new OAuth2Client(CLIENT_ID);
-
-const handleGoogleSignIn = async (req,res) => {
-    try {
-      const googleUser = await gapi.auth2.getAuthInstance().signIn();
-      const idToken = googleUser.getAuthResponse().id_token;
-  
-      // Send the idToken to the server (e.g., using an HTTP request)
-      // This is where you would make an API call to your server
-    //   sendIdTokenToServer(idToken);
-         res.send(idToken)
-    } catch (error) {
-      console.error('Google Sign-In failed:', error);
-      res.send(error)
-    }
-  };
-
+const handleGoogleSignIn = "hejs"
 // async function authMiddleware(req, res, next) {
 //   const googleIdToken = req.cookies.GoogleIdToken;
 
