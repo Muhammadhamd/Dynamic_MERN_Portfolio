@@ -16,7 +16,7 @@ import { useCallback } from "react";
 import Particles from "react-particles";
 //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from "tsparticles-slim"; // if you are going to use `loadSlim`, install the "tsparticles-slim" package too.
-
+import {gapi} from "gapi-script"
 function App() {
   const { state, dispatch } = useContext(GlobalContext);
 
@@ -101,6 +101,18 @@ function App() {
 const particlesLoaded = useCallback(async container => {
     await console.log(container);
 }, []);
+
+
+useEffect(()=>{
+function start(){
+  gapi.client.init({
+    clientId:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
+    scope:""
+  })
+}
+
+gapi.load('client:auth2', start)
+})
   return (
     <div className={`${state?.darkTheme ? "text-white bg-gray-900" : "bg-white"}`}>
       <Particles

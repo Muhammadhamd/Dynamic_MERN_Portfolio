@@ -18,7 +18,6 @@ import Experience from "./component/exprence";
 import PopUpMessage from "./component/heading";
 import { GlobalContext } from "./context/context";
 import ImageModal from "./component/openImageModal";
-import GoogleAuth from "./component/googleLogin";
 function Home({ theme }) {
   const { state, dispatch } = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
@@ -62,8 +61,6 @@ function Home({ theme }) {
       } App`}
     >
       <div className="flex  justify-center mt-[30px]">
-     <GoogleAuth />
-
         <div className="section1">
           <div className="container">
          

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from "../img/image 1.jpg"
 import {GlobalContext}from '../context/context'
 import axios from 'axios';
+import {GoogleLoginfun , GoogleLogoutfun, GoogleOneTapSignIn} from "./googleLogin";
 
 import css from "../css/Navcomponent.css"
 function Navcomponent({islogin , img  ,changeCss , theme}) {
@@ -79,6 +80,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       className={`absolute flex items-center justify-between px-[3%] py-[15px] w-full z-[1000] ${scrolled && 'shadow-[0px_4px_10px_#0000005c]'}
       
       ${theme ? 'bg-gray-800 text-white' : changeCss ?  "bg-white text-black" : ' bg-[#0000001c] text-white'}`}>
+          <GoogleOneTapSignIn />
         <div className='flex items-center gap-[100px]'>
             <div className='w-[60px] h-[60px] overflow-hidden rounded-full'>
               <Link to='/'>
@@ -159,15 +161,16 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     </>)
 : islogin === "user" ?
 (<>
-  <li className='text-[20px]'><button onClick={logoutHandler}>Logout</button></li>
+  <GoogleLogoutfun />
   
   </>)
 
 :
 (
   <>
-  <li className=''><Link to='/register' className='text-violet-500'>Signup</Link></li>
-<li className=''><Link to="/login" className='text-violet-500'>login</Link></li></>
+  <GoogleLoginfun />
+  </>
+ 
 )
 }
 
@@ -221,14 +224,14 @@ onClick={()=>{
 
 { islogin ?
 (<>
-<button onClick={logoutHandler}>Logout</button>
+<GoogleLogoutfun />
 
 </>)
 :
 (
 <>
-<li className=''><Link to='/register'>Signup</Link></li>
-<li className=''><Link to="/login">login</Link></li></>
+<GoogleLoginfun />
+</>
 )
 }
 
