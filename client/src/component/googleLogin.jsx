@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { GoogleLogin , GoogleLogout } from 'react-google-login';
 import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
+import axios from "axios"
 const   GoogleLoginfun = () => {
   const responseGoogle = (response) => {
     // Handle the response from Google authentication
@@ -59,7 +60,16 @@ const GoogleOneTapSignIn = () => {
    
   
      useGoogleOneTapLogin({
-        onSuccess:(res)=>console.log(res),
+        onSuccess:async(res)=>{
+          try {
+            const response = axios.post("/api/google-Login",
+            {res}
+            )
+            console.log(response)
+          } catch (error) {
+            console.log(error)
+          }
+        },
         onError:(err)=>{console.log(err)},
         googleAccountConfigs:{
             client_id:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",

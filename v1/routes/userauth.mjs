@@ -35,6 +35,11 @@ import multer from 'multer'
   }
 }
 
+
+router.post("/api/google-Login",async(req,res)=>{
+
+  res.send(req.body)
+})
 router.post("/userlogin", async (req, res) => {
     const { email, password } = req.body;
   
