@@ -60,12 +60,15 @@ const GoogleOneTapSignIn = () => {
    
   
      useGoogleOneTapLogin({
-        onSuccess:async(res)=>{
+        onSuccess:(res)=>{
           try {
-            const response = axios.post("/api/google-Login",
+            axios.post("/api/google-Login",
             {res}
-            )
-            console.log(response)
+            ).then((response)=>{
+              console.log(response)
+            })
+            .catch((err)=>console.log(err))
+            
           } catch (error) {
             console.log(error)
           }
