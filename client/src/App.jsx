@@ -114,8 +114,8 @@ useEffect(() => {
         const authInstance = gapi.auth2.getAuthInstance();
 
         // Check if user is signed in
-        if (authInstance.isSignedIn.get()) {
-          const user = authInstance.currentUser.get();
+        if (authInstance?.isSignedIn?.get()) {
+          const user = authInstance?.currentUser.get();
           const basicProfile = user.getBasicProfile();
           console.log('User basic profile:', basicProfile);
         } else {
