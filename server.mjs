@@ -12,7 +12,7 @@ import cors from "cors"
 const SECRET = process.env.SECRET || "topsecret";
 import authrouter from "./v1/routes/auth.mjs"
 import apiv1 from "./v1/index.mjs"
-
+import googleAuthis from "./v1/USERAuth.mjs"
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
@@ -22,6 +22,11 @@ app.use(cors({
 
 
 app.use(apiv1)
+
+ app.get("/googleis",googleAuthis , (req,res)=>{
+
+  res.send("hnn ha")
+ })
 function authenticateUser(req, res, next) {
     const token = req.cookies.Token; // Assuming you store the token in a cookie
     if (token) {
