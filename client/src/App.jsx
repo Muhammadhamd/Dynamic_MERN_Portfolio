@@ -104,23 +104,22 @@ const particlesLoaded = useCallback(async container => {
 
 
 useEffect(() => {
-  console.log("hello")
   function start() {
-    gapi.client.init({
-      clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
-      scope: '',
-    })
+    gapi.client
+      .init({
+        clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
+        scope: '',
+      })
       .then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
-        const isSignedIn = authInstance.isSignedIn.get();
 
-        console.log('Is user signed in:', isSignedIn);
-
-        // If user is signed in, you can get the user's basic profile
-        if (isSignedIn) {
+        // Check if user is signed in
+        if (authInstance.isSignedIn.get()) {
           const user = authInstance.currentUser.get();
           const basicProfile = user.getBasicProfile();
           console.log('User basic profile:', basicProfile);
+        } else {
+          console.log('User is not signed in.');
         }
       })
       .catch((error) => {
