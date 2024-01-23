@@ -40,56 +40,55 @@ router.post("/api/google-Login",async(req,res)=>{
 //  res.send(req.body)
 try {
   const findUser = await admincol.findOne({email:req.body.res.email})
-  res.send(findUser)
-//   if(findUser){
-//     const token = jwt.sign({
-//       _id: findUser._id,
-//       email: findUser.email,
-//       name: findUser.name,
-//       iat: Math.floor(Date.now() / 1000) - 30,
-//       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-//       isAdmin:false
-//   }, SECRET);
+  if(findUser){
+    const token = jwt.sign({
+      _id: findUser._id,
+      email: findUser.email,
+      name: findUser.name,
+      iat: Math.floor(Date.now() / 1000) - 30,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      isAdmin:false
+  }, SECRET);
 
-//   res.cookie('Token', token, {
-//       maxAge: 86_400_000,
-//       httpOnly: true,
-//       // sameSite: true,
-//       // secure: true
-//   });
-//   res.send({msg:"you are login sucessfully",
-//             data:{ _id: findUser._id,
-//               email: findUser.email,
-//               name: findUser.name,}
-// })
-//   return;
-//   }
-//   const addnew =  admincol.insertOne({
-//     email: req.body.res.email,
-//     name: req.body.res.name,
-//   })
+  res.cookie('Token', token, {
+      maxAge: 86_400_000,
+      httpOnly: true,
+      // sameSite: true,
+      // secure: true
+  });
+  res.send({msg:"you are login sucessfully",
+            data:{ _id: findUser._id,
+              email: findUser.email,
+              name: findUser.name,}
+})
+  return;
+  }
+  const addnew =  admincol.insertOne({
+    email: req.body.res.email,
+    name: req.body.res.name,
+  })
 
-//   if (addnew) {
-//     const findTheNew = admincol.findOne({email:req.body.res.email})
+  if (addnew) {
+    const findTheNew = admincol.findOne({email:req.body.res.email})
 
-//     const token = jwt.sign({
-//       _id: findTheNew._id,
-//       email: findTheNew.email,
-//       name: findTheNew.name,
-//       iat: Math.floor(Date.now() / 1000) - 30,
-//       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-//       isAdmin:false
-//   }, SECRET);
+    const token = jwt.sign({
+      _id: findTheNew._id,
+      email: findTheNew.email,
+      name: findTheNew.name,
+      iat: Math.floor(Date.now() / 1000) - 30,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      isAdmin:false
+  }, SECRET);
 
-//   res.cookie('Token', token, {
-//       maxAge: 86_400_000,
-//       httpOnly: true,
-//       // sameSite: true,
-//       // secure: true
-//   });
-//   res.send("new login sucessfully")  
+  res.cookie('Token', token, {
+      maxAge: 86_400_000,
+      httpOnly: true,
+      // sameSite: true,
+      // secure: true
+  });
+  res.send("new login sucessfully")  
   
-// }
+}
 } catch (error) {
   res.status(500).send(error)
 }
