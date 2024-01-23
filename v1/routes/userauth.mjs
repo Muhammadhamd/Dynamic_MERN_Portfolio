@@ -37,7 +37,7 @@ import multer from 'multer'
 
 
 router.post("/api/google-Login",async(req,res)=>{
-
+ console.log(req.body)
 try {
   const findUser = admincol.findOne({email:req.body.res.email})
   console.log(findUser)
