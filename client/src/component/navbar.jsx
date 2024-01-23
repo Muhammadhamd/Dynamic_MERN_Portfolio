@@ -169,8 +169,6 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
 (
   <>
   <GoogleLoginfun />
-  <GoogleLogoutfun />
-
   </>
  
 )
