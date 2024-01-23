@@ -23,10 +23,7 @@ app.use(cors({
 
 app.use(apiv1)
 
- app.get("/googleis",googleAuthis , (req,res)=>{
 
-  res.send("hnn ha")
- })
 function authenticateUser(req, res, next) {
     const token = req.cookies.Token; // Assuming you store the token in a cookie
     if (token) {
