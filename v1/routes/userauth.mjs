@@ -38,7 +38,7 @@ import multer from 'multer'
 
 router.post("/api/google-Login",async(req,res)=>{
 
-
+try {
   const findUser = admincol.findOne({email:req.body.res.email})
 
   if(findUser){
@@ -83,8 +83,13 @@ router.post("/api/google-Login",async(req,res)=>{
       // sameSite: true,
       // secure: true
   });
-  req.send("new login sucessfully")  
+  res.send("new login sucessfully")  
+  
 }
+} catch (error) {
+  res.status(500).send(error)
+}
+ 
 })
 router.post("/userlogin", async (req, res) => {
     const { email, password } = req.body;

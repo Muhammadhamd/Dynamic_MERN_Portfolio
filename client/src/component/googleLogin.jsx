@@ -65,7 +65,7 @@ useGoogleOneTapLogin({
     try {
       // Assuming 'res' is an object containing relevant information
       axios.post("/api/google-login", {
-        googleData: res // Send the 'res' object as part of the request body
+       res,
       })
       .then((response) => {
         console.log(response.data);
