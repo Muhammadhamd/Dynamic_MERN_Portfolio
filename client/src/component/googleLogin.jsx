@@ -59,26 +59,31 @@ const GoogleOneTapSignIn = () => {
   
    
   
-     useGoogleOneTapLogin({
-        onSuccess:(res)=>{
-          try {
-            axios.post("/api/google-Login",
-            {res}
-            ).then((response)=>{
-              console.log(response)
-            })
-            .catch((err)=>console.log(err))
-            
-          } catch (error) {
-            console.log(error)
-          }
-        },
-        onError:(err)=>{console.log(err)},
-        googleAccountConfigs:{
-            client_id:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
-        },
-        
-     })
+   
+useGoogleOneTapLogin({
+  onSuccess: (res) => {
+    try {
+      // Assuming 'res' is an object containing relevant information
+      axios.post("/api/google-login", {
+        googleData: res // Send the 'res' object as part of the request body
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+  onError: (err) => {
+    console.log('Error:', err);
+  },
+  googleAccountConfigs: {
+    client_id: "813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
+  },
+});
   };
   
   
