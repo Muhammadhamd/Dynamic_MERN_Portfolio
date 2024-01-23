@@ -57,7 +57,11 @@ try {
       // sameSite: true,
       // secure: true
   });
-  res.send("you are login sucessfully")
+  res.send({msg:"you are login sucessfully",
+            data:{ _id: findUser._id,
+              email: findUser.email,
+              name: findUser.name,}
+})
   return;
   }
   const addnew =  admincol.insertOne({
