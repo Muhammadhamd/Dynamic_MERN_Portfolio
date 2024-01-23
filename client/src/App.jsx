@@ -103,33 +103,16 @@ const particlesLoaded = useCallback(async container => {
 }, []);
 
 
-useEffect(() => {
-  function start() {
-    gapi.client
-      .init({
-        clientId: '813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com',
-        scope: '',
-      })
-      .then(() => {
-        const authInstance = gapi.auth2.getAuthInstance();
+useEffect(()=>{
+function start(){
+  gapi.client.init({
+    clientId:"813263564517-jngb9jed5kfd3eskmbu19sjhmq621u8b.apps.googleusercontent.com",
+    scope:""
+  })
+}
 
-        // Check if user is signed in
-        if (authInstance?.isSignedIn?.get()) {
-          const user = authInstance?.currentUser.get();
-          const basicProfile = user.getBasicProfile();
-          console.log('User basic profile:', basicProfile);
-        } else {
-          console.log('User is not signed in.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error initializing Google API client:', error);
-      });
-  }
-
-  gapi.load('client:auth2', start);
-}, []);
-
+gapi.load('client:auth2', start)
+})
 useEffect(()=>{
   axios.get("http://localhost:2344/googleis")
   .then((res)=>{console.log(res)})

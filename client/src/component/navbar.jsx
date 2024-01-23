@@ -161,14 +161,14 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     </>)
 : islogin === "user" ?
 (<>
-  <GoogleLogoutfun />
+  {/* <GoogleLogoutfun /> */}
   
   </>)
 
 :
 (
   <>
-  <GoogleLoginfun />
+  {/* <GoogleLoginfun /> */}
   </>
  
 )
@@ -224,13 +224,13 @@ onClick={()=>{
 
 { islogin ?
 (<>
-<GoogleLogoutfun />
+{/* <GoogleLogoutfun /> */}
 
 </>)
 :
 (
 <>
-<GoogleLoginfun />
+{/* <GoogleLoginfun /> */}
 </>
 )
 }
