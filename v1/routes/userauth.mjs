@@ -39,7 +39,7 @@ import multer from 'multer'
 router.post("/api/google-Login",async(req,res)=>{
 //  res.send(req.body)
 try {
-  const findUser = admincol.findOne({email:req.body.res.email})
+  const findUser = await admincol.findOne({email:req.body.res.email})
   res.send(findUser)
 //   if(findUser){
 //     const token = jwt.sign({
