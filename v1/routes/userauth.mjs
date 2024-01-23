@@ -37,10 +37,10 @@ import multer from 'multer'
 
 
 router.post("/api/google-Login",async(req,res)=>{
- res.send(req.body.res.email)
-// try {
-//   const findUser = admincol.findOne({email:req.body.res.email})
-//   console.log(findUser)
+//  res.send(req.body)
+try {
+  const findUser = admincol.findOne({email:req.body.res.email})
+  res.send(findUser)
 //   if(findUser){
 //     const token = jwt.sign({
 //       _id: findUser._id,
@@ -90,9 +90,9 @@ router.post("/api/google-Login",async(req,res)=>{
 //   res.send("new login sucessfully")  
   
 // }
-// } catch (error) {
-//   res.status(500).send(error)
-// }
+} catch (error) {
+  res.status(500).send(error)
+}
  
 })
 router.post("/userlogin", async (req, res) => {
