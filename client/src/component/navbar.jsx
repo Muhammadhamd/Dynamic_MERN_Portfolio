@@ -81,7 +81,7 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       
       ${theme ? 'bg-gray-800 text-white' : changeCss ?  "bg-white text-black" : ' bg-[#0000001c] text-white'}`}>
           {
-            state?.role == null  && <GoogleOneTapSignIn />
+            state.isLogin === false  && <GoogleOneTapSignIn />
           }
           
         <div className='flex items-center gap-[100px]'>
