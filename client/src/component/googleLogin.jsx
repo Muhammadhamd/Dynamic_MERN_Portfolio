@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { GoogleLogin , GoogleLogout } from 'react-google-login';
 import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
 import axios from "axios"
+import { gapi } from 'gapi-script';
 import { GlobalContext } from '../context/context';
 const   GoogleLoginfun = () => {
   const responseGoogle = (response) => {
@@ -34,7 +35,14 @@ const   GoogleLoginfun = () => {
 
 const  GoogleLogoutfun = () => {
   const {state , dispatch} = useContext(GlobalContext)
-
+  function signOut() {
+    const auth2 = gapi.auth2.getAuthInstance();
+    
+    auth2.signOut().then(() => {
+      console.log('User signed out.');
+      // Perform any additional tasks after successful logout
+    });
+  }
     const responseGoogle = async(response) => {
       // Handle the response from Google authentication
       try {
@@ -42,6 +50,7 @@ const  GoogleLogoutfun = () => {
       dispatch({
         type:'USER_LOGOUT'
        })
+       signOut()
       console.log(response);
 
       } catch (error) {
@@ -51,7 +60,7 @@ const  GoogleLogoutfun = () => {
     };
   
     return (
-      <div className='mt-[100px]'>
+      <div className=''>
         {/* Your website content goes here */}
         
         {/* Google Login Button */}

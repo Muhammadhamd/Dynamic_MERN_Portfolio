@@ -65,7 +65,7 @@ try {
 })
   return;
   }
-  const addnew =  admincol.insertOne({
+  const addnew = await admincol.insertOne({
     email: req.body.res.email,
     name: req.body.res.name,
   })
