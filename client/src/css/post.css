@@ -1,21 +1,21 @@
 h1 {
-  font-size: 1.875rem;
+  font-size: 1.875rem !important;
   /* text-3xl in rem units (24px) */
-  font-weight: 600;
+  font-weight: 600 !important;
   /* font-semibold */
-  margin-top: 1rem;
+  margin-top: 1rem !important;
   /* mt-4 in rem units (16px) */
-  width: 100%;
+  width: 100% !important;
 }
 
 h2,
 h3,
 h4 {
-  font-weight: 600;
+  font-weight: 600 !important;
   /* font-semibold */
-  margin-top: 1rem;
+  margin-top: 1rem !important;
   /* mt-4 in rem units (16px) */
-  width: 100%;
+  width: 100% !important;
 }
 
 h2 {
