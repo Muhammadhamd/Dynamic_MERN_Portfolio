@@ -80,7 +80,10 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
       className={`absolute flex items-center justify-between px-[3%] py-[15px] w-full z-[1000] ${scrolled && 'shadow-[0px_4px_10px_#0000005c]'}
       
       ${theme ? 'bg-gray-800 text-white' : changeCss ?  "bg-white text-black" : ' bg-[#0000001c] text-white'}`}>
-          <GoogleOneTapSignIn />
+          {
+            state.role === "user" && <GoogleOneTapSignIn />
+          }
+          
         <div className='flex items-center gap-[100px]'>
             <div className='w-[60px] h-[60px] overflow-hidden rounded-full'>
               <Link to='/'>
@@ -161,14 +164,14 @@ function Navcomponent({islogin , img  ,changeCss , theme}) {
     </>)
 : islogin === "user" ?
 (<>
-  {/* <GoogleLogoutfun /> */}
+  <GoogleLogoutfun />
   
   </>)
 
 :
 (
   <>
-  {/* <GoogleLoginfun /> */}
+  <GoogleLoginfun />
   </>
  
 )
@@ -224,13 +227,13 @@ onClick={()=>{
 
 { islogin ?
 (<>
-{/* <GoogleLogoutfun /> */}
+<GoogleLogoutfun />
 
 </>)
 :
 (
 <>
-{/* <GoogleLoginfun /> */}
+<GoogleLoginfun />
 </>
 )
 }

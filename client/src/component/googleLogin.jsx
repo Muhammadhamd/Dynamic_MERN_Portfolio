@@ -1,8 +1,9 @@
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GoogleLogin , GoogleLogout } from 'react-google-login';
 import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
 import axios from "axios"
+import { GlobalContext } from '../context/context';
 const   GoogleLoginfun = () => {
   const responseGoogle = (response) => {
     // Handle the response from Google authentication
@@ -32,9 +33,21 @@ const   GoogleLoginfun = () => {
 };
 
 const  GoogleLogoutfun = () => {
-    const responseGoogle = (response) => {
+  const {state , dispatch} = useContext(GlobalContext)
+
+    const responseGoogle = async(response) => {
       // Handle the response from Google authentication
+      try {
+      await axios.get("/user-logout")
+      dispatch({
+        type:'USER_LOGOUT'
+       })
       console.log(response);
+
+      } catch (error) {
+      console.log(error);
+        
+      }  
     };
   
     return (
@@ -56,6 +69,7 @@ const  GoogleLogoutfun = () => {
   
 const GoogleOneTapSignIn = () => {
    
+  const {state , dispatch} = useContext(GlobalContext)
   
    
   
@@ -69,6 +83,10 @@ useGoogleOneTapLogin({
       })
       .then((response) => {
         console.log(response.data);
+        dispatch({
+          type:"USER_LOGIN",
+          payload:response.data.data
+        })
       })
       .catch((err) => {
         console.error('Error:', err);

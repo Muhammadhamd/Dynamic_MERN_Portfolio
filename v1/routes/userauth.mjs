@@ -59,7 +59,9 @@ try {
   res.send({msg:"you are login sucessfully",
             data:{ _id: findUser._id,
               email: findUser.email,
-              name: findUser.name,}
+              name: findUser.name,
+      isAdmin:false
+    }
 })
   return;
   }
