@@ -85,6 +85,8 @@ const GoogleOneTapSignIn = () => {
    
 useGoogleOneTapLogin({
   onSuccess: (res) => {
+      console.log(res)
+    
     try {
       // Assuming 'res' is an object containing relevant information
       axios.post("/api/google-login", {
