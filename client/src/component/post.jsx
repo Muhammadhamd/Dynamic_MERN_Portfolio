@@ -234,7 +234,7 @@ useEffect(()=>{
     data?.heading ?
     <div className=' flex flex-col items-center lg:min-h-screen '>
       
-   <div className={`relative mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10`}>
+   <div className={`relative mt-[130px]  mx-auto max-w-[1000px] min-[1030px]:w-full w-[95%] flex flex-col items-center ${theme? 'bg-gray-800': 'bg-white'}   rounded-lg shadow-md p-6 lg:p-10 post`}>
     {
       isAdmin ?
       <div className={`flex flex-col w-full absolute right-[0px] top-[10px] items-end  ${ theme? 'text-white': 'text-gray-800'}`}>
