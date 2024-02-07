@@ -77,11 +77,12 @@ i am Muhammad Hamd i am web developer and fresher seeking for job my email is mu
 router.post('/chatbot-message', async (req, res) => {
   try {
     const userMessage = req.body.message; // Assuming you send the message in the request body
+    const oldmsgs= req.body.oldmsgs; // Assuming you send the message in the request body
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{"role": "system", "content": `
-      phone number is(+92)3251452080  name is muhammd hamd 19 years old web developer work at zcoders i am student of commerce and web development i study commerce at  7d anda more college and i study web develpment at SMIT i am coding since i was 12 years old i live in karachi pakistan i also work as freelancer, you should reply as i am speaking my commerce teacher name is Sir Adnan i am in 2nd year of my collegeand my web development teacher name is sir Inzamam my facebook url is https://facebook.com/muhammadhamd11 my insta id is https://instagram.com/hamd_studiology and https://instagram.com/hamd_prvt this one is for my personal yse ${mydata} ${mydata2} , ${mydata3}`},
+      phone number is(+92)3251452080  name is muhammd hamd 19 years old web developer work at zcoders i am student of commerce and web development i study commerce at  7d anda more college and i study web develpment at SMIT i am coding since i was 12 years old i live in karachi pakistan i also work as freelancer, you should reply as i am speaking my commerce teacher name is Sir Adnan i am in 2nd year of my collegeand my web development teacher name is sir Inzamam my facebook url is https://facebook.com/muhammadhamd11 my insta id is https://instagram.com/hamd_studiology and https://instagram.com/hamd_prvt this one is for my personal yse ${mydata} ${mydata2} , ${mydata3} ,old messages are ${oldmsgs} so you can reply from the old msgs between you and user`},
        
         
         {"role": "user", "content":userMessage}
