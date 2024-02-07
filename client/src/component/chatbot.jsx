@@ -3,6 +3,7 @@ import { useRef } from "react"
 import axios from 'axios'
 
 function ChatBot(){
+const allMsgs = [] 
   const baseURL = process.env.PORT || 'http://localhost:5000'
     const MessageRef = useRef(null)
     const [messages , setMessages] = useState([])
@@ -36,10 +37,12 @@ function ChatBot(){
             role:"user",
             Message:messageToSend
         }
+      
         setMessages((messages)=>[...messages , newMessage])
         MessageRef.current.value = "";
          axios.post(`/Chatbot-message`,{
-            message:messageToSend
+            message:messageToSend,
+           oldmsgs:allMsgs
         })
         .then((res)=>{
             console.log(res)
@@ -47,6 +50,8 @@ function ChatBot(){
                 role:"Bot",
                 Message:res.data.aiResponse
             }
+
+          allMsgs.push({user:newMessage,bot:newbotMessage})
 
         setChatTypingEffect(false)
         setMessages((messages)=>[...messages , newbotMessage])
