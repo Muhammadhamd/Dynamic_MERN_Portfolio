@@ -1,12 +1,9 @@
-.post h1 {
+/* .post h1 {
   font-size: 1.875rem !important;
-  /* text-3xl in rem units (24px) */
   font-weight: 600 !important;
-  /* font-semibold */
   margin-top: 1rem !important;
-  /* mt-4 in rem units (16px) */
   width: 100% !important;
-}
+} */
 
 .post h2,
 .post h3,
