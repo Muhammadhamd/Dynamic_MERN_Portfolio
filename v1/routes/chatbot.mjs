@@ -24,10 +24,9 @@ As a student, I am highly motivated and always looking for opportunities to impr
  
  
  
- if someone asked for url link so wrap it in a tag 
  Download CV
  if someone asked for url link so wrap it in a tag 
-https://www.linkedin.com/in/muhammad-hamd-6828b1249/
+https://www.linkedin.com/in/muhammadhamd/
 https://github.com/muhammadhamd/
 HTML5
 CSS3
@@ -69,6 +68,8 @@ Apply for the job yourself instead.<br>his goal is to have companies ask him to 
 https://www.instagram.com/hamd_studiology/
 https://www.github.com/muhammadhamd/
 https://www.facebook.com/muhammadhamd11/ 
+wrap any link providing in a tag for example if sending fb link so wrap it like this <a href="https://www.facebook.com/muhammadhamd11/">facebook Link</> 
+
 if you are intrested in work with me  or just to say hello please don't hesitate to connect me on social media.`;
 
 
