@@ -154,7 +154,7 @@ router.post('/chatbot-message', async (req, res) => {
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
-      messages: [{"role": "system", "content":data},
+      messages: [{"role": "system", "content":JSON.stringify(data)},
        
         
         {"role": "user", "content":userMessage}
@@ -168,7 +168,7 @@ router.post('/chatbot-message', async (req, res) => {
      
     });
 
-    const aiResponse = response.choices[0].message.content;
+    const aiResponse = response.choices[0]?.message?.content;
 
     res.json({aiResponse})
   } catch (error) {
